@@ -1,0 +1,33 @@
+# Secrets: API keys live in .env and must never be committed
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+build/
+dist/
+
+# Data: large or downloaded files stay local; scripts that rebuild them are committed
+data/raw/
+data/cache/
+*.parquet
+*.jsonl.gz
+experiments/results/raw/
+
+# Editors and OS
+.DS_Store
+.vscode/
+.idea/
+~$*
+
+# Node (used only by tools/md_to_docx.js)
+node_modules/
