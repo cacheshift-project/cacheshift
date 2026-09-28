@@ -1,6 +1,6 @@
 # SPRINT1.md — CacheShift: plan for the first two weeks
 
-*Spencer Aldrich and Anthony Capraru · Sprint 1: 28 Sep – 12 Oct 2026 **[confirm dates]** · Board: [GitHub Projects link] · Team rules: [`TEAM.md`](TEAM.md)*
+*Spencer Aldrich and Anthony Capraru · Sprint 1: 28 Sep – 12 Oct 2026 **[confirm dates]** · Board: [CacheShift project board](https://github.com/orgs/cacheshift-project/projects/1/views/1) · Team rules: [`TEAM.md`](TEAM.md)*
 
 Items marked **[TODO]** are not done yet and must be filled with real results before we submit.
 
