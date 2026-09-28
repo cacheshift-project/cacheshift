@@ -3,7 +3,7 @@
 The course asks two *different* AI models (not two chats with the same one) to review the Sprint 1 plan and argue about it. The AIs advise; the team decides.
 
 **Models used:** Claude (run by Spencer) · ChatGPT (run by Anthony)
-**Plan reviewed:** `docs/sprints/Sprint_1/SPRINT1.md` (version / commit: ___)
+**Plan reviewed:** `SPRINT1.md` (version / commit: ___)
 
 ## Step 1 — same plan, same three questions, to both models
 
