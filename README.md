@@ -13,7 +13,7 @@ CacheShift is a gateway (cache → router → models) that measures both problem
 
 ## Status
 
-Proposal submitted 22 Sep 2026 ([`docs/proposal/`](docs/proposal/)). Sprint work starts once sprint dates are released.
+Proposal submitted 22 Sep 2026 and approved 23 Sep ([`docs/proposal/`](docs/proposal/)). Sprint 1 (planning) started 28 Sep.
 
 ## Repository layout
 
@@ -24,6 +24,7 @@ cacheshift/
 ├── experiments/        Experiment configs and the scripts that run them
 ├── tests/              Automated tests, run on every pull request
 ├── docs/
+│   ├── Team_Roles.md   Who owns what, and the two handoff formats
 │   ├── proposal/       The submitted proposal and its source
 │   ├── sprints/        One folder per sprint: goal, stories, demo, retro
 │   └── poster/         Final poster
@@ -37,7 +38,7 @@ Requires Python 3.12.
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -e ".[dev]"
+pip install -r requirements.txt
 pytest
 ```
 
@@ -45,7 +46,7 @@ API keys go in a `.env` file (copy `.env.example`). **Never commit `.env`.** It 
 
 ## How we work
 
-See [`CONTRIBUTING.md`](CONTRIBUTING.md). In short: every change goes through a branch and a pull request, tests must pass, and the other teammate reviews before merging.
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`docs/Team_Roles.md`](docs/Team_Roles.md). In short: every change goes through a branch and a pull request, tests must pass, and the other teammate reviews before merging.
 
 ## Research questions (from the proposal)
 
