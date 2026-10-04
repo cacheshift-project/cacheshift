@@ -26,7 +26,7 @@ For **engineers who run an LLM feature under a monthly budget, with a cache in f
 
 | Need | Proof | Status |
 |---|---|---|
-| Data: RouterBench (recorded answers, correctness and cost from 11 models) | `data/load_routerbench.py` downloads it and prints a summary; sample committed | **[TODO]** |
+| Data: RouterBench (recorded answers, correctness and cost from 11 models) | `data/load_routerbench.py` downloads it (100 MB, checked safe before loading) and writes `data/samples/routerbench_summary.json` plus a 20-question sample | **Done:** 36,497 questions, 11 models incl. GPT-4 (avg. score 0.78, $120 for the full set) and Mixtral (0.55, $4.91). **Gap found:** no answer-key column, so checking false hits needs answer keys joined from the original benchmarks (Sprint 2) |
 | Router: RouteLLM's released routers | Script scores 10 questions locally | **[TODO]** |
 | API keys (OpenAI and/or Anthropic) for live mode and the rewording check | `scripts/check_api.py` makes one test call using `.env` | **[TODO]** |
 | Repo runs on a second machine | Anthony cloned it and ran `pytest` on his laptop | **[TODO: confirm]** |
