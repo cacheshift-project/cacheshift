@@ -46,6 +46,10 @@ API keys go in a `.env` file (copy `.env.example`). **Never commit `.env`.** It 
 
 ## How we work
 
+For the local CPU router smoke test (issue #10), see
+[`RouteLLM feasibility`](docs/sprints/Sprint_1/RouteLLM_Feasibility.md).
+It scores ten committed development questions without paid model calls.
+
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`docs/Team_Roles.md`](docs/Team_Roles.md). In short: every change goes through a branch and a pull request, tests must pass, and the other teammate reviews before merging.
 
 ## Research questions (from the proposal)

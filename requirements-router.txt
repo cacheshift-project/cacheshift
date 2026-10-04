@@ -1,0 +1,4 @@
+# Install CPU PyTorch first; see docs/sprints/Sprint_1/RouteLLM_Feasibility.md.
+-e .[dev]
+transformers==4.57.6
+sentencepiece==0.2.2
