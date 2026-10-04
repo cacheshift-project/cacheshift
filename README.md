@@ -46,6 +46,9 @@ API keys go in a `.env` file (copy `.env.example`). **Never commit `.env`.** It 
 
 ## How we work
 
+For the app-compatible replay endpoint, re-tuning command, API check and their
+current acceptance status, see [remaining issue work](docs/sprints/Sprint_1/Remaining_Issues.md).
+
 For the end-to-end replay gateway and its local HTTP demo (issue #11), see
 [`Replay gateway demo`](docs/sprints/Sprint_1/Replay_Gateway_Demo.md).
 

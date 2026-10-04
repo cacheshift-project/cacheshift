@@ -22,6 +22,7 @@ data/cache/
 *.parquet
 *.jsonl.gz
 experiments/results/raw/
+experiments/results/**/raw/
 
 # Editors and OS
 .DS_Store

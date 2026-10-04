@@ -1,0 +1,7 @@
+Which factor will most likely increase the survival chances of an organism living in an environment that is undergoing rapid changes?
+A) having a diverse gene pool
+B) producing identical offspring
+C) having a long life span
+D) encountering strong competition
+Print only a single choice  from "A" or "B" or "C" or "D" without explanation.
+Answer:

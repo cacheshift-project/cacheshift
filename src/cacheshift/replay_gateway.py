@@ -61,6 +61,17 @@ def calibrate(records, router, target=0.5):
     if not tuning:
         raise ValueError("No tuning questions")
     scores = [validated_score(router, row["text"]) for row in tuning]
+    result = calibrate_scores(scores, target)
+    return {**result, "tuning_scores": [{"question_id": row["question_id"], "score": score}
+                                       for row, score in zip(tuning, scores)]}
+
+
+def calibrate_scores(scores, target=0.5):
+    """Fit one cutoff to tuning scores; never use labels or test outcomes."""
+    if not math.isfinite(target) or not 0 <= target <= 1:
+        raise ValueError("target must be between zero and one")
+    if not scores or not all(math.isfinite(score) and 0 <= score <= 1 for score in scores):
+        raise ValueError("Expected nonempty finite scores between zero and one")
     # Above 1 supports zero strong calls even when a score is exactly one.
     candidates = sorted(set([0.0, math.nextafter(1.0, math.inf), *scores]))
     threshold = min(candidates, key=lambda cut: (
@@ -70,8 +81,6 @@ def calibrate(records, router, target=0.5):
     return {
         "target_strong_share": target, "threshold": threshold,
         "tuning_strong_share": sum(score >= threshold for score in scores) / len(scores),
-        "tuning_scores": [{"question_id": row["question_id"], "score": score}
-                          for row, score in zip(tuning, scores)],
     }
 
 

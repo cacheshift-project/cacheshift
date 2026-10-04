@@ -69,11 +69,13 @@ For **engineers who run an LLM feature under a monthly budget, with a cache in f
 
 | We measure | Metric | Compared against |
 |---|---|---|
-| Drift | Gap between real and planned strong-model share (percentage points), cost per 1,000 questions, accuracy | The same router **without the cache** (whose share is the planned one) |
+| Drift | Gap between real and planned strong-model share (percentage points), cost per 1,000 questions, accuracy | The same router **without the cache**, measuring its actual test share rather than assuming it equals the plan |
 | Wrong cached answers | False-hit rate and inherited-error rate per cache setting | Accuracy of fresh answers to the same questions (no cache) |
 | The fix | Share gap and accuracy after re-tuning | Cache + router **without re-tuning** |
 
 All on a held-out test split built from RouterBench questions and rewordings (all rewordings of a question kept in the same split), with 95% bootstrap confidence intervals and five seeds.
+
+Define the planned strong-model share as strong calls divided by requests reaching the router (cache misses). Also report strong calls divided by all requests and dollar cost separately. Attribute a cache effect using paired cache-on minus cache-off measurements on the same test stream and seed; the cache-off router may already miss its target. Fit both original and re-tuned cutoffs on tuning data only, freeze them before test evaluation, and bootstrap paired question groups so repeated questions are not treated as independent observations. Development fixtures establish behavior; a final held-out evaluation must be declared separately.
 
 ## 9. Related work
 
