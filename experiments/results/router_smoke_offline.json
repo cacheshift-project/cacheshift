@@ -14,8 +14,8 @@
     "huggingface-hub": "0.36.2",
     "tokenizers": "0.22.2"
   },
-  "input_sha256": "87a71e4e6b5b0da695547f06e0321148c6387ea4fc98771187b04dbda5022bdf",
-  "load_seconds": 4.73333700000012,
+  "input_sha256": "2c9f135ca0d4c143bb4fba7afef14b1e541f42368b4488cdf299c61e69f188a3",
+  "load_seconds": 4.632334700000001,
   "results": [
     {
       "router_score": 0.44991169944249293,
@@ -23,7 +23,7 @@
       "used_tokens": 121,
       "truncated": false,
       "question_id": "arc-challenge.test.248",
-      "scoring_ms": 228.46849999996266
+      "scoring_ms": 199.67180000003282
     },
     {
       "router_score": 0.4638974911374044,
@@ -31,7 +31,7 @@
       "used_tokens": 75,
       "truncated": false,
       "question_id": "arc-challenge.val.254",
-      "scoring_ms": 123.57969999993657
+      "scoring_ms": 109.69840000007025
     },
     {
       "router_score": 0.4793633641914173,
@@ -39,7 +39,7 @@
       "used_tokens": 90,
       "truncated": false,
       "question_id": "arc-challenge.val.169",
-      "scoring_ms": 143.3567999999923
+      "scoring_ms": 114.56459999999424
     },
     {
       "router_score": 0.45921614916471887,
@@ -47,7 +47,7 @@
       "used_tokens": 102,
       "truncated": false,
       "question_id": "arc-challenge.test.794",
-      "scoring_ms": 152.15370000009898
+      "scoring_ms": 119.37139999986357
     },
     {
       "router_score": 0.5025643631776863,
@@ -55,7 +55,7 @@
       "used_tokens": 92,
       "truncated": false,
       "question_id": "arc-challenge.test.529",
-      "scoring_ms": 140.17530000000988
+      "scoring_ms": 110.43959999983599
     },
     {
       "router_score": 0.46500933218712526,
@@ -63,7 +63,7 @@
       "used_tokens": 92,
       "truncated": false,
       "question_id": "arc-challenge.val.297",
-      "scoring_ms": 151.1897999998837
+      "scoring_ms": 109.10850000004757
     },
     {
       "router_score": 0.45528715903121864,
@@ -71,7 +71,7 @@
       "used_tokens": 84,
       "truncated": false,
       "question_id": "arc-challenge.test.270",
-      "scoring_ms": 139.84439999990173
+      "scoring_ms": 102.96840000000884
     },
     {
       "router_score": 0.45554320986450175,
@@ -79,7 +79,7 @@
       "used_tokens": 81,
       "truncated": false,
       "question_id": "arc-challenge.test.1043",
-      "scoring_ms": 136.80649999992056
+      "scoring_ms": 110.84370000003219
     },
     {
       "router_score": 0.46436890410056286,
@@ -87,7 +87,7 @@
       "used_tokens": 80,
       "truncated": false,
       "question_id": "arc-challenge.test.242",
-      "scoring_ms": 124.41110000008848
+      "scoring_ms": 101.1198000001059
     },
     {
       "router_score": 0.4626211107212492,
@@ -95,7 +95,7 @@
       "used_tokens": 73,
       "truncated": false,
       "question_id": "arc-challenge.test.700",
-      "scoring_ms": 120.83740000002763
+      "scoring_ms": 92.91650000000118
     }
   ]
 }

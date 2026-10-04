@@ -3,7 +3,7 @@
   "source_fixture": "arc_500_keyed.jsonl from local replay prototype",
   "source_fixture_sha256": "3febcacb162e7da91d024d4171b2feffb4be5a65a2b7f1dae98f67e3472e7b91",
   "selection": "First 10 rows in the existing development fixture; no selection by scores or correctness",
-  "questions_sha256": "87a71e4e6b5b0da695547f06e0321148c6387ea4fc98771187b04dbda5022bdf",
+  "questions_sha256": "2c9f135ca0d4c143bb4fba7afef14b1e541f42368b4488cdf299c61e69f188a3",
   "fields": [
     "question_id",
     "text"
