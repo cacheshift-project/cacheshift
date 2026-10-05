@@ -1,0 +1,120 @@
+{
+  "purpose": "Development pipeline demonstration, not a research estimate",
+  "calibration": {
+    "target_strong_share": 0.5,
+    "threshold": 0.4638974911374044,
+    "tuning_strong_share": 0.5,
+    "tuning_scores": [
+      {
+        "question_id": "arc-challenge.test.248",
+        "score": 0.44991169944249293
+      },
+      {
+        "question_id": "arc-challenge.val.254",
+        "score": 0.4638974911374044
+      },
+      {
+        "question_id": "arc-challenge.val.169",
+        "score": 0.4793633641914173
+      },
+      {
+        "question_id": "arc-challenge.test.794",
+        "score": 0.45921614916471887
+      },
+      {
+        "question_id": "arc-challenge.test.529",
+        "score": 0.5025643631776863
+      },
+      {
+        "question_id": "arc-challenge.val.297",
+        "score": 0.46500933218712526
+      },
+      {
+        "question_id": "arc-challenge.test.270",
+        "score": 0.45528715903121864
+      },
+      {
+        "question_id": "arc-challenge.test.1043",
+        "score": 0.45554320986450175
+      },
+      {
+        "question_id": "arc-challenge.test.242",
+        "score": 0.46436890410056286
+      },
+      {
+        "question_id": "arc-challenge.test.700",
+        "score": 0.4626211107212492
+      }
+    ]
+  },
+  "dataset_sha256": "aecd890fa9d217ddeaf5cf027ceb18e5ab874122ec8363f24dceaa817e206b42",
+  "seed": 601,
+  "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+  "stream": [
+    "arc-challenge.val.123",
+    "arc-challenge.test.803",
+    "arc-challenge.test.440",
+    "arc-challenge.test.1021",
+    "arc-challenge.test.839",
+    "arc-challenge.test.565",
+    "arc-challenge.test.839",
+    "arc-challenge.test.827",
+    "arc-challenge.test.290",
+    "arc-challenge.val.185",
+    "arc-challenge.val.123",
+    "arc-challenge.test.827",
+    "arc-challenge.test.839",
+    "arc-challenge.test.772",
+    "arc-challenge.val.123"
+  ],
+  "runs": {
+    "no_cache": {
+      "config": {
+        "mode": "recorded-answer-replay",
+        "cache": "none",
+        "target_strong_share": 0.5,
+        "threshold": 0.4638974911374044,
+        "dataset_sha256": "aecd890fa9d217ddeaf5cf027ceb18e5ab874122ec8363f24dceaa817e206b42",
+        "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+        "seed": 601,
+        "extra_repeats": 5,
+        "strong_model": "gpt-4-1106-preview",
+        "weak_model": "mistralai/mixtral-8x7b-chat"
+      },
+      "summary": {
+        "requests": 15,
+        "cache_hits": 0,
+        "routed_requests": 15,
+        "strong_calls": 10,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.6666666666666666,
+        "strong_share_of_all": 0.6666666666666666,
+        "historical_model_cost_usd": 0.0083884
+      }
+    },
+    "exact_cache": {
+      "config": {
+        "mode": "recorded-answer-replay",
+        "cache": "exact",
+        "target_strong_share": 0.5,
+        "threshold": 0.4638974911374044,
+        "dataset_sha256": "aecd890fa9d217ddeaf5cf027ceb18e5ab874122ec8363f24dceaa817e206b42",
+        "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+        "seed": 601,
+        "extra_repeats": 5,
+        "strong_model": "gpt-4-1106-preview",
+        "weak_model": "mistralai/mixtral-8x7b-chat"
+      },
+      "summary": {
+        "requests": 15,
+        "cache_hits": 5,
+        "routed_requests": 10,
+        "strong_calls": 8,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.8,
+        "strong_share_of_all": 0.5333333333333333,
+        "historical_model_cost_usd": 0.0066993999999999995
+      }
+    }
+  }
+}

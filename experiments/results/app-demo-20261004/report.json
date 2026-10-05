@@ -1,0 +1,29 @@
+{
+  "mode": "local replay, no live provider",
+  "runs": {
+    "direct_recorded_strong": [
+      {
+        "id": "chatcmpl-f1a411d7-9513-4d96-ab6e-7b96352fc2ac",
+        "model": "gpt-4-1106-preview",
+        "answer": "A)"
+      },
+      {
+        "id": "chatcmpl-7b50dc9d-57f8-4a4a-8b15-bc2199d69914",
+        "model": "gpt-4-1106-preview",
+        "answer": "A)"
+      }
+    ],
+    "cacheshift": [
+      {
+        "id": "chatcmpl-1133a31f-ca1e-43a2-87e2-35056fdb7124",
+        "model": "gpt-4-1106-preview",
+        "answer": "A)"
+      },
+      {
+        "id": "chatcmpl-0d3a3847-1004-4f37-91dd-ad3f80a11c9f",
+        "model": "gpt-4-1106-preview",
+        "answer": "A)"
+      }
+    ]
+  }
+}
