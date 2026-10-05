@@ -28,6 +28,10 @@
 ## LLM chat links used this sprint
 <!-- Required in every report. -->
 
+- AI review of the plan (#15): [Claude, rounds 1 and 2](https://claude.ai/share/1a046ff9-6cb9-41ad-8612-4ea083ce692d) · [ChatGPT, round 2](___). Full log: [AI_Review_Log.md](AI_Review_Log.md).
+
+- RouterBench loader (#8) and plan drafting: Claude Code assisted with the loader, its safety tests, SPRINT1.md, TEAM.md and the review log. Local session (Claude Code has no public share link).
+
 - Issues #5, #6, #9 and #15: Codex assisted with the endpoint, SDK example, tuning-only re-calibration, evaluation, API helper and ChatGPT review. [Implementation and remaining acceptance checks](Remaining_Issues.md). Local chat: codex://threads/01a0cffd-318f-7100-846f-41901b98be6d (not a public share link). No Claude review, paid API success or completed #5 acceptance is claimed.
 
 - Replay gateway and demo (#11): Codex assisted with the implementation, tests, and documentation. Local chat: codex://threads/01a0cffd-318f-7100-846f-41901b98be6d (not a public share link). See [the run instructions and evidence](Replay_Gateway_Demo.md).
