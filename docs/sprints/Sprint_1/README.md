@@ -28,6 +28,8 @@
 ## LLM chat links used this sprint
 <!-- Required in every report. -->
 
+- 2026-10-05 follow-up for #5 and #15: Codex preserved Anthony's supplied review evidence, updated the review log, and implemented tuning-only cutoff diagnostics. See [re-tuning follow-up](Retune_Followup.md) and [AI review log](AI_Review_Log.md). Local chat: codex://threads/01a0cffd-318f-7100-846f-41901b98be6d (not a public share link). No test-based cutoff adjustment, fresh held-out validation, Claude cross-review or paid API call is claimed.
+
 - Issues #5, #6, #9 and #15: Codex assisted with the endpoint, SDK example, tuning-only re-calibration, evaluation, API helper and ChatGPT review. [Implementation and remaining acceptance checks](Remaining_Issues.md). Local chat: codex://threads/01a0cffd-318f-7100-846f-41901b98be6d (not a public share link). No Claude review, paid API success or completed #5 acceptance is claimed.
 
 - Replay gateway and demo (#11): Codex assisted with the implementation, tests, and documentation. Local chat: codex://threads/01a0cffd-318f-7100-846f-41901b98be6d (not a public share link). See [the run instructions and evidence](Replay_Gateway_Demo.md).
