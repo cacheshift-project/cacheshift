@@ -25,6 +25,17 @@ class _RunsShellCommand:
         return (os.system, ("echo should-never-run",))
 
 
+class _WritesFile:
+    """Anthony's bypass: a NumPy function that writes a file when unpickled."""
+
+    def __init__(self, path):
+        self.path = path
+
+    def __reduce__(self):
+        import numpy as np
+        return (np.savetxt, (str(self.path), [601]))
+
+
 def _refused(path: Path) -> list[str]:
     return [f"{m}.{n}" for m, n in lr.scan_imports(path) if not lr.is_allowed(m, n)]
 
@@ -46,3 +57,19 @@ def test_refuses_code_execution(tmp_path, protocol):
     assert _refused(path), "scanner did not flag a pickle that calls os.system"
     with path.open("rb") as f, pytest.raises(pickle.UnpicklingError):
         lr.SafeUnpickler(f).load()
+
+
+@pytest.mark.parametrize("protocol", [2, 5])
+def test_refuses_numpy_function_that_writes_files(tmp_path, protocol):
+    marker = tmp_path / "marker.txt"
+    path = tmp_path / "evil.pkl"
+    path.write_bytes(pickle.dumps(_WritesFile(marker), protocol=protocol))
+    assert _refused(path), "scanner allowed numpy.savetxt"
+    with path.open("rb") as f, pytest.raises(pickle.UnpicklingError):
+        lr.SafeUnpickler(f).load()
+    assert not marker.exists()
+
+
+def test_expected_digest_is_pinned():
+    assert len(lr.EXPECTED_SHA256) == 64
+    assert lr.sha256(Path(__file__)) != lr.EXPECTED_SHA256

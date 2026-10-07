@@ -16,10 +16,11 @@ Data: https://huggingface.co/datasets/withmartian/routerbench
 Code: https://github.com/withmartian/routerbench (MIT license)
 
 Safety: RouterBench is only published as Python pickle files, and loading a
-pickle can run arbitrary code. Before loading, this script lists every Python
-object the file would import, without running anything, and refuses to continue
-unless all of them are ordinary pandas/NumPy/built-in data types. It then loads
-the file with an unpickler that enforces the same allowlist.
+pickle can run arbitrary code. Three checks run before anything is unpickled:
+1. The file's SHA-256 must match the version we reviewed (EXPECTED_SHA256).
+2. Every object the pickle would import is listed without running anything,
+   and each must be one of the exact constructors a DataFrame needs.
+3. The file is then loaded with an unpickler that enforces the same list.
 """
 
 from __future__ import annotations
@@ -44,14 +45,34 @@ SAMPLES = ROOT / "data" / "samples"
 SAMPLE_ROWS = 20
 SEED = 0
 
-# Imports a pandas DataFrame pickle legitimately needs. Anything else is refused.
-ALLOWED_MODULE_PREFIXES = ("pandas.", "numpy.")
-ALLOWED_MODULES = {"pandas", "numpy", "copyreg", "collections", "datetime", "_codecs"}
-ALLOWED_BUILTINS = {
-    "slice", "set", "frozenset", "complex", "bytearray", "list", "dict",
-    "tuple", "range", "int", "float", "str", "bytes", "bool", "object",
-}
+# The routerbench_0shot.pkl we reviewed. A different file is refused, even if it looks safe.
+EXPECTED_SHA256 = "ba4f77f19517610a707c374e99322d7750c30fc4ae7ff5527888595a1e65d36d"
 
+# The exact constructors a DataFrame pickle needs: the RouterBench file (older NumPy
+# names) plus DataFrames written by current pandas/NumPy. Whole modules are never
+# allowed, because they also contain functions that write files (e.g. numpy.savetxt).
+ALLOWED_GLOBALS = frozenset({
+    ("builtins", "slice"),
+    ("_codecs", "encode"),
+    ("numpy", "dtype"),
+    ("numpy", "ndarray"),
+    ("numpy.core.multiarray", "_reconstruct"),
+    ("numpy._core.multiarray", "_reconstruct"),
+    ("numpy.core.numeric", "_frombuffer"),
+    ("numpy._core.numeric", "_frombuffer"),
+    ("pandas", "DataFrame"),
+    ("pandas", "Index"),
+    ("pandas", "RangeIndex"),
+    ("pandas", "StringDtype"),
+    ("pandas.arrays", "StringArray"),
+    ("pandas.core.frame", "DataFrame"),
+    ("pandas.core.indexes.base", "Index"),
+    ("pandas.core.indexes.base", "_new_Index"),
+    ("pandas.core.indexes.range", "RangeIndex"),
+    ("pandas.core.internals.managers", "BlockManager"),
+    ("pandas._libs.internals", "_unpickle_block"),
+    ("pandas._libs.arrays", "__pyx_unpickle_NDArrayBacked"),
+})
 
 PY2_MODULE_NAMES = {"__builtin__": "builtins", "copy_reg": "copyreg"}  # used by protocol-2 pickles
 
@@ -59,10 +80,7 @@ PY2_MODULE_NAMES = {"__builtin__": "builtins", "copy_reg": "copyreg"}  # used by
 def is_allowed(module: str | None, name: str | None) -> bool:
     if not module or not name:
         return False
-    module = PY2_MODULE_NAMES.get(module, module)
-    if module == "builtins":
-        return name in ALLOWED_BUILTINS
-    return module in ALLOWED_MODULES or module.startswith(ALLOWED_MODULE_PREFIXES)
+    return (PY2_MODULE_NAMES.get(module, module), name) in ALLOWED_GLOBALS
 
 
 def download(url: str, dest: Path) -> None:
@@ -76,6 +94,9 @@ def download(url: str, dest: Path) -> None:
     context = ssl.create_default_context(cafile=certifi.where())
     with urllib.request.urlopen(url, context=context) as response, tmp.open("wb") as out:
         shutil.copyfileobj(response, out)
+    if sha256(tmp) != EXPECTED_SHA256:
+        tmp.unlink()
+        raise ValueError("Downloaded file does not match the reviewed version; not saved.")
     tmp.rename(dest)
     print(f"Saved {dest.relative_to(ROOT)} ({dest.stat().st_size / 1e6:.1f} MB)")
 
@@ -143,7 +164,12 @@ class SafeUnpickler(pickle.Unpickler):
 
 def main() -> int:
     download(URL, RAW)
-    print(f"SHA-256: {sha256(RAW)}")
+    digest = sha256(RAW)
+    print(f"SHA-256: {digest}")
+    if digest != EXPECTED_SHA256:
+        print("Refusing to load: this file is not the version we reviewed.\n"
+              f"Expected {EXPECTED_SHA256}. Delete {RAW.relative_to(ROOT)} and run again.")
+        return 1
 
     imports = scan_imports(RAW)
     refused = sorted(f"{m}.{n}" for m, n in imports if not is_allowed(m, n))
@@ -166,7 +192,7 @@ def main() -> int:
     models = [c.split("|")[0] for c in cost_cols]
     summary = {
         "source": URL,
-        "sha256": sha256(RAW),
+        "sha256": digest,
         "rows": int(len(df)),
         "columns": [str(c) for c in df.columns],
         "models": models,
