@@ -7,7 +7,7 @@
 | Name | GitHub | Email |
 |---|---|---|
 | Spencer Aldrich | @spaldrich13 | spenceraldrich132@gmail.com |
-| Anthony Capraru | @capraruanthony | ____ |
+| Anthony Capraru | @capraruanthony | anthonycapraru@gmail.com |
 
 **Communication channel:** ____ (link: ____) **[confirm]**. This is the only channel for project talk. Decisions made anywhere else get written here or in the relevant issue.
 
