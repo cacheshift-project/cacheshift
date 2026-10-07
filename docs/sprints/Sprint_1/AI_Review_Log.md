@@ -2,7 +2,7 @@
 
 The course asks two *different* AI models (not two chats with the same one) to review the Sprint 1 plan and argue about it. The AIs advise; the team decides.
 
-**Models used:** Claude Opus 5.5 (claude.ai, run by Spencer) · ChatGPT (round 1 in Codex, round 2 on chatgpt.com, run by Anthony)
+**Models used:** Claude Opus 5.5 (claude.ai, run by Spencer) · ChatGPT via Codex (both rounds in one Codex session, run by Anthony)
 **Plan reviewed:** [`SPRINT1.md` at 4835a60](https://github.com/cacheshift-project/cacheshift/blob/4835a60c258543cb6a132bc59b55ab4cfa459ca8/SPRINT1.md). Both models received this same version and the same three questions.
 
 ## Step 1 — same plan, same three questions, to both models
@@ -17,7 +17,7 @@ The course asks two *different* AI models (not two chats with the same one) to r
 | Why it might fail by week 6 | The pain may not exist: with a fixed cutoff a cache only removes calls, so spend can only fall. The fix may be a one-line recalibration. The pivot line is too easy to pass and no user is named. Nothing in §4 was proven yet. Story 5 gates stories 1–3 but is not scheduled first; A3 has no test this sprint. | Integrating semantic caching, rewordings, APIs and energy before defining a valid paired experiment. Recorded answers do not show how fresh models handle paraphrases; if A3 fails, the paid-call budget may not cover the sweep. Stage it: originals plus exact repeats first, semantic and live results later. |
 | Missing from our evaluation | Baselines: exact-match cache, random removal of the same number of questions, plain recalibration on observed traffic, no-cache at matched spend. Three separate shares (planned, no-cache, cached). Total dollars per 1,000 incoming questions, hit rate, a pre-stated minimum drift. Power: 45 cells may each need many routed questions; bootstrap question groups. Multiple-choice false hits are right by chance about 25% of the time. | Explicit share denominators; measured no-cache calibration error; paired cache-on/off and retuned/untuned comparisons; question-group bootstrap; achievable targets under tied scores; a frozen tuning protocol; a quality non-inferiority margin (being inside the baseline accuracy CI does not prove equal quality). |
 
-Chat links: [Claude (rounds 1 and 2)](https://claude.ai/share/1a046ff9-6cb9-41ad-8612-4ea083ce692d) · ChatGPT round 1 ran in Codex, a local session with no share link; its full text is reproduced at the start of the round-2 chat. [ChatGPT/Codex review conversation](https://chatgpt.com/s/cx_6ac6b43910a08191ad25a9785a6d87cf)
+Chat links: [Claude (rounds 1 and 2)](https://claude.ai/share/1a046ff9-6cb9-41ad-8612-4ea083ce692d) · [ChatGPT/Codex session (rounds 1 and 2)](https://chatgpt.com/s/cx_6ac6b43910a08191ad25a9785a6d87cf). Codex wrote its two reviews to files rather than into the chat, so the full texts are committed with this log: the round-2 input ([`Anthony_ChatGPT_Round2_Prompt.txt`](Anthony_ChatGPT_Round2_Prompt.txt), which contains the round-1 critique) and response ([`Anthony_ChatGPT_Round2_Response.txt`](Anthony_ChatGPT_Round2_Response.txt)).
 
 ## Step 2 — cross the reviews
 
