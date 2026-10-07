@@ -7,6 +7,44 @@ from cacheshift.retune import acceptance, fit, is_correct, load_calibration, pai
 from cacheshift.replay_gateway import ReplayGateway
 
 
+def test_batch_prefetch_deduplicates_and_refuses_invalid_scores():
+    from cacheshift.retune import MemoRouter
+
+    class BatchRouter:
+        def __init__(self):
+            self.calls = []
+
+        def score_many(self, prompts):
+            self.calls.append(prompts)
+            return [{"router_score": float(prompt)} for prompt in prompts]
+
+    underlying = BatchRouter()
+    memo = MemoRouter(underlying)
+    memo.prefetch(["0.2", "0.7", "0.2"])
+    memo.prefetch(["0.7"])
+    assert underlying.calls == [["0.2", "0.7"]]
+    assert memo.score("0.2")["router_score"] == 0.2
+    with pytest.raises(ValueError, match="finite"):
+        memo.prefetch(["nan"])
+    assert "nan" not in memo.scores
+
+
+def test_batch_test_scoring_starts_after_calibration_is_written(tmp_path):
+    sample = data()
+    for row in sample.values():
+        if row["split"] == "test":
+            row["text"] = "test:" + row["text"]
+
+    class StageRouter:
+        def score_many(self, prompts):
+            if any(prompt.startswith("test:") for prompt in prompts):
+                assert (tmp_path / "run/calibration-601.json").exists()
+            return [{"router_score": float(prompt.split(":")[-1])} for prompt in prompts]
+
+    report = run(sample, StageRouter(), tmp_path / "run", "digest", samples=20)
+    assert len(report["runs"]) == 5
+
+
 class NumericRouter:
     def __init__(self):
         self.calls = []

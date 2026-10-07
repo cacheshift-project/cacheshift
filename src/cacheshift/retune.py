@@ -27,6 +27,28 @@ class MemoRouter:
             self.scores[text] = validated_score(self.router, text)
         return {"router_score": self.scores[text]}
 
+    def prefetch(self, texts):
+        """Score only the declared stage's prompts; reuse exact-text results."""
+        pending = list(dict.fromkeys(text for text in texts if text not in self.scores))
+        if not pending:
+            return
+        batch = getattr(self.router, "score_many", None)
+        if batch is None:
+            for text in pending:
+                self.score(text)
+            return
+        # Small chunks bound memory and give visible progress during CPU work.
+        for start in range(0, len(pending), 32):
+            chunk = pending[start:start + 32]
+            results = batch(chunk)
+            if len(results) != len(chunk):
+                raise ValueError("Batch router returned the wrong number of scores")
+            scores = [float(result["router_score"]) for result in results]
+            if not all(math.isfinite(score) and 0 <= score <= 1 for score in scores):
+                raise ValueError("Router score must be finite and between zero and one")
+            self.scores.update(zip(chunk, scores))
+            print(f"CPU scored {min(start + 32, len(pending))}/{len(pending)} stage prompts", flush=True)
+
 
 def question_stream(records, split, seed, repeat_fraction=0.5):
     if not math.isfinite(repeat_fraction) or not 0 <= repeat_fraction < 1:
@@ -159,13 +181,15 @@ def run(records, router, run_dir, digest, target=0.5, repeat_fraction=0.5, sampl
               "runs": []}
     for seed in SEEDS:
         tuning_stream = question_stream(records, "tuning", seed, repeat_fraction)
+        router.prefetch(records[qid]["text"] for qid in tuning_stream)
         baseline = fit(records, router, tuning_stream, target, False)
         retuned = fit(records, router, tuning_stream, target, True)
         artifact = {**retuned, "schema": 1, "dataset_sha256": digest, "router_revision": REVISION,
                     "fit_split": "tuning", "seed": seed, "repeat_fraction": repeat_fraction}
-        (run_dir / f"calibration-{seed}.json").write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+        (run_dir / f"calibration-{seed}.json").write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8", newline="\n")
         # Test is touched only after both cutoffs have been fixed.
         stream = question_stream(records, "test", seed, repeat_fraction)
+        router.prefetch(records[qid]["text"] for qid in stream)
         events = {}
         for name, calibration, cache in (("no_cache", baseline, False),
                                          ("cache_untuned", baseline, True),
@@ -185,7 +209,7 @@ def run(records, router, run_dir, digest, target=0.5, repeat_fraction=0.5, sampl
     report["all_development_checks_pass"] = all(
         row["acceptance"]["share_within_3_percentage_points"] and row["acceptance"]["accuracy_inside_no_cache_ci"]
         for row in report["runs"])
-    (run_dir / "report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    (run_dir / "report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
     return report
 
 

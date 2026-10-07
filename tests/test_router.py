@@ -23,6 +23,16 @@ def test_invalid_logits_fail(logits):
         strong_score(logits)
 
 
+def test_batch_validation_needs_no_model():
+    router = LocalBERTRouter.__new__(LocalBERTRouter)
+    assert router.score_many([]) == []
+    for batch in ([""], ["valid", None]):
+        with pytest.raises(ValueError, match="nonempty"):
+            router.score_many(batch)
+    with pytest.raises(ValueError, match="batch_size"):
+        router.score_many(["valid"], batch_size=0)
+
+
 @pytest.mark.parametrize("rows", [[], [{"question_id": "x", "text": " "}],
                                      [{"question_id": "x", "text": "q"}] * 2])
 def test_bad_input_fails_before_model_download(tmp_path, rows):
@@ -49,3 +59,8 @@ def test_cached_checkpoint_needs_no_network(monkeypatch):
     assert 0 <= first["router_score"] <= 1
     assert first == router.score("What is the boiling point of water at sea level?")
     assert not first["truncated"]
+    prompts = ["What is the boiling point of water at sea level?", "Which planet is closest to the Sun?"]
+    batch = router.score_many(prompts)
+    assert [r["router_score"] for r in batch] == pytest.approx(
+        [router.score(p)["router_score"] for p in prompts], abs=1e-5)
+    assert batch[0]["used_tokens"] == first["used_tokens"]

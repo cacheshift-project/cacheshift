@@ -1,0 +1,883 @@
+{
+  "routerbench_sha256": "ba4f77f19517610a707c374e99322d7750c30fc4ae7ff5527888595a1e65d36d",
+  "keys_sha256": "74a41822ce7d3def56e1682f958469c04642a5336a5ce912fa375fdb90fb25d7",
+  "keys_revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+  "keys_url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/all/test-00000-of-00001.parquet",
+  "dataset_sha256": "3821ecbbb123d496f59efc601dec2686427f3e7e6506e3ea6275097c82c8f241",
+  "per_subject": {
+    "abstract_algebra": {
+      "eligible_families": 90,
+      "tuning": 32,
+      "test": 32
+    },
+    "anatomy": {
+      "eligible_families": 135,
+      "tuning": 32,
+      "test": 32
+    },
+    "astronomy": {
+      "eligible_families": 145,
+      "tuning": 32,
+      "test": 32
+    },
+    "business_ethics": {
+      "eligible_families": 99,
+      "tuning": 32,
+      "test": 32
+    },
+    "clinical_knowledge": {
+      "eligible_families": 264,
+      "tuning": 32,
+      "test": 32
+    },
+    "college_biology": {
+      "eligible_families": 144,
+      "tuning": 32,
+      "test": 32
+    },
+    "college_chemistry": {
+      "eligible_families": 99,
+      "tuning": 32,
+      "test": 32
+    },
+    "college_computer_science": {
+      "eligible_families": 90,
+      "tuning": 32,
+      "test": 32
+    },
+    "college_mathematics": {
+      "eligible_families": 82,
+      "tuning": 32,
+      "test": 32
+    },
+    "college_medicine": {
+      "eligible_families": 95,
+      "tuning": 32,
+      "test": 32
+    },
+    "college_physics": {
+      "eligible_families": 82,
+      "tuning": 32,
+      "test": 32
+    },
+    "computer_security": {
+      "eligible_families": 100,
+      "tuning": 32,
+      "test": 32
+    },
+    "conceptual_physics": {
+      "eligible_families": 232,
+      "tuning": 32,
+      "test": 32
+    },
+    "econometrics": {
+      "eligible_families": 113,
+      "tuning": 32,
+      "test": 32
+    },
+    "electrical_engineering": {
+      "eligible_families": 143,
+      "tuning": 32,
+      "test": 32
+    },
+    "elementary_mathematics": {
+      "eligible_families": 336,
+      "tuning": 32,
+      "test": 32
+    },
+    "formal_logic": {
+      "eligible_families": 116,
+      "tuning": 32,
+      "test": 32
+    },
+    "global_facts": {
+      "eligible_families": 100,
+      "tuning": 32,
+      "test": 32
+    },
+    "high_school_biology": {
+      "eligible_families": 309,
+      "tuning": 32,
+      "test": 32
+    },
+    "high_school_chemistry": {
+      "eligible_families": 198,
+      "tuning": 32,
+      "test": 32
+    },
+    "high_school_computer_science": {
+      "eligible_families": 94,
+      "tuning": 32,
+      "test": 32
+    },
+    "high_school_european_history": {
+      "eligible_families": 164,
+      "tuning": 32,
+      "test": 32
+    },
+    "high_school_geography": {
+      "eligible_families": 198,
+      "tuning": 32,
+      "test": 32
+    },
+    "high_school_government_and_politics": {
+      "eligible_families": 193,
+      "tuning": 32,
+      "test": 32
+    },
+    "high_school_macroeconomics": {
+      "eligible_families": 383,
+      "tuning": 32,
+      "test": 32
+    },
+    "high_school_mathematics": {
+      "eligible_families": 245,
+      "tuning": 32,
+      "test": 32
+    },
+    "high_school_microeconomics": {
+      "eligible_families": 231,
+      "tuning": 32,
+      "test": 32
+    },
+    "high_school_physics": {
+      "eligible_families": 146,
+      "tuning": 32,
+      "test": 32
+    },
+    "high_school_psychology": {
+      "eligible_families": 534,
+      "tuning": 32,
+      "test": 32
+    },
+    "high_school_statistics": {
+      "eligible_families": 205,
+      "tuning": 32,
+      "test": 32
+    },
+    "high_school_us_history": {
+      "eligible_families": 204,
+      "tuning": 32,
+      "test": 32
+    },
+    "high_school_world_history": {
+      "eligible_families": 237,
+      "tuning": 32,
+      "test": 32
+    },
+    "human_aging": {
+      "eligible_families": 223,
+      "tuning": 32,
+      "test": 32
+    },
+    "human_sexuality": {
+      "eligible_families": 131,
+      "tuning": 32,
+      "test": 32
+    },
+    "international_law": {
+      "eligible_families": 118,
+      "tuning": 32,
+      "test": 32
+    },
+    "jurisprudence": {
+      "eligible_families": 108,
+      "tuning": 32,
+      "test": 32
+    },
+    "logical_fallacies": {
+      "eligible_families": 162,
+      "tuning": 32,
+      "test": 32
+    },
+    "machine_learning": {
+      "eligible_families": 103,
+      "tuning": 32,
+      "test": 32
+    },
+    "management": {
+      "eligible_families": 103,
+      "tuning": 32,
+      "test": 32
+    },
+    "marketing": {
+      "eligible_families": 233,
+      "tuning": 32,
+      "test": 32
+    },
+    "medical_genetics": {
+      "eligible_families": 100,
+      "tuning": 32,
+      "test": 32
+    },
+    "miscellaneous": {
+      "eligible_families": 782,
+      "tuning": 32,
+      "test": 32
+    },
+    "moral_disputes": {
+      "eligible_families": 346,
+      "tuning": 32,
+      "test": 32
+    },
+    "moral_scenarios": {
+      "eligible_families": 895,
+      "tuning": 32,
+      "test": 32
+    },
+    "nutrition": {
+      "eligible_families": 298,
+      "tuning": 32,
+      "test": 32
+    },
+    "philosophy": {
+      "eligible_families": 311,
+      "tuning": 32,
+      "test": 32
+    },
+    "prehistory": {
+      "eligible_families": 323,
+      "tuning": 32,
+      "test": 32
+    },
+    "professional_accounting": {
+      "eligible_families": 281,
+      "tuning": 32,
+      "test": 32
+    },
+    "professional_law": {
+      "eligible_families": 1534,
+      "tuning": 32,
+      "test": 32
+    },
+    "professional_medicine": {
+      "eligible_families": 272,
+      "tuning": 32,
+      "test": 32
+    },
+    "professional_psychology": {
+      "eligible_families": 608,
+      "tuning": 32,
+      "test": 32
+    },
+    "public_relations": {
+      "eligible_families": 108,
+      "tuning": 32,
+      "test": 32
+    },
+    "security_studies": {
+      "eligible_families": 244,
+      "tuning": 32,
+      "test": 32
+    },
+    "sociology": {
+      "eligible_families": 200,
+      "tuning": 32,
+      "test": 32
+    },
+    "us_foreign_policy": {
+      "eligible_families": 99,
+      "tuning": 32,
+      "test": 32
+    },
+    "virology": {
+      "eligible_families": 165,
+      "tuning": 32,
+      "test": 32
+    },
+    "world_religions": {
+      "eligible_families": 171,
+      "tuning": 32,
+      "test": 32
+    }
+  },
+  "rows": 3648,
+  "skipped": [
+    {
+      "question_id": "mmlu-abstract-algebra.val.20",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-abstract-algebra.val.22",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-abstract-algebra.val.34",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-abstract-algebra.val.48",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-abstract-algebra.val.52",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-abstract-algebra.val.69",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-abstract-algebra.val.74",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-abstract-algebra.val.76",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-abstract-algebra.val.84",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-abstract-algebra.val.97",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-business-ethics.val.91",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-computer-science.val.15",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-computer-science.val.31",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-computer-science.val.35",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-computer-science.val.42",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-computer-science.val.44",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-computer-science.val.46",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-computer-science.val.5",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-computer-science.val.59",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-computer-science.val.74",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-computer-science.val.90",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-mathematics.val.0",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-mathematics.val.12",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-mathematics.val.17",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-mathematics.val.20",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-mathematics.val.34",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-mathematics.val.47",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-mathematics.val.5",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-mathematics.val.59",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-mathematics.val.60",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-mathematics.val.68",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-mathematics.val.70",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-mathematics.val.71",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-mathematics.val.72",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-mathematics.val.73",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-mathematics.val.74",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-mathematics.val.85",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-mathematics.val.93",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-physics.val.53",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-college-physics.val.64",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-conceptual-physics.val.204",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-econometrics.val.83",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-electrical-engineering.val.135",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-electrical-engineering.val.33",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.101",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.113",
+      "reason": "Ambiguous correct choice"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.116",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.141",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.142",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.156",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.163",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.171",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.174",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.182",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.186",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.19",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.2",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.20",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.215",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.217",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.228",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.232",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.241",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.248",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.25",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.251",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.254",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.267",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.269",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.286",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.303",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.304",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.329",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.333",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.339",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.363",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.372",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.42",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.43",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.5",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.51",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.89",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.93",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-elementary-mathematics.val.98",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-formal-logic.val.104",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-formal-logic.val.14",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-formal-logic.val.22",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-formal-logic.val.6",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-formal-logic.val.72",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-formal-logic.val.73",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-formal-logic.val.76",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-formal-logic.val.80",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-formal-logic.val.89",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-formal-logic.val.92",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-computer-science.val.36",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-computer-science.val.56",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-computer-science.val.6",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-computer-science.val.62",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-computer-science.val.70",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-computer-science.val.89",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-macroeconomics.val.179",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-macroeconomics.val.183",
+      "reason": "Ambiguous correct choice"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.0",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.128",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.14",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.140",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.153",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.163",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.164",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.181",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.22",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.227",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.233",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.247",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.266",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.267",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.36",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.61",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.70",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.76",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.82",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-mathematics.val.83",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-physics.val.11",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-physics.val.127",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-physics.val.52",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-statistics.val.0",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-statistics.val.108",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-statistics.val.129",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-statistics.val.135",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-statistics.val.17",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-statistics.val.176",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-statistics.val.193",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-statistics.val.205",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-high-school-statistics.val.40",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-international-law.val.51",
+      "reason": "Ambiguous correct choice"
+    },
+    {
+      "question_id": "mmlu-machine-learning.val.10",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-machine-learning.val.100",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-machine-learning.val.104",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-machine-learning.val.109",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-machine-learning.val.58",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-machine-learning.val.62",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-machine-learning.val.79",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-machine-learning.val.81",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-miscellaneous.val.138",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "mmlu-sociology.val.197",
+      "reason": "Ambiguous correct choice"
+    },
+    {
+      "question_id": "mmlu-virology.val.134",
+      "reason": "Invalid recorded response/cost"
+    }
+  ],
+  "selection": "64 canonical stem families per subject ordered by SHA256(601:stem), first 32 tuning, remaining 32 test; no outcome or score based selection",
+  "limitations": "New relative to local ARC evaluations, but possible benchmark overlap in released router training. Subject-balanced synthetic traffic, exact repeats and historical recorded responses only."
+}

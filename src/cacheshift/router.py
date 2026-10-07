@@ -47,16 +47,25 @@ class LocalBERTRouter:
             raise ValueError("Expected the official three-label checkpoint")
 
     def score(self, prompt):
-        if not isinstance(prompt, str) or not prompt.strip():
+        return self.score_many([prompt])[0]
+
+    def score_many(self, prompts, batch_size=4):
+        """Batch CPU inference without changing the checkpoint or score rule."""
+        if not isinstance(batch_size, int) or isinstance(batch_size, bool) or batch_size < 1:
+            raise ValueError("batch_size must be positive")
+        prompts = list(prompts)
+        if any(not isinstance(prompt, str) or not prompt.strip() for prompt in prompts):
             raise ValueError("prompt must be a nonempty string")
-        original_tokens = len(self.tokenizer.encode(prompt))
-        inputs = self.tokenizer(prompt, return_tensors="pt", padding=True,
-                                truncation=True, max_length=512)
-        with self.torch.inference_mode():
-            logits = self.model(**inputs).logits[0].tolist()
-        return {
-            "router_score": strong_score(logits),
-            "input_tokens": original_tokens,
-            "used_tokens": int(inputs["input_ids"].shape[1]),
-            "truncated": original_tokens > 512,
-        }
+        results = []
+        for start in range(0, len(prompts), batch_size):
+            batch = prompts[start:start + batch_size]
+            lengths = [len(self.tokenizer.encode(prompt)) for prompt in batch]
+            inputs = self.tokenizer(batch, return_tensors="pt", padding=True,
+                                    truncation=True, max_length=512)
+            with self.torch.inference_mode():
+                logits = self.model(**inputs).logits.tolist()
+            used = inputs["attention_mask"].sum(dim=1).tolist()
+            results.extend({"router_score": strong_score(values), "input_tokens": length,
+                            "used_tokens": int(count), "truncated": length > 512}
+                           for values, length, count in zip(logits, lengths, used))
+        return results

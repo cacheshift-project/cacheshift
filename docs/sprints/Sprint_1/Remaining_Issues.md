@@ -4,6 +4,13 @@ Implementation and evidence from 2026-10-04. These changes build on PRs #21
 and #22. Merge those first, then retarget this PR to main. Teammate review is
 required. Issues #14 and #17 are outside this change.
 
+**Story 3 update, 2026-10-07:** the separately declared subject-balanced MMLU
+replay check passes the stated #5 criteria for all five seeds: 50.99% routed strong
+share and retuned accuracy inside the no-cache interval. See
+[the fixed protocol, results and limitations](Story3_Balanced_Calibration.md).
+The earlier ARC failures below remain valid; this passing benchmark mixture
+does not guarantee production behavior. #5 awaits teammate review and merge.
+
 ## Status against the issues
 
 | Issue | Delivered | Still needed |
