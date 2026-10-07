@@ -1,6 +1,6 @@
 # Sprint 1
 
-**Dates:** ___ to ___  ·  **Demo:** ___
+**Dates:** 28 Sep to 12 Oct 2026  ·  **Demo:** 13 or 14 Oct (2-minute presentation)
 
 ## Goal
 <!-- One sentence. What risk does this sprint retire? -->
