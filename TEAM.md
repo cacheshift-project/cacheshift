@@ -7,7 +7,7 @@
 | Name | GitHub | Email |
 |---|---|---|
 | Spencer Aldrich | @spaldrich13 | spenceraldrich132@gmail.com |
-| Anthony Capraru | @capraruanthony | capraru@bu.edu |
+| Anthony | @capraruanthony | anthonycapraru@gmail.com |
 
 **Communication channel:** our two-person iMessage group (no invite link: it is a private group between our phones), with email only for sending files. This is the only channel for project talk; if the team grows, we move to a Discord server and post its link here. Decisions made anywhere else get written here or in the relevant issue.
 
