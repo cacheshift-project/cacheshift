@@ -1,6 +1,6 @@
 # Sprint 1
 
-**Dates:** ___ to ___  ·  **Demo:** ___
+**Dates:** 28 Sep to 12 Oct 2026  ·  **Demo:** 13 or 14 Oct (2-minute presentation)
 
 ## Goal
 <!-- One sentence. What risk does this sprint retire? -->
@@ -32,11 +32,15 @@
 
 - Issues #5, #6, #9 and #15: Codex assisted with the endpoint, SDK example, tuning-only re-calibration, evaluation, API helper and ChatGPT review. [Implementation and remaining acceptance checks](Remaining_Issues.md). Local chat: codex://threads/01a0cffd-318f-7100-846f-41901b98be6d (not a public share link). No Claude review, paid API success or completed #5 acceptance is claimed.
 
-- Replay gateway and demo (#11): Codex assisted with the implementation, tests, and documentation. Local chat: codex://threads/01a0cffd-318f-7100-846f-41901b98be6d (not a public share link). See [the run instructions and evidence](Replay_Gateway_Demo.md).
+- RouterBench loader (#8) and plan drafting: Claude Code assisted with the loader, its safety tests, SPRINT1.md, TEAM.md and the review log. Local session (Claude Code has no public share link).
 
-- RouteLLM feasibility implementation and tests: Codex assisted with inspecting the official router, implementing the CPU adapter, and documenting validation. Local chat: codex://threads/01a0cffd-318f-7100-846f-41901b98be6d (not a public share link).
+- Issues #5, #6, #9 and #15: Codex assisted with the endpoint, SDK example, tuning-only re-calibration, evaluation, API helper and ChatGPT review. [Implementation and remaining acceptance checks](Remaining_Issues.md). [Codex session (public share)](https://chatgpt.com/s/cx_6ac6b43910a08191ad25a9785a6d87cf). No paid API success or completed #5 acceptance is claimed.
 
-- Faculty research and document drafting: Codex assisted with source research and drafting. Local chat: codex://threads/01a0cffd-318f-7100-846f-41901b98be6d (not a public share link).
+- Replay gateway and demo (#11): Codex assisted with the implementation, tests, and documentation. [Codex session (public share)](https://chatgpt.com/s/cx_6ac6b43910a08191ad25a9785a6d87cf). See [the run instructions and evidence](Replay_Gateway_Demo.md).
+
+- RouteLLM feasibility implementation and tests: Codex assisted with inspecting the official router, implementing the CPU adapter, and documenting validation. [Codex session (public share)](https://chatgpt.com/s/cx_6ac6b43910a08191ad25a9785a6d87cf).
+
+- Faculty research and document drafting: Codex assisted with source research and drafting. [Codex session (public share)](https://chatgpt.com/s/cx_6ac6b43910a08191ad25a9785a6d87cf).
 
 ## Faculty connections
 
