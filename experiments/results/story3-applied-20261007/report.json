@@ -1,0 +1,19 @@
+{
+  "scope": "Saved-cutoff local replay integration; two requests, not a share estimate",
+  "dataset_sha256": "3821ecbbb123d496f59efc601dec2686427f3e7e6506e3ea6275097c82c8f241",
+  "calibration_sha256": "c6804759db681b1f2fdfe7cd81b3015309cc831de33897ee0972a51d54e589e7",
+  "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+  "threshold": 0.4552205118455044,
+  "target": 0.5,
+  "question_id": "mmlu-abstract-algebra.val.14",
+  "config_id": "0824ac4d440c61f5",
+  "routes": [
+    "strong",
+    "cache"
+  ],
+  "answers": [
+    "B",
+    "B"
+  ],
+  "required_log_fields_verified": true
+}

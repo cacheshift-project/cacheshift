@@ -1,4 +1,6 @@
 import importlib.util
+import hashlib
+import json
 from pathlib import Path
 
 import pytest
@@ -44,3 +46,27 @@ def test_parser_preserves_choice_order_and_rejects_unknown_format():
     assert stem == "Question" and choices["B"] == "Earth"
     with pytest.raises(ValueError):
         builder.parse_prompt("different instruction\nA) x\nB) y")
+
+
+def test_published_calibrations_bind_to_balanced_fixture():
+    from cacheshift.replay_gateway import load_dataset
+    from cacheshift.retune import load_calibration
+    from cacheshift.router import REVISION
+
+    root = Path(__file__).parents[1]
+    dataset = root / "data/mmlu_retune_20261007/questions.jsonl"
+    payload = dataset.read_bytes()
+    assert b"\r\n" not in payload
+    checksum = hashlib.sha256(payload).hexdigest()
+    manifest = json.loads(dataset.with_name("manifest.json").read_text())
+    assert checksum == manifest["dataset_sha256"]
+    records = load_dataset(dataset)
+    tuning = {qid for qid, row in records.items() if row["split"] == "tuning"}
+    assert len(tuning) == 1824
+    for seed in range(601, 606):
+        artifact = load_calibration(root / f"experiments/results/story3-mmlu-20261007/calibration-{seed}.json",
+                                    checksum, REVISION, records)
+        assert set(artifact["tuning_miss_ids"]) == tuning
+    applied = json.loads((root / "experiments/results/story3-applied-20261007/report.json").read_text())
+    path = root / "experiments/results/story3-mmlu-20261007/calibration-601.json"
+    assert applied["calibration_sha256"] == hashlib.sha256(path.read_bytes()).hexdigest()

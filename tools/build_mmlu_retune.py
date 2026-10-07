@@ -74,13 +74,17 @@ def main():
     if digest(args.routerbench) != ROUTERBENCH_SHA:
         raise ValueError("Unexpected RouterBench digest; refusing pickle")
     if args.download_keys and not args.keys.exists():
-        import requests
-        response = requests.get(MMLU_URL, timeout=120)
-        response.raise_for_status()
-        if hashlib.sha256(response.content).hexdigest() != MMLU_SHA:
+        import ssl
+        from urllib.request import urlopen
+        import certifi
+
+        with urlopen(MMLU_URL, timeout=120,
+                     context=ssl.create_default_context(cafile=certifi.where())) as response:
+            content = response.read()
+        if hashlib.sha256(content).hexdigest() != MMLU_SHA:
             raise ValueError("Unexpected downloaded key digest")
         args.keys.parent.mkdir(parents=True, exist_ok=True)
-        args.keys.write_bytes(response.content)
+        args.keys.write_bytes(content)
     if digest(args.keys) != MMLU_SHA:
         raise ValueError("Unexpected MMLU key digest")
     import pandas as pd
