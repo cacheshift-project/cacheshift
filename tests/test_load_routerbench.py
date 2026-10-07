@@ -42,7 +42,9 @@ def _refused(path: Path) -> list[str]:
 
 @pytest.mark.parametrize("protocol", [2, 5])
 def test_accepts_plain_dataframe(tmp_path, protocol):
-    df = pd.DataFrame({"prompt": ["a", "b"], "m": [1.0, 0.0], "m|total_cost": [0.1, 0.2]})
+    # Match the published file's object strings even with pandas 3 and Arrow.
+    with pd.option_context("future.infer_string", False):
+        df = pd.DataFrame({"prompt": ["a", "b"], "m": [1.0, 0.0], "m|total_cost": [0.1, 0.2]})
     path = tmp_path / "ok.pkl"
     df.to_pickle(path, protocol=protocol)
     assert _refused(path) == []
