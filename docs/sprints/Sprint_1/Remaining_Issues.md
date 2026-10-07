@@ -11,7 +11,7 @@ required. Issues #14 and #17 are outside this change.
 | #6: app endpoint | A tested Chat Completions replay endpoint, unchanged SDK client, real local HTTP demo and request logs | Teammate review. Compatibility is limited to the replay contract below; arbitrary live prompts are not supported. |
 | #5: re-tune | One command fits a cutoff on tuning cache misses, evaluates five seeds, saves an applicable configuration and reports paired confidence intervals | The measured routed share is outside the required 47–53% range. Keep the issue open and validate on a separately declared final dataset. |
 | #9: API key | One-call script, local .env configuration, bounded output, no retries, sanitized evidence and mocked success/error tests | Anthony's actual paid call and Spencer's independent laptop run. There was no .env in this checkout; no paid call was made. |
-| #15: two-model review | Initial ChatGPT/Codex review, supplied Claude initial critique, ChatGPT Round 2 response, immutable plan reference and merged evaluation correction | Claude's actual cross-review, usable chat links and the final team decision. |
+| #15: two-model review | Initial ChatGPT/Codex review, supplied Claude initial critique, ChatGPT Round 2 response, immutable plan reference and merged evaluation correction | None. Both reviews, both cross-reviews, public chat links and the team decision are in the AI review log (closed by #24). |
 
 ## Setup
 
@@ -149,12 +149,12 @@ verify the request path and error behavior but do not prove either person's key.
 ## #15: finish the review
 
 Update, 2026-10-05: the supplied Claude initial critique and ChatGPT Round 2 response
-are now preserved in the review log. Claude's cross-review and usable chat links
-remain pending. For the tuning-only investigation of #5, see
+are now preserved in the review log. Both cross-reviews and public chat links are
+now recorded. For the tuning-only investigation of #5, see
 [re-tuning follow-up](Retune_Followup.md); no routing setting or acceptance status
 was changed.
 
-The [AI review log](AI_Review_Log.md) contains the actual ChatGPT/Codex critique and
-Claude handoff instructions. The only sprint-plan change in this PR corrects the
-evaluation baseline and defines paired comparisons. Unrelated target-user and
-team-administration TODOs remain for #14 and #17.
+The [AI review log](AI_Review_Log.md) records both reviews, the cross-reviews and the
+team's decisions. The change made because of the review is the two-part A2 test in
+SPRINT1.md §7; the §8 baseline correction was also adopted. Target-user work
+remains in #14.
