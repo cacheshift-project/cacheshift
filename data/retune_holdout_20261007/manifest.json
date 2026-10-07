@@ -15,7 +15,7 @@
     }
   ],
   "excluded_fixture_sha256": "3a96dd3f3b178013d12b4587ce04f9249a26de96439d2bfa88c6165fcd28c9f4",
-  "dataset_sha256": "986da3d608c24eac87e3f88cb08a71c1f52d8a50b5a266e30b77916197acc37b",
+  "dataset_sha256": "1f58859af72bf8b6eb98b4268834128a6b06ee1da74e307d274e4aae08aa66ce",
   "selection": "All aligned ARC records excluding exposed IDs and normalized question stems; groups ordered by SHA256(601:stem); first half tuning, remaining test. No scores or outcomes used for selection.",
   "rows": 970,
   "groups": 966,

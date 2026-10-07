@@ -65,7 +65,7 @@ teammate review; live forwarding remains outside this replay demonstration.
 966 families, 485 tuning rows in 483 families, and 485 test rows in 483 families.
 No exposed official ARC ID remains; no official ID crosses the new split.
 Rebuilding produced the same dataset SHA-256:
-`986da3d608c24eac87e3f88cb08a71c1f52d8a50b5a266e30b77916197acc37b`.
+`1f58859af72bf8b6eb98b4268834128a6b06ee1da74e307d274e4aae08aa66ce`.
 
 The unchanged method fitted a tuning share of 49.90%, threshold
 `0.4659435380734295`. On test, it routed 267/485 unique misses to the strong
@@ -93,7 +93,12 @@ The next #5 experiment needs a separately declared pool and a method developed
 on calibration data. A quota controller could enforce a share but would change
 the routing method and requires its own quality evaluation.
 
-Validation: 51 tests passed. The new builder tests check family grouping and
+The builder writes LF line endings so the dataset checksum survives Git's
+Windows/Unix normalization. After correcting that serialization, traces were
+regenerated using the exact saved CPU scores with unchanged questions, split,
+cutoffs and results; the calibration and report now bind to the canonical hash.
+
+Validation: all 52 tests passed, including the final checksum regression. The new builder tests check family grouping and
 independence from input order and answer values. Installing Parquet support made
 pandas 3 choose Arrow strings in the loader's synthetic test fixture; that fixture
 now explicitly uses the published file's object-string format. The loader's narrow

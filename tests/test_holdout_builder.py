@@ -1,4 +1,6 @@
 import importlib.util
+import hashlib
+import json
 from pathlib import Path
 
 import pytest
@@ -29,3 +31,19 @@ def test_choice_order_does_not_change_normalized_stem():
     left, _ = builder.parse_prompt("Which planet?\nA) Earth\nB) Mars\nPrint only a single choice")
     right, _ = builder.parse_prompt("Which   planet?\nA) Mars\nB) Earth\nPrint only a single choice")
     assert builder.normalized(left) == builder.normalized(right)
+
+
+def test_committed_holdout_and_calibration_share_canonical_digest():
+    from cacheshift.retune import load_calibration
+    from cacheshift.router import REVISION
+
+    root = Path(__file__).parents[1]
+    dataset = root / "data/retune_holdout_20261007/questions.jsonl"
+    assert b"\r\n" not in dataset.read_bytes()
+    checksum = hashlib.sha256(dataset.read_bytes()).hexdigest()
+    manifest = json.loads(dataset.with_name("manifest.json").read_text())
+    assert checksum == manifest["dataset_sha256"]
+    records = builder.load_dataset(dataset)
+    for seed in range(601, 606):
+        load_calibration(root / f"experiments/results/retune-20261007/calibration-{seed}.json",
+                         checksum, REVISION, records)

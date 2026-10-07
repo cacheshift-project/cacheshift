@@ -110,7 +110,7 @@ def main():
     rows, groups, tuning = assign_splits(rows)
     args.output.mkdir(parents=True)
     data = args.output / "questions.jsonl"
-    data.write_text("".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8")
+    data.write_text("".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8", newline="\n")
     load_dataset(data)
     manifest = {"routerbench_sha256": SOURCE_SHA, "arc_files": arc_files,
                 "excluded_fixture_sha256": digest(args.excluded), "dataset_sha256": digest(data),
@@ -118,7 +118,7 @@ def main():
                 "rows": len(rows), "groups": len(groups), "tuning_groups": len(tuning),
                 "test_groups": len(groups) - len(tuning), "excluded_rows": excluded, "skipped": skipped,
                 "limitations": "Fresh relative to our development fixture, not guaranteed independent of router training. Originals and exact repeats only; historical recorded model answers."}
-    (args.output / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    (args.output / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(json.dumps({key: manifest[key] for key in ("rows", "groups", "tuning_groups", "test_groups", "excluded_rows", "skipped")}))
 
 
