@@ -1,0 +1,27 @@
+{
+  "routerbench_sha256": "ba4f77f19517610a707c374e99322d7750c30fc4ae7ff5527888595a1e65d36d",
+  "arc_files": [
+    {
+      "file": "test-00000-of-00001.parquet",
+      "sha256": "62f03257e737aed263f55c6abf87c7bb0028a44a6bdd2a26eb1279eb42c1d1e9"
+    },
+    {
+      "file": "train-00000-of-00001.parquet",
+      "sha256": "e488c1587ffdcfc8443f916c53488a95cd471c5790e0746c6bfe4cecf20962cb"
+    },
+    {
+      "file": "validation-00000-of-00001.parquet",
+      "sha256": "395a5c88d1580d69855fbaee9450270578df1ad5af6259771cd0a42c20e99f05"
+    }
+  ],
+  "excluded_fixture_sha256": "3a96dd3f3b178013d12b4587ce04f9249a26de96439d2bfa88c6165fcd28c9f4",
+  "dataset_sha256": "1f58859af72bf8b6eb98b4268834128a6b06ee1da74e307d274e4aae08aa66ce",
+  "selection": "All aligned ARC records excluding exposed IDs and normalized question stems; groups ordered by SHA256(601:stem); first half tuning, remaining test. No scores or outcomes used for selection.",
+  "rows": 970,
+  "groups": 966,
+  "tuning_groups": 483,
+  "test_groups": 483,
+  "excluded_rows": 500,
+  "skipped": [],
+  "limitations": "Fresh relative to our development fixture, not guaranteed independent of router training. Originals and exact repeats only; historical recorded model answers."
+}
