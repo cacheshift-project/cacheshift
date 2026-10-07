@@ -1,15 +1,15 @@
 # TEAM.md — how we work together
 
-*CacheShift · EC601 Fall 2026 · Agreed on ____ by Spencer Aldrich and Anthony Capraru. Items marked **[confirm]** are proposals until we both approve this file.*
+*CacheShift · EC601 Fall 2026 · Agreed on 7 Oct 2026 by Spencer Aldrich and Anthony Capraru.*
 
 ## Members
 
 | Name | GitHub | Email |
 |---|---|---|
 | Spencer Aldrich | @spaldrich13 | spenceraldrich132@gmail.com |
-| Anthony Capraru | @capraruanthony | anthonycapraru@gmail.com |
+| Anthony | @capraruanthony | anthonycapraru@gmail.com |
 
-**Communication channel:** ____ (link: ____) **[confirm]**. This is the only channel for project talk. Decisions made anywhere else get written here or in the relevant issue.
+**Communication channel:** our two-person iMessage group (no invite link: it is a private group between our phones), with email only for sending files. This is the only channel for project talk; if the team grows, we move to a Discord server and post its link here. Decisions made anywhere else get written here or in the relevant issue.
 
 ## Roles
 
@@ -25,23 +25,23 @@ Each of us owns one half of the project end to end and reviews every pull reques
 
 | Sprint 1 | Sprint 2 | Sprint 3 | Sprint 4 | Sprint 5 |
 |---|---|---|---|---|
-| ____ **[confirm]** | the other person | alternate | alternate | alternate |
+| Spencer | Anthony | Spencer | Anthony | Spencer |
 
-## Cadence **[confirm]**
+## Cadence
 
 - **Weekly meeting:** right after class, 20–30 minutes: board review, blockers, next week's tasks.
 - **Mid-week check-in:** one short message in our channel each Thursday: done, doing, blocked.
 - **Reply time:** within 24 hours on weekdays, within 48 hours on weekends.
 - **The board is the truth:** move your cards before each meeting, so either of us can see who is doing what without asking.
 
-## Decisions **[confirm]**
+## Decisions
 
 1. **Your half, your call.** The owner of a piece decides how to build it, after hearing the other person out.
 2. **Shared things need both of us:** the two handoff formats, project scope, and anything we submit for a grade.
 3. **If we still disagree,** the sprint lead decides.
 4. **Write it down.** Every decision goes in the relevant issue or pull request, with one line on why.
 
-## Silence **[confirm]**
+## Silence
 
 If one of us goes quiet:
 
