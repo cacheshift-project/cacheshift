@@ -5,18 +5,26 @@ and #22. Merge those first, then retarget this PR to main. Teammate review is
 required. Issues #14 and #17 are outside this change.
 
 **Story 3 update, 2026-10-07:** the separately declared subject-balanced MMLU
-replay check passes the stated #5 criteria for all five seeds: 50.99% routed strong
-share and retuned accuracy inside the no-cache interval. See
+re-tune meets share/accuracy on a pre-declared balanced MMLU replay (50.99%).
+No drift was present, so drift correction is untested by that run. See
 [the fixed protocol, results and limitations](Story3_Balanced_Calibration.md).
 The earlier ARC failures below remain valid; this passing benchmark mixture
-does not guarantee production behavior. #5 awaits teammate review and merge.
+does not guarantee production behavior. Size, balance and benchmark are confounded.
+#5 remains open. See the October 5 rationale in [Retune_Followup.md](Retune_Followup.md).
+
+**Update, 2026-10-07:** PRs #21–#24 are merged; #15 is closed. The latest
+[gateway and fresh retuning check](Gateway_Retune_Check_20261007.md) demonstrates
+#6's replay acceptance and records a new #5 failure (55.05% against 47–53%).
+The historical pending statuses below describe the original October 4–5 work;
+use the linked check for the current #5/#6 evidence and the final
+[AI review log](AI_Review_Log.md) for #15.
 
 ## Status against the issues
 
 | Issue | Delivered | Still needed |
 |---|---|---|
 | #6: app endpoint | A tested Chat Completions replay endpoint, unchanged SDK client, real local HTTP demo and request logs | Teammate review. Compatibility is limited to the replay contract below; arbitrary live prompts are not supported. |
-| #5: re-tune | One command fits a cutoff on tuning cache misses, evaluates five seeds, saves an applicable configuration and reports paired confidence intervals | The measured routed share is outside the required 47–53% range. Keep the issue open and validate on a separately declared final dataset. |
+| #5: re-tune | One command fits a cutoff on tuning cache misses, evaluates five seeds, saves an applicable configuration and reports paired confidence intervals | ARC runs failed (53.33%, 55.05%). Balanced MMLU meets share/accuracy but has no drift to correct. Keep #5 open pending a drift-correction test. |
 | #9: API key | One-call script, local .env configuration, bounded output, no retries, sanitized evidence and mocked success/error tests | Anthony's actual paid call and Spencer's independent laptop run. There was no .env in this checkout; no paid call was made. |
 | #15: two-model review | Initial ChatGPT/Codex review, supplied Claude initial critique, ChatGPT Round 2 response, immutable plan reference and merged evaluation correction | None. Both reviews, both cross-reviews, public chat links and the team decision are in the AI review log (closed by #24). |
 

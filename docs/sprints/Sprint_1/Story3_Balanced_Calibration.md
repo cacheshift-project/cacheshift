@@ -1,12 +1,15 @@
 # Story 3 — subject-balanced calibration
 
-## Protocol fixed before MMLU router scoring
+## Protocol recorded during scoring, before test results
 
 The ARC development evaluation missed the 50% target by 3.33 points. A subsequent
 fresh-relative-to-fixture ARC test missed by 5.05 points. Keep both failures; do
 not tune a cutoff using those test scores or reinterpret their accuracy intervals
-as proof of equivalence. The next design improves calibration coverage and sample
-size, not the router's model weights or the quantile objective.
+as proof of equivalence. The next design changes calibration coverage, sample size and benchmark; those
+changes are confounded. The router weights and quantile objective are unchanged.
+The October 5 [Retune_Followup.md](Retune_Followup.md) explains why a larger,
+separately declared pool was needed; MMLU provided official keys and sufficient
+questions outside the exposed ARC fixtures.
 
 Use the untouched local MMLU subset of the verified RouterBench zero-shot file.
 Join the official `cais/mmlu` test answer keys by subject, normalized stem and
@@ -80,7 +83,7 @@ unclosed bracket such as `[B`; our pre-existing strict answer parser marks them
 incorrect. Keep that rule and those rows unchanged rather than relaxing grading
 after inspection. This audit checks source alignment, not a routed-accuracy result.
 
-## Result: the declared replay acceptance checks pass
+## Result: share/accuracy pass; drift correction is untested
 
 The protocol and code were pushed in commit `d807ea1` while CPU scoring was still
 in progress, before test results. The
@@ -139,3 +142,17 @@ the same pinned source and dataset digests.
 
 Runtime: CPU with four PyTorch threads, torch 2.14.1+cpu, Transformers 4.57.6,
 pandas 3.0.6, NumPy 2.5.3, PyArrow 25.0.1. No paid provider calls or GPU were used.
+
+## Review correction — 12 October 2026
+
+Re-tune meets share/accuracy on a pre-declared balanced MMLU replay. The untuned
+cache already gives 50.49–51.21%; retuning changes share by −0.22 to +0.49 points
+(zero for seed 601), and cache-effect intervals include zero. No drift was present,
+so drift correction is untested. ARC runs failed (53.33%, 55.05%); size, balance
+and benchmark are confounded. This PR references #5 and does not close it.
+
+The cutoff is only about 1.2e-7 from the next tuning score. The evaluation scored
+in batches of four while the gateway scores one prompt at a time. Approximate
+score equality does not establish identical decisions at this boundary. The new
+controlled follow-up uses single-question scoring for both fitting and evaluation;
+the original batched artifacts are preserved as historical evidence.
