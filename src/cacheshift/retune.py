@@ -12,7 +12,7 @@ import re
 import numpy as np
 
 from cacheshift.gateway import DATASET, ROOT
-from cacheshift.replay_gateway import ReplayGateway, calibrate_scores, load_dataset, validated_score
+from cacheshift.replay_gateway import ReplayGateway, calibrate_scores, calibrate_midgap, load_dataset, validated_score
 from cacheshift.router import LocalBERTRouter, REVISION
 
 SEEDS = (601, 602, 603, 604, 605)
@@ -62,7 +62,7 @@ def question_stream(records, split, seed, repeat_fraction=0.5):
     return stream
 
 
-def fit(records, router, stream, target, cache_enabled):
+def fit(records, router, stream, target, cache_enabled, threshold_rule="observed"):
     """Cold, unbounded exact cache; each first occurrence is a miss."""
     seen, scores, misses = set(), [], []
     if not stream:
@@ -76,7 +76,10 @@ def fit(records, router, stream, target, cache_enabled):
             scores.append(validated_score(router, row["text"]))
             misses.append(qid)
         seen.add(key)
-    return {**calibrate_scores(scores, target), "tuning_miss_ids": misses,
+    if threshold_rule not in ("observed", "midgap"):
+        raise ValueError("Unknown threshold rule")
+    calibration = (calibrate_midgap if threshold_rule == "midgap" else calibrate_scores)(scores, target)
+    return {**calibration, "tuning_miss_ids": misses,
             "tuning_scores": scores, "tuning_request_count": len(stream),
             "cache": "exact" if cache_enabled else "none"}
 
@@ -95,7 +98,10 @@ def load_calibration(path, dataset_sha256, router_revision, records=None):
         raise ValueError("Exact-cache calibration must have unique tuning misses")
     if records is not None and any(qid not in records or records[qid]["split"] != "tuning" for qid in ids):
         raise ValueError("Calibration contains a non-tuning question")
-    expected = calibrate_scores(scores, artifact["target_strong_share"])
+    rule = artifact.get("threshold_rule", "observed")
+    if rule not in ("observed", "midgap"):
+        raise ValueError("Unknown threshold rule")
+    expected = (calibrate_midgap if rule == "midgap" else calibrate_scores)(scores, artifact["target_strong_share"])
     if artifact.get("threshold") != expected["threshold"]:
         raise ValueError("Calibration threshold does not match its tuning scores")
     return artifact

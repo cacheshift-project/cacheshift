@@ -84,6 +84,20 @@ def calibrate_scores(scores, target=0.5):
     }
 
 
+def calibrate_midgap(scores, target=0.5):
+    """Keep the quantile objective, but place the boundary between score groups."""
+    result = calibrate_scores(scores, target)
+    cut = result["threshold"]
+    below = [score for score in scores if score < cut]
+    above = [score for score in scores if score >= cut]
+    if below and above:
+        lower, upper = max(below), min(above)
+        middle = lower + (upper - lower) / 2
+        # Adjacent floating-point values may have no representable midpoint.
+        result["threshold"] = middle if lower < middle <= upper else upper
+    return {**result, "threshold_rule": "midgap"}
+
+
 class ReplayGateway:
     def __init__(self, records, router, calibration, log_path, cache_enabled=True,
                  dataset_sha256="", router_revision="", seed=601, repeats=5):
