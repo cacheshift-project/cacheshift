@@ -20,6 +20,15 @@ def write(path, value):
     Path(path).write_bytes((json.dumps(value, indent=2) + "\n").encode())
 
 
+def compact_fits(full):
+    """Keep scalar fits and a digest; score/stream inputs are separately reproducible."""
+    return {"popularity_cutoff": full["popularity_cutoff"], "target": full["target"],
+            "full_fits_sha256": hashlib.sha256((json.dumps(full, indent=2) + "\n").encode()).hexdigest(),
+            "baseline_fits": [{key: value for key, value in row.items()
+                               if key not in ("tuning_miss_ids", "tuning_scores")}
+                              for row in full["baseline_fits"]]}
+
+
 class FixedRouter:
     def __init__(self, records, scores):
         self.scores = {records[qid]["text"]: score for qid, score in scores.items()}
@@ -146,8 +155,11 @@ def run(records, router, output, digest, old_dir=None, samples=2000):
             baseline = fit(records, tuning_router, tuning_stream, .5, False, threshold_rule="midgap")
             fits[(policy, seed)] = baseline
     # Every cutoff is frozen before any new test score or routed accuracy is evaluated.
-    write(output / "frozen-fits.json", {"popularity_cutoff": cutoff, "target": .5,
-          "baseline_fits": [{"policy": policy, "seed": seed, **fit_} for (policy, seed), fit_ in fits.items()]})
+    full_fits = {"popularity_cutoff": cutoff, "target": .5,
+          "baseline_fits": [{"policy": policy, "seed": seed, **fit_} for (policy, seed), fit_ in fits.items()]}
+    (output / "raw").mkdir()
+    write(output / "raw/frozen-fits-full.json", full_fits)
+    write(output / "frozen-fits.json", compact_fits(full_fits))
     test = score_split(records, router, "test", output / "scores-test.json", digest)
     scores = {**tuning, **test}
     memo = FixedRouter(records, scores)
@@ -200,6 +212,9 @@ def main():
     report = run(records, LocalBERTRouter(ROOT / "data/cache/routellm", offline=True),
                  args.run_dir, digest, args.audit_old)
     print("All skew mechanism checks pass:", report["all_skew_mechanism_checks_pass"])
+    if report["paired_accuracy_loss_cases"]:
+        print("Paired accuracy loss detected:", report["paired_accuracy_loss_cases"])
+        print("Passing the marginal baseline interval does not prove quality preservation.")
 
 
 if __name__ == "__main__":

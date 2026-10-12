@@ -124,3 +124,7 @@ binding, complete 3,648-question numerical-audit provenance, canonical stage
 ordering, midpoint objective/ties, wrong-mode rejection and backward compatibility.
 The actual local HTTP application check passed. Raw traces remain ignored; their
 checksums are in the report. All source score exports and JSON artifacts use LF.
+All 15 baseline fits were independently regenerated from the committed tuning
+scores and fixed stream rules, matching the frozen full-input SHA-256 exactly.
+The compact frozen-fit export omits duplicated score/ID arrays; the original full
+input is kept locally under ignored `raw/` and can be regenerated without inference.
