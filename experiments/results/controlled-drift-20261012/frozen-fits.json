@@ -1,0 +1,157 @@
+{
+  "popularity_cutoff": 0.4552204678522654,
+  "target": 0.5,
+  "full_fits_sha256": "b78bd5f4f7c6989776eedb7efa515a2db9321909165ea7becf0751d238835bc1",
+  "baseline_fits": [
+    {
+      "policy": "uniform",
+      "seed": 601,
+      "target_strong_share": 0.5,
+      "threshold": 0.4551994837683476,
+      "tuning_strong_share": 0.5002741228070176,
+      "threshold_rule": "midgap",
+      "tuning_request_count": 3648,
+      "cache": "none"
+    },
+    {
+      "policy": "uniform",
+      "seed": 602,
+      "target_strong_share": 0.5,
+      "threshold": 0.45532359926956395,
+      "tuning_strong_share": 0.5,
+      "threshold_rule": "midgap",
+      "tuning_request_count": 3648,
+      "cache": "none"
+    },
+    {
+      "policy": "uniform",
+      "seed": 603,
+      "target_strong_share": 0.5,
+      "threshold": 0.4551244821047185,
+      "tuning_strong_share": 0.5,
+      "threshold_rule": "midgap",
+      "tuning_request_count": 3648,
+      "cache": "none"
+    },
+    {
+      "policy": "uniform",
+      "seed": 604,
+      "target_strong_share": 0.5,
+      "threshold": 0.4551244821047185,
+      "tuning_strong_share": 0.5,
+      "threshold_rule": "midgap",
+      "tuning_request_count": 3648,
+      "cache": "none"
+    },
+    {
+      "policy": "uniform",
+      "seed": 605,
+      "target_strong_share": 0.5,
+      "threshold": 0.4553387431832151,
+      "tuning_strong_share": 0.5,
+      "threshold_rule": "midgap",
+      "tuning_request_count": 3648,
+      "cache": "none"
+    },
+    {
+      "policy": "high",
+      "seed": 601,
+      "target_strong_share": 0.5,
+      "threshold": 0.45779194160431047,
+      "tuning_strong_share": 0.49972587719298245,
+      "threshold_rule": "midgap",
+      "tuning_request_count": 3648,
+      "cache": "none"
+    },
+    {
+      "policy": "high",
+      "seed": 602,
+      "target_strong_share": 0.5,
+      "threshold": 0.4583771325291748,
+      "tuning_strong_share": 0.49972587719298245,
+      "threshold_rule": "midgap",
+      "tuning_request_count": 3648,
+      "cache": "none"
+    },
+    {
+      "policy": "high",
+      "seed": 603,
+      "target_strong_share": 0.5,
+      "threshold": 0.4580048099027277,
+      "tuning_strong_share": 0.49972587719298245,
+      "threshold_rule": "midgap",
+      "tuning_request_count": 3648,
+      "cache": "none"
+    },
+    {
+      "policy": "high",
+      "seed": 604,
+      "target_strong_share": 0.5,
+      "threshold": 0.4576384430617688,
+      "tuning_strong_share": 0.49972587719298245,
+      "threshold_rule": "midgap",
+      "tuning_request_count": 3648,
+      "cache": "none"
+    },
+    {
+      "policy": "high",
+      "seed": 605,
+      "target_strong_share": 0.5,
+      "threshold": 0.4581325495480908,
+      "tuning_strong_share": 0.5,
+      "threshold_rule": "midgap",
+      "tuning_request_count": 3648,
+      "cache": "none"
+    },
+    {
+      "policy": "low",
+      "seed": 601,
+      "target_strong_share": 0.5,
+      "threshold": 0.45296530890966513,
+      "tuning_strong_share": 0.5,
+      "threshold_rule": "midgap",
+      "tuning_request_count": 3648,
+      "cache": "none"
+    },
+    {
+      "policy": "low",
+      "seed": 602,
+      "target_strong_share": 0.5,
+      "threshold": 0.4529541766474441,
+      "tuning_strong_share": 0.5002741228070176,
+      "threshold_rule": "midgap",
+      "tuning_request_count": 3648,
+      "cache": "none"
+    },
+    {
+      "policy": "low",
+      "seed": 603,
+      "target_strong_share": 0.5,
+      "threshold": 0.4530316310054451,
+      "tuning_strong_share": 0.49917763157894735,
+      "threshold_rule": "midgap",
+      "tuning_request_count": 3648,
+      "cache": "none"
+    },
+    {
+      "policy": "low",
+      "seed": 604,
+      "target_strong_share": 0.5,
+      "threshold": 0.45295686296599547,
+      "tuning_strong_share": 0.5002741228070176,
+      "threshold_rule": "midgap",
+      "tuning_request_count": 3648,
+      "cache": "none"
+    },
+    {
+      "policy": "low",
+      "seed": 605,
+      "target_strong_share": 0.5,
+      "threshold": 0.4531971807837165,
+      "tuning_strong_share": 0.49972587719298245,
+      "threshold_rule": "midgap",
+      "tuning_request_count": 3648,
+      "cache": "none"
+    }
+  ]
+}
