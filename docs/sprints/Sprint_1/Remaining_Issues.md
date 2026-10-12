@@ -4,6 +4,13 @@ Implementation and evidence from 2026-10-04. These changes build on PRs #21
 and #22. Merge those first, then retarget this PR to main. Teammate review is
 required. Issues #14 and #17 are outside this change.
 
+**Update, 2026-10-07:** PRs #21–#24 are merged; #15 is closed. The latest
+[gateway and fresh retuning check](Gateway_Retune_Check_20261007.md) demonstrates
+#6's replay acceptance and records a new #5 failure (55.05% against 47–53%).
+The historical pending statuses below describe the original October 4–5 work;
+use the linked check for the current #5/#6 evidence and the final
+[AI review log](AI_Review_Log.md) for #15.
+
 ## Status against the issues
 
 | Issue | Delivered | Still needed |
