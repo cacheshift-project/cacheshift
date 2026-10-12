@@ -156,3 +156,8 @@ in batches of four while the gateway scores one prompt at a time. Approximate
 score equality does not establish identical decisions at this boundary. The new
 controlled follow-up uses single-question scoring for both fitting and evaluation;
 the original batched artifacts are preserved as historical evidence.
+
+The [October 12 controlled follow-up](Controlled_Drift_20261012.md) now demonstrates
+correction in engineered high/low popularity streams using individual scoring.
+It preserves the original no-drift finding and reports a detectable accuracy loss
+in the low-popularity case, so #5 remains open for quality-safe real-traffic validation.

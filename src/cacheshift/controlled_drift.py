@@ -80,10 +80,14 @@ def checks(report, reduction):
     result["mechanism_checks_pass"] = all(result[key] for key in (
         "share_within_3_percentage_points", "accuracy_inside_no_cache_ci",
         "material_cache_drift", "material_error_reduction"))
+    quality = report["paired_differences"].get("retune_effect", {}).get("accuracy")
+    if quality is not None:
+        # Descriptive warning, not a replacement for the pre-declared criterion.
+        result["paired_accuracy_loss_detected"] = quality["ci95"][1] < 0
     return result
 
 
-def audit_old(records, scores, old_dir, digest):
+def audit_old(records, scores, old_dir, digest, reference_output=None):
     old_dir = Path(old_dir)
     original = json.loads((old_dir / "report.json").read_text())
     if original["dataset_sha256"] != digest:
@@ -109,11 +113,19 @@ def audit_old(records, scores, old_dir, digest):
                 split: [qid for qid in old if records[qid]["split"] == split and
                         (old[qid] >= threshold) != (scores[qid] >= threshold)]
                 for split in ("tuning", "test")}
-    return {"old_report_sha256": hashlib.sha256((old_dir / "report.json").read_bytes()).hexdigest(),
+    result = {"old_report_sha256": hashlib.sha256((old_dir / "report.json").read_bytes()).hexdigest(),
             "questions": len(old), "max_absolute_score_difference": max(abs(old[qid] - scores[qid]) for qid in old),
             "decision_flips_at_old_cutoffs": flips,
             "boundary_questions": [{"question_id": qid, "batch_score": old[qid],
                                     "single_score": scores[qid], "old_cutoff": cutoff} for qid in near]}
+    if reference_output is not None:
+        path = Path(reference_output)
+        path.write_bytes("".join(json.dumps({"question_id": qid, "split": records[qid]["split"],
+                        "batch_score": old[qid], "single_score": scores[qid]}) + "\n"
+                        for qid in sorted(old)).encode())
+        result["paired_score_file"] = path.name
+        result["paired_score_sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+    return result
 
 
 def run(records, router, output, digest, old_dir=None, samples=2000):
@@ -140,7 +152,8 @@ def run(records, router, output, digest, old_dir=None, samples=2000):
     scores = {**tuning, **test}
     memo = FixedRouter(records, scores)
     if old_dir is not None:
-        write(output / "batch-single-audit.json", audit_old(records, scores, old_dir, digest))
+        write(output / "batch-single-audit.json", audit_old(records, scores, old_dir, digest,
+                         output / "batch-single-scores.jsonl"))
     report = {"scope": "Synthetic score-skew mechanism test on exposed development data",
               "dataset_sha256": digest, "router_revision": REVISION, "scoring_mode": "single",
               "target": .5, "repeat_fraction": .5, "popularity_weight_ratio": "2:1",
@@ -170,6 +183,8 @@ def run(records, router, output, digest, old_dir=None, samples=2000):
             print(f"{policy} seed {seed}: {result}", flush=True)
     report["all_skew_mechanism_checks_pass"] = all(row["checks"]["mechanism_checks_pass"]
                          for row in report["runs"] if row["policy"] != "uniform")
+    report["paired_accuracy_loss_cases"] = [{"policy": row["policy"], "seed": row["seed"]}
+        for row in report["runs"] if row["checks"].get("paired_accuracy_loss_detected")]
     write(output / "report.json", report)
     return report
 

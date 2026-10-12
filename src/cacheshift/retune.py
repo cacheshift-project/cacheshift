@@ -101,6 +101,8 @@ def load_calibration(path, dataset_sha256, router_revision, records=None):
     rule = artifact.get("threshold_rule", "observed")
     if rule not in ("observed", "midgap"):
         raise ValueError("Unknown threshold rule")
+    if rule == "midgap" and artifact.get("scoring_mode") != "single":
+        raise ValueError("Midgap calibration requires single scoring")
     expected = (calibrate_midgap if rule == "midgap" else calibrate_scores)(scores, artifact["target_strong_share"])
     if artifact.get("threshold") != expected["threshold"]:
         raise ValueError("Calibration threshold does not match its tuning scores")

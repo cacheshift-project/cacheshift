@@ -1,5 +1,7 @@
 from copy import deepcopy
+import hashlib
 import json
+from pathlib import Path
 
 import pytest
 
@@ -36,6 +38,8 @@ def test_passing_share_without_drift_is_not_a_mechanism_pass():
              "no_cache": {"accuracy": {"ci95": [.7, .9]}},
              "paired_differences": {"cache_effect": {"strong_share_of_routed": {"estimate": .01, "ci95": [-.01, .03]}}}}
     assert not checks(stats, {"estimate": .01, "ci95": [-.01, .03]})["mechanism_checks_pass"]
+    stats["paired_differences"]["retune_effect"] = {"accuracy": {"estimate": -.02, "ci95": [-.03, -.01]}}
+    assert checks(stats, {"estimate": .01, "ci95": [-.01, .03]})["paired_accuracy_loss_detected"]
 
 
 def test_canonical_stage_order_and_artifact_load(tmp_path):
@@ -59,8 +63,40 @@ def test_canonical_stage_order_and_artifact_load(tmp_path):
     assert len(result["runs"]) == 15
     artifact = load_calibration(tmp_path / "run/calibration.json", "digest", REVISION, rows)
     assert artifact["threshold_rule"] == "midgap" and artifact["scoring_mode"] == "single"
+    incompatible = {**artifact, "scoring_mode": "batch"}
+    wrong_mode = tmp_path / "wrong-mode.json"
+    wrong_mode.write_text(json.dumps(incompatible))
+    with pytest.raises(ValueError, match="single scoring"):
+        load_calibration(wrong_mode, "digest", REVISION, rows)
     artifact["threshold"] = .1
     path = tmp_path / "tampered.json"
     path.write_text(json.dumps(artifact))
     with pytest.raises(ValueError, match="threshold"):
         load_calibration(path, "digest", REVISION, rows)
+
+
+def test_published_single_calibration_and_complete_audit_provenance():
+    from cacheshift.replay_gateway import load_dataset
+
+    root = Path(__file__).parents[1]
+    dataset = root / "data/mmlu_retune_20261007/questions.jsonl"
+    digest = hashlib.sha256(dataset.read_bytes()).hexdigest()
+    records_ = load_dataset(dataset)
+    result = root / "experiments/results/controlled-drift-20261012"
+    artifact = load_calibration(result / "calibration.json", digest, REVISION, records_)
+    assert artifact["scoring_mode"] == "single"
+    single = {}
+    for split in ("tuning", "test"):
+        stage = json.loads((result / f"scores-{split}.json").read_text())
+        assert stage["dataset_sha256"] == digest and stage["scoring_mode"] == "single"
+        assert set(stage["scores"]) == {qid for qid, row in records_.items() if row["split"] == split}
+        single.update(stage["scores"])
+    audit = json.loads((result / "batch-single-audit.json").read_text())
+    reference = result / audit["paired_score_file"]
+    assert hashlib.sha256(reference.read_bytes()).hexdigest() == audit["paired_score_sha256"]
+    pairs = [json.loads(line) for line in reference.read_text().splitlines()]
+    assert {row["question_id"] for row in pairs} == set(records_)
+    assert all(row["single_score"] == single[row["question_id"]] for row in pairs)
+    assert max(abs(row["single_score"] - row["batch_score"]) for row in pairs) == audit["max_absolute_score_difference"]
+    applied = json.loads((root / "experiments/results/controlled-applied-20261012/report.json").read_text())
+    assert applied["calibration_sha256"] == hashlib.sha256((result / "calibration.json").read_bytes()).hexdigest()

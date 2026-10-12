@@ -12,6 +12,12 @@ The earlier ARC failures below remain valid; this passing benchmark mixture
 does not guarantee production behavior. Size, balance and benchmark are confounded.
 #5 remains open. See the October 5 rationale in [Retune_Followup.md](Retune_Followup.md).
 
+**Controlled follow-up, 2026-10-12:** [the single-scoring synthetic test](Controlled_Drift_20261012.md)
+shows drift correction in both engineered popularity directions. Share returns to
+50.99%, but low-score popularity has a paired accuracy loss of 1.75–2.08 points.
+The high-score case improves accuracy. This is a mechanism demonstration on
+exposed data; quality preservation across directions and real traffic remain open.
+
 **Update, 2026-10-07:** PRs #21–#24 are merged; #15 is closed. The latest
 [gateway and fresh retuning check](Gateway_Retune_Check_20261007.md) demonstrates
 #6's replay acceptance and records a new #5 failure (55.05% against 47–53%).
@@ -23,8 +29,8 @@ use the linked check for the current #5/#6 evidence and the final
 
 | Issue | Delivered | Still needed |
 |---|---|---|
-| #6: app endpoint | A tested Chat Completions replay endpoint, unchanged SDK client, real local HTTP demo and request logs | Teammate review. Compatibility is limited to the replay contract below; arbitrary live prompts are not supported. |
-| #5: re-tune | One command fits a cutoff on tuning cache misses, evaluates five seeds, saves an applicable configuration and reports paired confidence intervals | ARC runs failed (53.33%, 55.05%). Balanced MMLU meets share/accuracy but has no drift to correct. Keep #5 open pending a drift-correction test. |
+| #6: app endpoint | A tested Chat Completions replay endpoint, unchanged SDK client, real local HTTP demo and request logs | Closed by merged #27 for the replay contract; arbitrary live prompts remain unsupported. |
+| #5: re-tune | One command fits a cutoff on tuning cache misses, evaluates five seeds, saves an applicable configuration and reports paired confidence intervals | ARC runs failed (53.33%, 55.05%). Balanced MMLU meets share/accuracy but has no drift to correct. Synthetic correction is demonstrated, but low-popularity paired accuracy falls; quality-safe real-traffic correction remains open. |
 | #9: API key | One-call script, local .env configuration, bounded output, no retries, sanitized evidence and mocked success/error tests | Anthony's actual paid call and Spencer's independent laptop run. There was no .env in this checkout; no paid call was made. |
 | #15: two-model review | Initial ChatGPT/Codex review, supplied Claude initial critique, ChatGPT Round 2 response, immutable plan reference and merged evaluation correction | None. Both reviews, both cross-reviews, public chat links and the team decision are in the AI review log (closed by #24). |
 
