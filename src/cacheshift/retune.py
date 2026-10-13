@@ -12,7 +12,7 @@ import re
 import numpy as np
 
 from cacheshift.gateway import DATASET, ROOT
-from cacheshift.replay_gateway import ReplayGateway, calibrate_scores, load_dataset, validated_score
+from cacheshift.replay_gateway import ReplayGateway, calibrate_scores, calibrate_midgap, load_dataset, validated_score
 from cacheshift.router import LocalBERTRouter, REVISION
 
 SEEDS = (601, 602, 603, 604, 605)
@@ -27,6 +27,28 @@ class MemoRouter:
             self.scores[text] = validated_score(self.router, text)
         return {"router_score": self.scores[text]}
 
+    def prefetch(self, texts):
+        """Score only the declared stage's prompts; reuse exact-text results."""
+        pending = list(dict.fromkeys(text for text in texts if text not in self.scores))
+        if not pending:
+            return
+        batch = getattr(self.router, "score_many", None)
+        if batch is None:
+            for text in pending:
+                self.score(text)
+            return
+        # Small chunks bound memory and give visible progress during CPU work.
+        for start in range(0, len(pending), 32):
+            chunk = pending[start:start + 32]
+            results = batch(chunk)
+            if len(results) != len(chunk):
+                raise ValueError("Batch router returned the wrong number of scores")
+            scores = [float(result["router_score"]) for result in results]
+            if not all(math.isfinite(score) and 0 <= score <= 1 for score in scores):
+                raise ValueError("Router score must be finite and between zero and one")
+            self.scores.update(zip(chunk, scores))
+            print(f"CPU scored {min(start + 32, len(pending))}/{len(pending)} stage prompts", flush=True)
+
 
 def question_stream(records, split, seed, repeat_fraction=0.5):
     if not math.isfinite(repeat_fraction) or not 0 <= repeat_fraction < 1:
@@ -40,7 +62,7 @@ def question_stream(records, split, seed, repeat_fraction=0.5):
     return stream
 
 
-def fit(records, router, stream, target, cache_enabled):
+def fit(records, router, stream, target, cache_enabled, threshold_rule="observed"):
     """Cold, unbounded exact cache; each first occurrence is a miss."""
     seen, scores, misses = set(), [], []
     if not stream:
@@ -54,7 +76,10 @@ def fit(records, router, stream, target, cache_enabled):
             scores.append(validated_score(router, row["text"]))
             misses.append(qid)
         seen.add(key)
-    return {**calibrate_scores(scores, target), "tuning_miss_ids": misses,
+    if threshold_rule not in ("observed", "midgap"):
+        raise ValueError("Unknown threshold rule")
+    calibration = (calibrate_midgap if threshold_rule == "midgap" else calibrate_scores)(scores, target)
+    return {**calibration, "tuning_miss_ids": misses,
             "tuning_scores": scores, "tuning_request_count": len(stream),
             "cache": "exact" if cache_enabled else "none"}
 
@@ -73,7 +98,12 @@ def load_calibration(path, dataset_sha256, router_revision, records=None):
         raise ValueError("Exact-cache calibration must have unique tuning misses")
     if records is not None and any(qid not in records or records[qid]["split"] != "tuning" for qid in ids):
         raise ValueError("Calibration contains a non-tuning question")
-    expected = calibrate_scores(scores, artifact["target_strong_share"])
+    rule = artifact.get("threshold_rule", "observed")
+    if rule not in ("observed", "midgap"):
+        raise ValueError("Unknown threshold rule")
+    if rule == "midgap" and artifact.get("scoring_mode") != "single":
+        raise ValueError("Midgap calibration requires single scoring")
+    expected = (calibrate_midgap if rule == "midgap" else calibrate_scores)(scores, artifact["target_strong_share"])
     if artifact.get("threshold") != expected["threshold"]:
         raise ValueError("Calibration threshold does not match its tuning scores")
     return artifact
@@ -159,13 +189,15 @@ def run(records, router, run_dir, digest, target=0.5, repeat_fraction=0.5, sampl
               "runs": []}
     for seed in SEEDS:
         tuning_stream = question_stream(records, "tuning", seed, repeat_fraction)
+        router.prefetch(records[qid]["text"] for qid in tuning_stream)
         baseline = fit(records, router, tuning_stream, target, False)
         retuned = fit(records, router, tuning_stream, target, True)
         artifact = {**retuned, "schema": 1, "dataset_sha256": digest, "router_revision": REVISION,
                     "fit_split": "tuning", "seed": seed, "repeat_fraction": repeat_fraction}
-        (run_dir / f"calibration-{seed}.json").write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+        (run_dir / f"calibration-{seed}.json").write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8", newline="\n")
         # Test is touched only after both cutoffs have been fixed.
         stream = question_stream(records, "test", seed, repeat_fraction)
+        router.prefetch(records[qid]["text"] for qid in stream)
         events = {}
         for name, calibration, cache in (("no_cache", baseline, False),
                                          ("cache_untuned", baseline, True),
@@ -185,7 +217,7 @@ def run(records, router, run_dir, digest, target=0.5, repeat_fraction=0.5, sampl
     report["all_development_checks_pass"] = all(
         row["acceptance"]["share_within_3_percentage_points"] and row["acceptance"]["accuracy_inside_no_cache_ci"]
         for row in report["runs"])
-    (run_dir / "report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    (run_dir / "report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
     return report
 
 

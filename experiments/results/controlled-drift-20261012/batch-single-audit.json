@@ -1,0 +1,107 @@
+{
+  "old_report_sha256": "dd322b88f86ca3166f1c1c9b31cfcafa9dacd065b08b5ae423e3c118365cd5ad",
+  "questions": 3648,
+  "max_absolute_score_difference": 1.8438798726760908e-07,
+  "decision_flips_at_old_cutoffs": {
+    "601-baseline_threshold": {
+      "tuning": [
+        "mmlu-virology.val.151"
+      ],
+      "test": []
+    },
+    "601-retuned_threshold": {
+      "tuning": [],
+      "test": []
+    },
+    "602-baseline_threshold": {
+      "tuning": [
+        "mmlu-abstract-algebra.val.0"
+      ],
+      "test": []
+    },
+    "602-retuned_threshold": {
+      "tuning": [],
+      "test": []
+    },
+    "603-baseline_threshold": {
+      "tuning": [
+        "mmlu-professional-accounting.val.129"
+      ],
+      "test": []
+    },
+    "603-retuned_threshold": {
+      "tuning": [],
+      "test": []
+    },
+    "604-baseline_threshold": {
+      "tuning": [
+        "mmlu-professional-accounting.val.129"
+      ],
+      "test": []
+    },
+    "604-retuned_threshold": {
+      "tuning": [],
+      "test": []
+    },
+    "605-baseline_threshold": {
+      "tuning": [],
+      "test": []
+    },
+    "605-retuned_threshold": {
+      "tuning": [],
+      "test": []
+    }
+  },
+  "boundary_questions": [
+    {
+      "question_id": "mmlu-jurisprudence.val.57",
+      "batch_score": 0.4552205118455044,
+      "single_score": 0.45522056318662946,
+      "old_cutoff": 0.4552205118455044
+    },
+    {
+      "question_id": "mmlu-virology.val.151",
+      "batch_score": 0.4552203890309785,
+      "single_score": 0.4552203725179013,
+      "old_cutoff": 0.4552205118455044
+    },
+    {
+      "question_id": "mmlu-astronomy.val.144",
+      "batch_score": 0.4552164898656798,
+      "single_score": 0.45521645503656455,
+      "old_cutoff": 0.4552205118455044
+    },
+    {
+      "question_id": "mmlu-us-foreign-policy.val.96",
+      "batch_score": 0.4552245874779521,
+      "single_score": 0.45522462526777957,
+      "old_cutoff": 0.4552205118455044
+    },
+    {
+      "question_id": "mmlu-econometrics.val.71",
+      "batch_score": 0.4552252736073526,
+      "single_score": 0.45522524386864976,
+      "old_cutoff": 0.4552205118455044
+    },
+    {
+      "question_id": "mmlu-human-aging.val.214",
+      "batch_score": 0.4552295015992868,
+      "single_score": 0.4552294934809536,
+      "old_cutoff": 0.4552205118455044
+    },
+    {
+      "question_id": "mmlu-jurisprudence.val.97",
+      "batch_score": 0.4552363124189863,
+      "single_score": 0.4552363410253178,
+      "old_cutoff": 0.4552205118455044
+    },
+    {
+      "question_id": "mmlu-moral-disputes.val.168",
+      "batch_score": 0.45523852607807525,
+      "single_score": 0.4552385039054684,
+      "old_cutoff": 0.4552205118455044
+    }
+  ],
+  "paired_score_file": "batch-single-scores.jsonl",
+  "paired_score_sha256": "8554eb62a2b7a78901c49b2c7000b714de76907de190aeae9a2432041f0ff939"
+}
