@@ -1,0 +1,4662 @@
+{
+  "purpose": "Story 2 (#4): quality of cached answers, graded against official answer keys",
+  "dataset_sha256": "1f58859af72bf8b6eb98b4268834128a6b06ee1da74e307d274e4aae08aa66ce",
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "models": [
+    "gpt-4-1106-preview",
+    "mistralai/mixtral-8x7b-chat"
+  ],
+  "settings": [
+    "exact",
+    "cos>=0.98",
+    "cos>=0.95",
+    "cos>=0.90",
+    "cos>=0.85",
+    "cos>=0.80"
+  ],
+  "seeds": [
+    601,
+    602,
+    603,
+    604,
+    605
+  ],
+  "repeat_fraction": 0.5,
+  "bootstrap_samples": 2000,
+  "ci_method": "95% percentile bootstrap over question groups, paired within each run",
+  "labels": "Automatic. Validated by a human hand check of 50 hits (tools/hand_check.py).",
+  "limitations": "Replay mode: re-asking a question returns the identical recorded answer, so inherited errors cost no accuracy versus a fresh call here; with live models they can. Uniform repeats and no rewordings yet. Full prompts are embedded, including shared instructions.",
+  "nearest_other_question_similarity": {
+    "p50": 0.64638751745224,
+    "p90": 0.7578523755073547,
+    "p99": 0.9405589699745178,
+    "max": 0.9952220320701599
+  },
+  "runs": [
+    {
+      "seed": 601,
+      "model": "gpt-4-1106-preview",
+      "setting": "exact",
+      "counts": {
+        "requests": 1940,
+        "hits": 970,
+        "false_hits": 0,
+        "false_hit_errors": 0,
+        "inherited_errors": 43,
+        "correct_with_cache": 1858,
+        "correct_fresh": 1858
+      },
+      "hit_rate": {
+        "estimate": 0.5,
+        "ci95": [
+          0.48333993304977746,
+          0.515937050202384
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.02216494845360825,
+        "ci95": [
+          0.014010510174151562,
+          0.031234650503778338
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.02216494845360825,
+        "ci95": [
+          0.014010510174151562,
+          0.031234650503778338
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9577319587628866,
+        "ci95": [
+          0.9427402862985685,
+          0.9712395240271338
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9577319587628866,
+        "ci95": [
+          0.9427402862985685,
+          0.9712395240271338
+        ]
+      },
+      "accuracy_change": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 601,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.98",
+      "counts": {
+        "requests": 1940,
+        "hits": 973,
+        "false_hits": 3,
+        "false_hit_errors": 2,
+        "inherited_errors": 43,
+        "correct_with_cache": 1856,
+        "correct_fresh": 1858
+      },
+      "hit_rate": {
+        "estimate": 0.5015463917525773,
+        "ci95": [
+          0.48484808166819876,
+          0.5172245941432678
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0015463917525773195,
+        "ci95": [
+          0.0,
+          0.0036231884057971015
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.003083247687564234,
+        "ci95": [
+          0.0,
+          0.007246376811594203
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0010309278350515464,
+        "ci95": [
+          0.0,
+          0.0026001378244515836
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.02216494845360825,
+        "ci95": [
+          0.014010510174151562,
+          0.031234650503778338
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.023195876288659795,
+        "ci95": [
+          0.01496426206753512,
+          0.03227569777444058
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9567010309278351,
+        "ci95": [
+          0.9420553733435607,
+          0.9704426965267596
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9577319587628866,
+        "ci95": [
+          0.9427402862985685,
+          0.9712395240271338
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.0010309278350515464,
+        "ci95": [
+          -0.0026001378244515836,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 601,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.95",
+      "counts": {
+        "requests": 1940,
+        "hits": 975,
+        "false_hits": 5,
+        "false_hit_errors": 4,
+        "inherited_errors": 43,
+        "correct_with_cache": 1854,
+        "correct_fresh": 1858
+      },
+      "hit_rate": {
+        "estimate": 0.5025773195876289,
+        "ci95": [
+          0.48589637790649703,
+          0.5177987258565575
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.002577319587628866,
+        "ci95": [
+          0.0005175983436853002,
+          0.005146945820770769
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.005128205128205128,
+        "ci95": [
+          0.001036242611484783,
+          0.010215289522597494
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.002061855670103093,
+        "ci95": [
+          0.0005073566717402334,
+          0.004164497657470068
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.02216494845360825,
+        "ci95": [
+          0.014010510174151562,
+          0.031234650503778338
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.02422680412371134,
+        "ci95": [
+          0.01577163065690534,
+          0.03351969939510288
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9556701030927836,
+        "ci95": [
+          0.9409298242833557,
+          0.9695093939452947
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9577319587628866,
+        "ci95": [
+          0.9427402862985685,
+          0.9712395240271338
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.002061855670103093,
+        "ci95": [
+          -0.004164497657470068,
+          -0.0005073566717402334
+        ]
+      }
+    },
+    {
+      "seed": 601,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.90",
+      "counts": {
+        "requests": 1940,
+        "hits": 977,
+        "false_hits": 7,
+        "false_hit_errors": 5,
+        "inherited_errors": 43,
+        "correct_with_cache": 1853,
+        "correct_fresh": 1858
+      },
+      "hit_rate": {
+        "estimate": 0.5036082474226804,
+        "ci95": [
+          0.4872010277842957,
+          0.519135160623618
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0036082474226804126,
+        "ci95": [
+          0.0010564822430406495,
+          0.0066294399805914145
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.007164790174002047,
+        "ci95": [
+          0.002155114416688319,
+          0.013100546731934073
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.002577319587628866,
+        "ci95": [
+          0.0005197370267463725,
+          0.005073631102766768
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.02216494845360825,
+        "ci95": [
+          0.014010510174151562,
+          0.031234650503778338
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.024742268041237112,
+        "ci95": [
+          0.016177440561744895,
+          0.03405748845012341
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9551546391752578,
+        "ci95": [
+          0.9404263542656137,
+          0.9689839155664602
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9577319587628866,
+        "ci95": [
+          0.9427402862985685,
+          0.9712395240271338
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.002577319587628866,
+        "ci95": [
+          -0.005073631102766768,
+          -0.0005197370267463726
+        ]
+      }
+    },
+    {
+      "seed": 601,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.85",
+      "counts": {
+        "requests": 1940,
+        "hits": 983,
+        "false_hits": 24,
+        "false_hit_errors": 21,
+        "inherited_errors": 43,
+        "correct_with_cache": 1838,
+        "correct_fresh": 1858
+      },
+      "hit_rate": {
+        "estimate": 0.506701030927835,
+        "ci95": [
+          0.4898828541001065,
+          0.5224795407864321
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.012371134020618556,
+        "ci95": [
+          0.004702194357366771,
+          0.022259455688230848
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.024415055951169887,
+        "ci95": [
+          0.009462484986074998,
+          0.04400096670247045
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.010824742268041237,
+        "ci95": [
+          0.0035732060818201706,
+          0.020460928936792105
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.02216494845360825,
+        "ci95": [
+          0.014010510174151562,
+          0.031234650503778338
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.032989690721649485,
+        "ci95": [
+          0.021636760345909292,
+          0.04582904222451081
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9474226804123711,
+        "ci95": [
+          0.930638423306049,
+          0.9629060286658956
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9577319587628866,
+        "ci95": [
+          0.9427402862985685,
+          0.9712395240271338
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.010309278350515464,
+        "ci95": [
+          -0.020136460561986775,
+          -0.003094139904623141
+        ]
+      }
+    },
+    {
+      "seed": 601,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.80",
+      "counts": {
+        "requests": 1940,
+        "hits": 1001,
+        "false_hits": 62,
+        "false_hit_errors": 50,
+        "inherited_errors": 43,
+        "correct_with_cache": 1809,
+        "correct_fresh": 1858
+      },
+      "hit_rate": {
+        "estimate": 0.515979381443299,
+        "ci95": [
+          0.49867777246426803,
+          0.532404571115607
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.031958762886597936,
+        "ci95": [
+          0.01991568797330253,
+          0.04557697081079411
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.061938061938061936,
+        "ci95": [
+          0.03916956049918611,
+          0.08803293307298472
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.02577319587628866,
+        "ci95": [
+          0.014141281929240045,
+          0.039237176414189834
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.02216494845360825,
+        "ci95": [
+          0.014010510174151562,
+          0.031234650503778338
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.04793814432989691,
+        "ci95": [
+          0.03399537162598123,
+          0.06333186329530577
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9324742268041237,
+        "ci95": [
+          0.9134403501885816,
+          0.9499783282221269
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9577319587628866,
+        "ci95": [
+          0.9427402862985685,
+          0.9712395240271338
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.025257731958762887,
+        "ci95": [
+          -0.038777383758186616,
+          -0.013668984800688275
+        ]
+      }
+    },
+    {
+      "seed": 601,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "exact",
+      "counts": {
+        "requests": 1940,
+        "hits": 970,
+        "false_hits": 0,
+        "false_hit_errors": 0,
+        "inherited_errors": 165,
+        "correct_with_cache": 1616,
+        "correct_fresh": 1616
+      },
+      "hit_rate": {
+        "estimate": 0.5,
+        "ci95": [
+          0.48333993304977746,
+          0.515937050202384
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.08505154639175258,
+        "ci95": [
+          0.06711163428089532,
+          0.10348538810905313
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.08505154639175258,
+        "ci95": [
+          0.06711163428089532,
+          0.10348538810905313
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8329896907216495,
+        "ci95": [
+          0.8050859455238685,
+          0.8604324493443629
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8329896907216495,
+        "ci95": [
+          0.8050859455238685,
+          0.8604324493443629
+        ]
+      },
+      "accuracy_change": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 601,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.98",
+      "counts": {
+        "requests": 1940,
+        "hits": 973,
+        "false_hits": 3,
+        "false_hit_errors": 2,
+        "inherited_errors": 165,
+        "correct_with_cache": 1614,
+        "correct_fresh": 1616
+      },
+      "hit_rate": {
+        "estimate": 0.5015463917525773,
+        "ci95": [
+          0.48484808166819876,
+          0.5172245941432678
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0015463917525773195,
+        "ci95": [
+          0.0,
+          0.0036231884057971015
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.003083247687564234,
+        "ci95": [
+          0.0,
+          0.007246376811594203
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0010309278350515464,
+        "ci95": [
+          0.0,
+          0.0026001378244515836
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.08505154639175258,
+        "ci95": [
+          0.06711163428089532,
+          0.10348538810905313
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.08608247422680412,
+        "ci95": [
+          0.06836181666339082,
+          0.10484466557476693
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.831958762886598,
+        "ci95": [
+          0.8043021349352263,
+          0.859209403020885
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8329896907216495,
+        "ci95": [
+          0.8050859455238685,
+          0.8604324493443629
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.0010309278350515464,
+        "ci95": [
+          -0.0026001378244515836,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 601,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.95",
+      "counts": {
+        "requests": 1940,
+        "hits": 975,
+        "false_hits": 5,
+        "false_hit_errors": 3,
+        "inherited_errors": 165,
+        "correct_with_cache": 1613,
+        "correct_fresh": 1616
+      },
+      "hit_rate": {
+        "estimate": 0.5025773195876289,
+        "ci95": [
+          0.48589637790649703,
+          0.5177987258565575
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.002577319587628866,
+        "ci95": [
+          0.0005175983436853002,
+          0.005146945820770769
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.005128205128205128,
+        "ci95": [
+          0.001036242611484783,
+          0.010215289522597494
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0015463917525773195,
+        "ci95": [
+          0.0,
+          0.0035787321063394683
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.08505154639175258,
+        "ci95": [
+          0.06711163428089532,
+          0.10348538810905313
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.0865979381443299,
+        "ci95": [
+          0.06894789940751637,
+          0.10518696105833102
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8314432989690722,
+        "ci95": [
+          0.8038504765668492,
+          0.858497659828337
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8329896907216495,
+        "ci95": [
+          0.8050859455238685,
+          0.8604324493443629
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.0015463917525773195,
+        "ci95": [
+          -0.0035787321063394683,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 601,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.90",
+      "counts": {
+        "requests": 1940,
+        "hits": 977,
+        "false_hits": 7,
+        "false_hit_errors": 4,
+        "inherited_errors": 165,
+        "correct_with_cache": 1612,
+        "correct_fresh": 1616
+      },
+      "hit_rate": {
+        "estimate": 0.5036082474226804,
+        "ci95": [
+          0.4872010277842957,
+          0.519135160623618
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0036082474226804126,
+        "ci95": [
+          0.0010564822430406495,
+          0.0066294399805914145
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.007164790174002047,
+        "ci95": [
+          0.002155114416688319,
+          0.013100546731934073
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.002061855670103093,
+        "ci95": [
+          0.0005063291139240507,
+          0.004199475065616798
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.08505154639175258,
+        "ci95": [
+          0.06711163428089532,
+          0.10348538810905313
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.08711340206185567,
+        "ci95": [
+          0.06942878147796779,
+          0.1058958401572224
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8309278350515464,
+        "ci95": [
+          0.8034346622640646,
+          0.8580799240966229
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8329896907216495,
+        "ci95": [
+          0.8050859455238685,
+          0.8604324493443629
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.002061855670103093,
+        "ci95": [
+          -0.004199475065616798,
+          -0.0005063291139240507
+        ]
+      }
+    },
+    {
+      "seed": 601,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.85",
+      "counts": {
+        "requests": 1940,
+        "hits": 983,
+        "false_hits": 24,
+        "false_hit_errors": 21,
+        "inherited_errors": 161,
+        "correct_with_cache": 1601,
+        "correct_fresh": 1616
+      },
+      "hit_rate": {
+        "estimate": 0.506701030927835,
+        "ci95": [
+          0.4898828541001065,
+          0.5224795407864321
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.012371134020618556,
+        "ci95": [
+          0.004702194357366771,
+          0.022259455688230848
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.024415055951169887,
+        "ci95": [
+          0.009462484986074998,
+          0.04400096670247045
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.010824742268041237,
+        "ci95": [
+          0.0035622956675700652,
+          0.02048183569653122
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.08298969072164948,
+        "ci95": [
+          0.0654639175257732,
+          0.10167941904737521
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.09381443298969072,
+        "ci95": [
+          0.07469165209048753,
+          0.11312129620731629
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8252577319587628,
+        "ci95": [
+          0.7975119963855046,
+          0.8531371559062947
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8329896907216495,
+        "ci95": [
+          0.8050859455238685,
+          0.8604324493443629
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.007731958762886598,
+        "ci95": [
+          -0.015882781403899347,
+          -0.0020800022032033934
+        ]
+      }
+    },
+    {
+      "seed": 601,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.80",
+      "counts": {
+        "requests": 1940,
+        "hits": 1001,
+        "false_hits": 62,
+        "false_hit_errors": 53,
+        "inherited_errors": 160,
+        "correct_with_cache": 1571,
+        "correct_fresh": 1616
+      },
+      "hit_rate": {
+        "estimate": 0.515979381443299,
+        "ci95": [
+          0.49867777246426803,
+          0.532404571115607
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.031958762886597936,
+        "ci95": [
+          0.01991568797330253,
+          0.04557697081079411
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.061938061938061936,
+        "ci95": [
+          0.03916956049918611,
+          0.08803293307298472
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.02731958762886598,
+        "ci95": [
+          0.01564945226917058,
+          0.04018524650603889
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.08247422680412371,
+        "ci95": [
+          0.06468440271257173,
+          0.10125807772195791
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.10979381443298969,
+        "ci95": [
+          0.0888511297412939,
+          0.13053298281749684
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8097938144329897,
+        "ci95": [
+          0.7813940659186863,
+          0.8386312575105126
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8329896907216495,
+        "ci95": [
+          0.8050859455238685,
+          0.8604324493443629
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.023195876288659795,
+        "ci95": [
+          -0.03506276079181363,
+          -0.012585047474877398
+        ]
+      }
+    },
+    {
+      "seed": 602,
+      "model": "gpt-4-1106-preview",
+      "setting": "exact",
+      "counts": {
+        "requests": 1940,
+        "hits": 970,
+        "false_hits": 0,
+        "false_hit_errors": 0,
+        "inherited_errors": 37,
+        "correct_with_cache": 1864,
+        "correct_fresh": 1864
+      },
+      "hit_rate": {
+        "estimate": 0.5,
+        "ci95": [
+          0.4837619666779592,
+          0.5150206991099044
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.01907216494845361,
+        "ci95": [
+          0.011222749742647718,
+          0.028184452326882672
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.01907216494845361,
+        "ci95": [
+          0.011222749742647718,
+          0.028184452326882672
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9608247422680413,
+        "ci95": [
+          0.9463715949700904,
+          0.9732054835331504
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9608247422680413,
+        "ci95": [
+          0.9463715949700904,
+          0.9732054835331504
+        ]
+      },
+      "accuracy_change": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 602,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.98",
+      "counts": {
+        "requests": 1940,
+        "hits": 973,
+        "false_hits": 7,
+        "false_hit_errors": 4,
+        "inherited_errors": 37,
+        "correct_with_cache": 1860,
+        "correct_fresh": 1864
+      },
+      "hit_rate": {
+        "estimate": 0.5015463917525773,
+        "ci95": [
+          0.4851376094004887,
+          0.5170004254254255
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0036082474226804126,
+        "ci95": [
+          0.0,
+          0.008213552361396304
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.007194244604316547,
+        "ci95": [
+          0.0,
+          0.016411423039690218
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.002061855670103093,
+        "ci95": [
+          0.0,
+          0.005241090146750524
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.01907216494845361,
+        "ci95": [
+          0.011222749742647718,
+          0.028184452326882672
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.021134020618556702,
+        "ci95": [
+          0.012447488466792092,
+          0.030833667012423436
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9587628865979382,
+        "ci95": [
+          0.9438595891912135,
+          0.9717379837975255
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9608247422680413,
+        "ci95": [
+          0.9463715949700904,
+          0.9732054835331504
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.002061855670103093,
+        "ci95": [
+          -0.005241090146750524,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 602,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.95",
+      "counts": {
+        "requests": 1940,
+        "hits": 975,
+        "false_hits": 10,
+        "false_hit_errors": 7,
+        "inherited_errors": 37,
+        "correct_with_cache": 1857,
+        "correct_fresh": 1864
+      },
+      "hit_rate": {
+        "estimate": 0.5025773195876289,
+        "ci95": [
+          0.4861849096705632,
+          0.5179649700598803
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.005154639175257732,
+        "ci95": [
+          0.0010443591828507063,
+          0.010363232342797495
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.010256410256410256,
+        "ci95": [
+          0.0021117656866559216,
+          0.020661869478483894
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0036082474226804126,
+        "ci95": [
+          0.0005173038664117315,
+          0.0076886609509996965
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.01907216494845361,
+        "ci95": [
+          0.011222749742647718,
+          0.028184452326882672
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.02268041237113402,
+        "ci95": [
+          0.013705323661737087,
+          0.03241262129019237
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9572164948453609,
+        "ci95": [
+          0.9424531248297677,
+          0.9706356171544731
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9608247422680413,
+        "ci95": [
+          0.9463715949700904,
+          0.9732054835331504
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.0036082474226804126,
+        "ci95": [
+          -0.007688660950999698,
+          -0.0005173038664117317
+        ]
+      }
+    },
+    {
+      "seed": 602,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.90",
+      "counts": {
+        "requests": 1940,
+        "hits": 977,
+        "false_hits": 18,
+        "false_hit_errors": 11,
+        "inherited_errors": 37,
+        "correct_with_cache": 1853,
+        "correct_fresh": 1864
+      },
+      "hit_rate": {
+        "estimate": 0.5036082474226804,
+        "ci95": [
+          0.48721326943556975,
+          0.5190199728314071
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.009278350515463918,
+        "ci95": [
+          0.002646278526384225,
+          0.017268671866652416
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.01842374616171955,
+        "ci95": [
+          0.005396994087930592,
+          0.03402618443827229
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.005670103092783505,
+        "ci95": [
+          0.0010389475529662445,
+          0.011561149984788558
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.01907216494845361,
+        "ci95": [
+          0.011222749742647718,
+          0.028184452326882672
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.024742268041237112,
+        "ci95": [
+          0.015270994429200966,
+          0.03485554874796896
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9551546391752578,
+        "ci95": [
+          0.9398873588552557,
+          0.9691367699988389
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9608247422680413,
+        "ci95": [
+          0.9463715949700904,
+          0.9732054835331504
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.005670103092783505,
+        "ci95": [
+          -0.011561149984788561,
+          -0.0010389475529662445
+        ]
+      }
+    },
+    {
+      "seed": 602,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.85",
+      "counts": {
+        "requests": 1940,
+        "hits": 983,
+        "false_hits": 29,
+        "false_hit_errors": 22,
+        "inherited_errors": 36,
+        "correct_with_cache": 1844,
+        "correct_fresh": 1864
+      },
+      "hit_rate": {
+        "estimate": 0.506701030927835,
+        "ci95": [
+          0.4896215859499734,
+          0.5218043317617608
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.014948453608247423,
+        "ci95": [
+          0.007135122487403006,
+          0.02378520937443659
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.029501525940996948,
+        "ci95": [
+          0.014041774622464588,
+          0.046751541483304716
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.01134020618556701,
+        "ci95": [
+          0.005083819505581939,
+          0.018810009015207615
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.018556701030927835,
+        "ci95": [
+          0.010689138014002827,
+          0.027662518024532994
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.029896907216494847,
+        "ci95": [
+          0.019626555869254537,
+          0.04117382550767789
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9505154639175257,
+        "ci95": [
+          0.9348397267472413,
+          0.9648116440216211
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9608247422680413,
+        "ci95": [
+          0.9463715949700904,
+          0.9732054835331504
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.010309278350515464,
+        "ci95": [
+          -0.017285425699008202,
+          -0.0041600583503859645
+        ]
+      }
+    },
+    {
+      "seed": 602,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.80",
+      "counts": {
+        "requests": 1940,
+        "hits": 1002,
+        "false_hits": 66,
+        "false_hit_errors": 47,
+        "inherited_errors": 36,
+        "correct_with_cache": 1819,
+        "correct_fresh": 1864
+      },
+      "hit_rate": {
+        "estimate": 0.5164948453608248,
+        "ci95": [
+          0.4997344308349157,
+          0.5322440927128427
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.03402061855670103,
+        "ci95": [
+          0.022059113012102588,
+          0.04692965065037823
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.0658682634730539,
+        "ci95": [
+          0.042664803065157623,
+          0.09001211916443869
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.02422680412371134,
+        "ci95": [
+          0.014681979443384792,
+          0.0348722421754746
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.018556701030927835,
+        "ci95": [
+          0.010689138014002827,
+          0.027662518024532994
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.042783505154639176,
+        "ci95": [
+          0.030622486055549958,
+          0.056663852229452284
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9376288659793814,
+        "ci95": [
+          0.9201613088261823,
+          0.9535249132715825
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9608247422680413,
+        "ci95": [
+          0.9463715949700904,
+          0.9732054835331504
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.023195876288659795,
+        "ci95": [
+          -0.033543762019855504,
+          -0.013712377111437081
+        ]
+      }
+    },
+    {
+      "seed": 602,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "exact",
+      "counts": {
+        "requests": 1940,
+        "hits": 970,
+        "false_hits": 0,
+        "false_hit_errors": 0,
+        "inherited_errors": 151,
+        "correct_with_cache": 1630,
+        "correct_fresh": 1630
+      },
+      "hit_rate": {
+        "estimate": 0.5,
+        "ci95": [
+          0.4837619666779592,
+          0.5150206991099044
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07783505154639175,
+        "ci95": [
+          0.06173433279952019,
+          0.09447878794051048
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.07783505154639175,
+        "ci95": [
+          0.06173433279952019,
+          0.09447878794051048
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8402061855670103,
+        "ci95": [
+          0.8135392375586243,
+          0.8654236524450354
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8402061855670103,
+        "ci95": [
+          0.8135392375586243,
+          0.8654236524450354
+        ]
+      },
+      "accuracy_change": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 602,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.98",
+      "counts": {
+        "requests": 1940,
+        "hits": 973,
+        "false_hits": 7,
+        "false_hit_errors": 4,
+        "inherited_errors": 151,
+        "correct_with_cache": 1626,
+        "correct_fresh": 1630
+      },
+      "hit_rate": {
+        "estimate": 0.5015463917525773,
+        "ci95": [
+          0.4851376094004887,
+          0.5170004254254255
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0036082474226804126,
+        "ci95": [
+          0.0,
+          0.008213552361396304
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.007194244604316547,
+        "ci95": [
+          0.0,
+          0.016411423039690218
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.002061855670103093,
+        "ci95": [
+          0.0,
+          0.005241090146750524
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07783505154639175,
+        "ci95": [
+          0.06173433279952019,
+          0.09447878794051048
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.07989690721649484,
+        "ci95": [
+          0.06350705020972736,
+          0.09737434086693465
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8381443298969072,
+        "ci95": [
+          0.8111012112030703,
+          0.8640066404725842
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8402061855670103,
+        "ci95": [
+          0.8135392375586243,
+          0.8654236524450354
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.002061855670103093,
+        "ci95": [
+          -0.005241090146750524,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 602,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.95",
+      "counts": {
+        "requests": 1940,
+        "hits": 975,
+        "false_hits": 10,
+        "false_hit_errors": 7,
+        "inherited_errors": 150,
+        "correct_with_cache": 1625,
+        "correct_fresh": 1630
+      },
+      "hit_rate": {
+        "estimate": 0.5025773195876289,
+        "ci95": [
+          0.4861849096705632,
+          0.5179649700598803
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.005154639175257732,
+        "ci95": [
+          0.0010443591828507063,
+          0.010363232342797495
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.010256410256410256,
+        "ci95": [
+          0.0021117656866559216,
+          0.020661869478483894
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0036082474226804126,
+        "ci95": [
+          0.0005173038664117315,
+          0.0076886609509996965
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07731958762886598,
+        "ci95": [
+          0.061200911409890875,
+          0.09398861168888313
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.0809278350515464,
+        "ci95": [
+          0.06449878382857858,
+          0.09834482487892128
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8376288659793815,
+        "ci95": [
+          0.8103335266784129,
+          0.8635001883260577
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8402061855670103,
+        "ci95": [
+          0.8135392375586243,
+          0.8654236524450354
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.002577319587628866,
+        "ci95": [
+          -0.005860637956802815,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 602,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.90",
+      "counts": {
+        "requests": 1940,
+        "hits": 977,
+        "false_hits": 18,
+        "false_hit_errors": 11,
+        "inherited_errors": 150,
+        "correct_with_cache": 1621,
+        "correct_fresh": 1630
+      },
+      "hit_rate": {
+        "estimate": 0.5036082474226804,
+        "ci95": [
+          0.48721326943556975,
+          0.5190199728314071
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.009278350515463918,
+        "ci95": [
+          0.002646278526384225,
+          0.017268671866652416
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.01842374616171955,
+        "ci95": [
+          0.005396994087930592,
+          0.03402618443827229
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.005670103092783505,
+        "ci95": [
+          0.0010389475529662445,
+          0.011561149984788558
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07731958762886598,
+        "ci95": [
+          0.061200911409890875,
+          0.09398861168888313
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.08298969072164948,
+        "ci95": [
+          0.06601744768859015,
+          0.10061888323980914
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8355670103092784,
+        "ci95": [
+          0.8082322221318914,
+          0.861825435947027
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8402061855670103,
+        "ci95": [
+          0.8135392375586243,
+          0.8654236524450354
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.004639175257731959,
+        "ci95": [
+          -0.01033645257508059,
+          -0.0005167958656330749
+        ]
+      }
+    },
+    {
+      "seed": 602,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.85",
+      "counts": {
+        "requests": 1940,
+        "hits": 983,
+        "false_hits": 29,
+        "false_hit_errors": 20,
+        "inherited_errors": 149,
+        "correct_with_cache": 1614,
+        "correct_fresh": 1630
+      },
+      "hit_rate": {
+        "estimate": 0.506701030927835,
+        "ci95": [
+          0.4896215859499734,
+          0.5218043317617608
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.014948453608247423,
+        "ci95": [
+          0.007135122487403006,
+          0.02378520937443659
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.029501525940996948,
+        "ci95": [
+          0.014041774622464588,
+          0.046751541483304716
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.010309278350515464,
+        "ci95": [
+          0.004138591095387305,
+          0.01718775686014163
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07680412371134021,
+        "ci95": [
+          0.06060019701660569,
+          0.09363846301165861
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.08711340206185567,
+        "ci95": [
+          0.07055166644229474,
+          0.10494769958613022
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.831958762886598,
+        "ci95": [
+          0.8053043875487057,
+          0.8583002231535405
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8402061855670103,
+        "ci95": [
+          0.8135392375586243,
+          0.8654236524450354
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.008247422680412371,
+        "ci95": [
+          -0.014659877845093098,
+          -0.002627395874271937
+        ]
+      }
+    },
+    {
+      "seed": 602,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.80",
+      "counts": {
+        "requests": 1940,
+        "hits": 1002,
+        "false_hits": 66,
+        "false_hit_errors": 45,
+        "inherited_errors": 147,
+        "correct_with_cache": 1593,
+        "correct_fresh": 1630
+      },
+      "hit_rate": {
+        "estimate": 0.5164948453608248,
+        "ci95": [
+          0.4997344308349157,
+          0.5322440927128427
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.03402061855670103,
+        "ci95": [
+          0.022059113012102588,
+          0.04692965065037823
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.0658682634730539,
+        "ci95": [
+          0.042664803065157623,
+          0.09001211916443869
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.023195876288659795,
+        "ci95": [
+          0.01381605073513624,
+          0.03363800187557617
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07577319587628865,
+        "ci95": [
+          0.059887108116433364,
+          0.09196623983349721
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.09896907216494845,
+        "ci95": [
+          0.08068546743661449,
+          0.11791515721120985
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8211340206185567,
+        "ci95": [
+          0.7946179450506342,
+          0.8480618633467712
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8402061855670103,
+        "ci95": [
+          0.8135392375586243,
+          0.8654236524450354
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.01907216494845361,
+        "ci95": [
+          -0.029429992950245898,
+          -0.009513240292236469
+        ]
+      }
+    },
+    {
+      "seed": 603,
+      "model": "gpt-4-1106-preview",
+      "setting": "exact",
+      "counts": {
+        "requests": 1940,
+        "hits": 970,
+        "false_hits": 0,
+        "false_hit_errors": 0,
+        "inherited_errors": 34,
+        "correct_with_cache": 1867,
+        "correct_fresh": 1867
+      },
+      "hit_rate": {
+        "estimate": 0.5,
+        "ci95": [
+          0.48459086078639746,
+          0.5157425226856307
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.01752577319587629,
+        "ci95": [
+          0.011076194780788353,
+          0.02488631520798637
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.01752577319587629,
+        "ci95": [
+          0.011076194780788353,
+          0.02488631520798637
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9623711340206186,
+        "ci95": [
+          0.9493732029475705,
+          0.9735477178423236
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9623711340206186,
+        "ci95": [
+          0.9493732029475705,
+          0.9735477178423236
+        ]
+      },
+      "accuracy_change": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 603,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.98",
+      "counts": {
+        "requests": 1940,
+        "hits": 973,
+        "false_hits": 8,
+        "false_hit_errors": 4,
+        "inherited_errors": 34,
+        "correct_with_cache": 1863,
+        "correct_fresh": 1867
+      },
+      "hit_rate": {
+        "estimate": 0.5015463917525773,
+        "ci95": [
+          0.4859263386019403,
+          0.5172087058268201
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.004123711340206186,
+        "ci95": [
+          0.0,
+          0.010015814443858724
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.008221993833504625,
+        "ci95": [
+          0.0,
+          0.01977626924284747
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.002061855670103093,
+        "ci95": [
+          0.0,
+          0.005765274740858735
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.01752577319587629,
+        "ci95": [
+          0.011076194780788353,
+          0.02488631520798637
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.01958762886597938,
+        "ci95": [
+          0.012570389403639436,
+          0.027821745005580698
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9603092783505155,
+        "ci95": [
+          0.9468931945953981,
+          0.9723361745727241
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9623711340206186,
+        "ci95": [
+          0.9493732029475705,
+          0.9735477178423236
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.002061855670103093,
+        "ci95": [
+          -0.005765274740858736,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 603,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.95",
+      "counts": {
+        "requests": 1940,
+        "hits": 975,
+        "false_hits": 11,
+        "false_hit_errors": 7,
+        "inherited_errors": 34,
+        "correct_with_cache": 1860,
+        "correct_fresh": 1867
+      },
+      "hit_rate": {
+        "estimate": 0.5025773195876289,
+        "ci95": [
+          0.4867159060076424,
+          0.5184861305941445
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.005670103092783505,
+        "ci95": [
+          0.0010240524380254296,
+          0.0120075611177814
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.011282051282051283,
+        "ci95": [
+          0.002028346188071707,
+          0.023906981676633743
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0036082474226804126,
+        "ci95": [
+          0.000510986203372509,
+          0.008113590263691683
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.01752577319587629,
+        "ci95": [
+          0.011076194780788353,
+          0.02488631520798637
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.021134020618556702,
+        "ci95": [
+          0.013740283289198822,
+          0.029611708552885016
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9587628865979382,
+        "ci95": [
+          0.9454170684890986,
+          0.9710073053503767
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9623711340206186,
+        "ci95": [
+          0.9493732029475705,
+          0.9735477178423236
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.0036082474226804126,
+        "ci95": [
+          -0.008113590263691683,
+          -0.000510986203372509
+        ]
+      }
+    },
+    {
+      "seed": 603,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.90",
+      "counts": {
+        "requests": 1940,
+        "hits": 977,
+        "false_hits": 13,
+        "false_hit_errors": 8,
+        "inherited_errors": 34,
+        "correct_with_cache": 1859,
+        "correct_fresh": 1867
+      },
+      "hit_rate": {
+        "estimate": 0.5036082474226804,
+        "ci95": [
+          0.48801938082922214,
+          0.5192610793605533
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.006701030927835051,
+        "ci95": [
+          0.0015648637617829133,
+          0.013258995174896133
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.01330603889457523,
+        "ci95": [
+          0.003157399251266241,
+          0.026402893160516187
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.004123711340206186,
+        "ci95": [
+          0.001001001001001001,
+          0.008493074005913325
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.01752577319587629,
+        "ci95": [
+          0.011076194780788353,
+          0.02488631520798637
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.021649484536082474,
+        "ci95": [
+          0.014194838812185329,
+          0.030132258622525006
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9582474226804124,
+        "ci95": [
+          0.9449492499721918,
+          0.97042229579024
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9623711340206186,
+        "ci95": [
+          0.9493732029475705,
+          0.9735477178423236
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.004123711340206186,
+        "ci95": [
+          -0.008493074005913329,
+          -0.001001001001001001
+        ]
+      }
+    },
+    {
+      "seed": 603,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.85",
+      "counts": {
+        "requests": 1940,
+        "hits": 983,
+        "false_hits": 21,
+        "false_hit_errors": 16,
+        "inherited_errors": 33,
+        "correct_with_cache": 1853,
+        "correct_fresh": 1867
+      },
+      "hit_rate": {
+        "estimate": 0.506701030927835,
+        "ci95": [
+          0.49124645192008354,
+          0.5223669190039049
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.010824742268041237,
+        "ci95": [
+          0.004665629860031105,
+          0.017995785703974174
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.021363173957273652,
+        "ci95": [
+          0.009278111628993385,
+          0.03539017758092049
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.008247422680412371,
+        "ci95": [
+          0.0036061106176108926,
+          0.014099585220812933
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.017010309278350514,
+        "ci95": [
+          0.010663931522147665,
+          0.02437823310256777
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.025257731958762887,
+        "ci95": [
+          0.017372718653359365,
+          0.03428660574994428
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9551546391752578,
+        "ci95": [
+          0.9414126604773723,
+          0.9678747607366041
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9623711340206186,
+        "ci95": [
+          0.9493732029475705,
+          0.9735477178423236
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.007216494845360825,
+        "ci95": [
+          -0.01274876026392199,
+          -0.003036207445961019
+        ]
+      }
+    },
+    {
+      "seed": 603,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.80",
+      "counts": {
+        "requests": 1940,
+        "hits": 1001,
+        "false_hits": 49,
+        "false_hit_errors": 42,
+        "inherited_errors": 33,
+        "correct_with_cache": 1827,
+        "correct_fresh": 1867
+      },
+      "hit_rate": {
+        "estimate": 0.515979381443299,
+        "ci95": [
+          0.5002644103648863,
+          0.5315775845799908
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.025257731958762887,
+        "ci95": [
+          0.01599484296251209,
+          0.03650395805280124
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.04895104895104895,
+        "ci95": [
+          0.0311587147030185,
+          0.0701570939304265
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.021649484536082474,
+        "ci95": [
+          0.01324164719037912,
+          0.032110448257831437
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.017010309278350514,
+        "ci95": [
+          0.010663931522147665,
+          0.02437823310256777
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.03865979381443299,
+        "ci95": [
+          0.02833586528028728,
+          0.050177486601977184
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9417525773195876,
+        "ci95": [
+          0.9265167806587666,
+          0.9558152863669624
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9623711340206186,
+        "ci95": [
+          0.9493732029475705,
+          0.9735477178423236
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.020618556701030927,
+        "ci95": [
+          -0.030645868567792497,
+          -0.01247912292237217
+        ]
+      }
+    },
+    {
+      "seed": 603,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "exact",
+      "counts": {
+        "requests": 1940,
+        "hits": 970,
+        "false_hits": 0,
+        "false_hit_errors": 0,
+        "inherited_errors": 148,
+        "correct_with_cache": 1633,
+        "correct_fresh": 1633
+      },
+      "hit_rate": {
+        "estimate": 0.5,
+        "ci95": [
+          0.48459086078639746,
+          0.5157425226856307
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07628865979381444,
+        "ci95": [
+          0.061649383839111,
+          0.09271574357452123
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.07628865979381444,
+        "ci95": [
+          0.061649383839111,
+          0.09271574357452123
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8417525773195876,
+        "ci95": [
+          0.8158673343069537,
+          0.8658685698685699
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8417525773195876,
+        "ci95": [
+          0.8158673343069537,
+          0.8658685698685699
+        ]
+      },
+      "accuracy_change": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 603,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.98",
+      "counts": {
+        "requests": 1940,
+        "hits": 973,
+        "false_hits": 8,
+        "false_hit_errors": 4,
+        "inherited_errors": 148,
+        "correct_with_cache": 1629,
+        "correct_fresh": 1633
+      },
+      "hit_rate": {
+        "estimate": 0.5015463917525773,
+        "ci95": [
+          0.4859263386019403,
+          0.5172087058268201
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.004123711340206186,
+        "ci95": [
+          0.0,
+          0.010015814443858724
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.008221993833504625,
+        "ci95": [
+          0.0,
+          0.01977626924284747
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.002061855670103093,
+        "ci95": [
+          0.0,
+          0.005765274740858735
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07628865979381444,
+        "ci95": [
+          0.061649383839111,
+          0.09271574357452123
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.07835051546391752,
+        "ci95": [
+          0.06319521715238897,
+          0.09465503051078031
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8396907216494846,
+        "ci95": [
+          0.81427265999466,
+          0.8633358230189215
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8417525773195876,
+        "ci95": [
+          0.8158673343069537,
+          0.8658685698685699
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.002061855670103093,
+        "ci95": [
+          -0.005765274740858736,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 603,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.95",
+      "counts": {
+        "requests": 1940,
+        "hits": 975,
+        "false_hits": 11,
+        "false_hit_errors": 7,
+        "inherited_errors": 148,
+        "correct_with_cache": 1627,
+        "correct_fresh": 1633
+      },
+      "hit_rate": {
+        "estimate": 0.5025773195876289,
+        "ci95": [
+          0.4867159060076424,
+          0.5184861305941445
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.005670103092783505,
+        "ci95": [
+          0.0010240524380254296,
+          0.0120075611177814
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.011282051282051283,
+        "ci95": [
+          0.002028346188071707,
+          0.023906981676633743
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0036082474226804126,
+        "ci95": [
+          0.000510986203372509,
+          0.008113590263691683
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07628865979381444,
+        "ci95": [
+          0.061649383839111,
+          0.09271574357452123
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.07989690721649484,
+        "ci95": [
+          0.06509928055273834,
+          0.0967263864942937
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.838659793814433,
+        "ci95": [
+          0.8128233720674936,
+          0.8628161145956256
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8417525773195876,
+        "ci95": [
+          0.8158673343069537,
+          0.8658685698685699
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.003092783505154639,
+        "ci95": [
+          -0.007397313408459905,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 603,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.90",
+      "counts": {
+        "requests": 1940,
+        "hits": 977,
+        "false_hits": 13,
+        "false_hit_errors": 8,
+        "inherited_errors": 148,
+        "correct_with_cache": 1626,
+        "correct_fresh": 1633
+      },
+      "hit_rate": {
+        "estimate": 0.5036082474226804,
+        "ci95": [
+          0.48801938082922214,
+          0.5192610793605533
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.006701030927835051,
+        "ci95": [
+          0.0015648637617829133,
+          0.013258995174896133
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.01330603889457523,
+        "ci95": [
+          0.003157399251266241,
+          0.026402893160516187
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.004123711340206186,
+        "ci95": [
+          0.001001001001001001,
+          0.008493074005913325
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07628865979381444,
+        "ci95": [
+          0.061649383839111,
+          0.09271574357452123
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.08041237113402062,
+        "ci95": [
+          0.0652384259929191,
+          0.09707859699739328
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8381443298969072,
+        "ci95": [
+          0.8123414334466003,
+          0.8623513346249059
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8417525773195876,
+        "ci95": [
+          0.8158673343069537,
+          0.8658685698685699
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.0036082474226804126,
+        "ci95": [
+          -0.008029927531169219,
+          -0.0005112409127530245
+        ]
+      }
+    },
+    {
+      "seed": 603,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.85",
+      "counts": {
+        "requests": 1940,
+        "hits": 983,
+        "false_hits": 21,
+        "false_hit_errors": 16,
+        "inherited_errors": 146,
+        "correct_with_cache": 1622,
+        "correct_fresh": 1633
+      },
+      "hit_rate": {
+        "estimate": 0.506701030927835,
+        "ci95": [
+          0.49124645192008354,
+          0.5223669190039049
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.010824742268041237,
+        "ci95": [
+          0.004665629860031105,
+          0.017995785703974174
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.021363173957273652,
+        "ci95": [
+          0.009278111628993385,
+          0.03539017758092049
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.008247422680412371,
+        "ci95": [
+          0.0036061106176108926,
+          0.014099585220812933
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07525773195876288,
+        "ci95": [
+          0.06048009296117355,
+          0.09154701281189159
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.08350515463917525,
+        "ci95": [
+          0.06804077683193946,
+          0.10015690282212834
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8360824742268042,
+        "ci95": [
+          0.810980606603782,
+          0.8602825887130062
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8417525773195876,
+        "ci95": [
+          0.8158673343069537,
+          0.8658685698685699
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.005670103092783505,
+        "ci95": [
+          -0.010466411118487269,
+          -0.0015894289141310952
+        ]
+      }
+    },
+    {
+      "seed": 603,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.80",
+      "counts": {
+        "requests": 1940,
+        "hits": 1001,
+        "false_hits": 49,
+        "false_hit_errors": 43,
+        "inherited_errors": 146,
+        "correct_with_cache": 1597,
+        "correct_fresh": 1633
+      },
+      "hit_rate": {
+        "estimate": 0.515979381443299,
+        "ci95": [
+          0.5002644103648863,
+          0.5315775845799908
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.025257731958762887,
+        "ci95": [
+          0.01599484296251209,
+          0.03650395805280124
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.04895104895104895,
+        "ci95": [
+          0.0311587147030185,
+          0.0701570939304265
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.02216494845360825,
+        "ci95": [
+          0.013505270092226613,
+          0.032644420780486766
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07525773195876288,
+        "ci95": [
+          0.06048009296117355,
+          0.09154701281189159
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.09742268041237113,
+        "ci95": [
+          0.08041729494037861,
+          0.11536619765198501
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8231958762886598,
+        "ci95": [
+          0.7970924492970944,
+          0.8491604453240323
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8417525773195876,
+        "ci95": [
+          0.8158673343069537,
+          0.8658685698685699
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.018556701030927835,
+        "ci95": [
+          -0.028293166154962236,
+          -0.010735239195047026
+        ]
+      }
+    },
+    {
+      "seed": 604,
+      "model": "gpt-4-1106-preview",
+      "setting": "exact",
+      "counts": {
+        "requests": 1940,
+        "hits": 970,
+        "false_hits": 0,
+        "false_hit_errors": 0,
+        "inherited_errors": 36,
+        "correct_with_cache": 1865,
+        "correct_fresh": 1865
+      },
+      "hit_rate": {
+        "estimate": 0.5,
+        "ci95": [
+          0.48455242721576436,
+          0.515
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.018556701030927835,
+        "ci95": [
+          0.010689104484030805,
+          0.028004906066200957
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.018556701030927835,
+        "ci95": [
+          0.010689104484030805,
+          0.028004906066200957
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.961340206185567,
+        "ci95": [
+          0.9470310869408759,
+          0.974332782635559
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.961340206185567,
+        "ci95": [
+          0.9470310869408759,
+          0.974332782635559
+        ]
+      },
+      "accuracy_change": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 604,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.98",
+      "counts": {
+        "requests": 1940,
+        "hits": 973,
+        "false_hits": 6,
+        "false_hit_errors": 3,
+        "inherited_errors": 36,
+        "correct_with_cache": 1862,
+        "correct_fresh": 1865
+      },
+      "hit_rate": {
+        "estimate": 0.5015463917525773,
+        "ci95": [
+          0.48595542488731347,
+          0.517156927422865
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.003092783505154639,
+        "ci95": [
+          0.0,
+          0.007474589312593512
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.006166495375128468,
+        "ci95": [
+          0.0,
+          0.014615361830950805
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0015463917525773195,
+        "ci95": [
+          0.0,
+          0.004167212041884813
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.018556701030927835,
+        "ci95": [
+          0.010689104484030805,
+          0.028004906066200957
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.020103092783505156,
+        "ci95": [
+          0.011953641919928228,
+          0.029771907435234946
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9597938144329897,
+        "ci95": [
+          0.945198410284486,
+          0.9729025867149195
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.961340206185567,
+        "ci95": [
+          0.9470310869408759,
+          0.974332782635559
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.0015463917525773195,
+        "ci95": [
+          -0.004167212041884817,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 604,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.95",
+      "counts": {
+        "requests": 1940,
+        "hits": 975,
+        "false_hits": 9,
+        "false_hit_errors": 6,
+        "inherited_errors": 36,
+        "correct_with_cache": 1859,
+        "correct_fresh": 1865
+      },
+      "hit_rate": {
+        "estimate": 0.5025773195876289,
+        "ci95": [
+          0.48722756682163176,
+          0.518036524402868
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.004639175257731959,
+        "ci95": [
+          0.0010230179028132991,
+          0.00979482828541546
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.009230769230769232,
+        "ci95": [
+          0.0020242914979757085,
+          0.0194821896210785
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.003092783505154639,
+        "ci95": [
+          0.0005088929163254772,
+          0.006800416977130732
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.018556701030927835,
+        "ci95": [
+          0.010689104484030805,
+          0.028004906066200957
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.021649484536082474,
+        "ci95": [
+          0.013071810009942295,
+          0.03158471218043488
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9582474226804124,
+        "ci95": [
+          0.943479041957758,
+          0.9717722935911215
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.961340206185567,
+        "ci95": [
+          0.9470310869408759,
+          0.974332782635559
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.003092783505154639,
+        "ci95": [
+          -0.006800416977130739,
+          -0.0005088929163254773
+        ]
+      }
+    },
+    {
+      "seed": 604,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.90",
+      "counts": {
+        "requests": 1940,
+        "hits": 977,
+        "false_hits": 12,
+        "false_hit_errors": 7,
+        "inherited_errors": 36,
+        "correct_with_cache": 1858,
+        "correct_fresh": 1865
+      },
+      "hit_rate": {
+        "estimate": 0.5036082474226804,
+        "ci95": [
+          0.4880382775119617,
+          0.5188549897570969
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.006185567010309278,
+        "ci95": [
+          0.002050204392871247,
+          0.011844224641607119
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.012282497441146366,
+        "ci95": [
+          0.004056795131845842,
+          0.023552915481276616
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0036082474226804126,
+        "ci95": [
+          0.0005378803502127899,
+          0.007508927232830402
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.018556701030927835,
+        "ci95": [
+          0.010689104484030805,
+          0.028004906066200957
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.02216494845360825,
+        "ci95": [
+          0.013587864438264164,
+          0.0323093220338983
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9577319587628866,
+        "ci95": [
+          0.9429727589096224,
+          0.9712358109642648
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.961340206185567,
+        "ci95": [
+          0.9470310869408759,
+          0.974332782635559
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.0036082474226804126,
+        "ci95": [
+          -0.00750892723283041,
+          -0.0005378803502127901
+        ]
+      }
+    },
+    {
+      "seed": 604,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.85",
+      "counts": {
+        "requests": 1940,
+        "hits": 983,
+        "false_hits": 23,
+        "false_hit_errors": 18,
+        "inherited_errors": 35,
+        "correct_with_cache": 1849,
+        "correct_fresh": 1865
+      },
+      "hit_rate": {
+        "estimate": 0.506701030927835,
+        "ci95": [
+          0.49122807017543857,
+          0.5217179665284681
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.011855670103092783,
+        "ci95": [
+          0.005693141100833926,
+          0.019054493443256708
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.023397761953204477,
+        "ci95": [
+          0.011316001899335234,
+          0.0376982137648379
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.009278350515463918,
+        "ci95": [
+          0.004132124794241316,
+          0.015562803160694723
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.01804123711340206,
+        "ci95": [
+          0.010179376534883846,
+          0.02724555069324068
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.02731958762886598,
+        "ci95": [
+          0.017941432367766526,
+          0.03840443479490331
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9530927835051546,
+        "ci95": [
+          0.9372080954852102,
+          0.9669260665508613
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.961340206185567,
+        "ci95": [
+          0.9470310869408759,
+          0.974332782635559
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.008247422680412371,
+        "ci95": [
+          -0.014031349679622749,
+          -0.0031494413119784867
+        ]
+      }
+    },
+    {
+      "seed": 604,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.80",
+      "counts": {
+        "requests": 1940,
+        "hits": 1001,
+        "false_hits": 64,
+        "false_hit_errors": 43,
+        "inherited_errors": 35,
+        "correct_with_cache": 1824,
+        "correct_fresh": 1865
+      },
+      "hit_rate": {
+        "estimate": 0.515979381443299,
+        "ci95": [
+          0.500265808996977,
+          0.5321295406063155
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.032989690721649485,
+        "ci95": [
+          0.02063943922081622,
+          0.04600327380952379
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.06393606393606394,
+        "ci95": [
+          0.040261654194831915,
+          0.08875958690864909
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.02216494845360825,
+        "ci95": [
+          0.012857620573610876,
+          0.03316362898191936
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.01804123711340206,
+        "ci95": [
+          0.010179376534883846,
+          0.02724555069324068
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.04020618556701031,
+        "ci95": [
+          0.027556713953772776,
+          0.05356954153878217
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9402061855670103,
+        "ci95": [
+          0.9226750652353409,
+          0.9561189445094377
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.961340206185567,
+        "ci95": [
+          0.9470310869408759,
+          0.974332782635559
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.021134020618556702,
+        "ci95": [
+          -0.03214489901989902,
+          -0.01140756995425047
+        ]
+      }
+    },
+    {
+      "seed": 604,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "exact",
+      "counts": {
+        "requests": 1940,
+        "hits": 970,
+        "false_hits": 0,
+        "false_hit_errors": 0,
+        "inherited_errors": 146,
+        "correct_with_cache": 1635,
+        "correct_fresh": 1635
+      },
+      "hit_rate": {
+        "estimate": 0.5,
+        "ci95": [
+          0.48455242721576436,
+          0.515
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07525773195876288,
+        "ci95": [
+          0.06072926741172252,
+          0.08984377411351305
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.07525773195876288,
+        "ci95": [
+          0.06072926741172252,
+          0.08984377411351305
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8427835051546392,
+        "ci95": [
+          0.8189167492729862,
+          0.8669145395275875
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8427835051546392,
+        "ci95": [
+          0.8189167492729862,
+          0.8669145395275875
+        ]
+      },
+      "accuracy_change": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 604,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.98",
+      "counts": {
+        "requests": 1940,
+        "hits": 973,
+        "false_hits": 6,
+        "false_hit_errors": 3,
+        "inherited_errors": 146,
+        "correct_with_cache": 1632,
+        "correct_fresh": 1635
+      },
+      "hit_rate": {
+        "estimate": 0.5015463917525773,
+        "ci95": [
+          0.48595542488731347,
+          0.517156927422865
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.003092783505154639,
+        "ci95": [
+          0.0,
+          0.007474589312593512
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.006166495375128468,
+        "ci95": [
+          0.0,
+          0.014615361830950805
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0015463917525773195,
+        "ci95": [
+          0.0,
+          0.004167212041884813
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07525773195876288,
+        "ci95": [
+          0.06072926741172252,
+          0.08984377411351305
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.07680412371134021,
+        "ci95": [
+          0.06182141698628046,
+          0.09142277454825606
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8412371134020619,
+        "ci95": [
+          0.8171473472107976,
+          0.8655567664545968
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8427835051546392,
+        "ci95": [
+          0.8189167492729862,
+          0.8669145395275875
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.0015463917525773195,
+        "ci95": [
+          -0.004167212041884817,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 604,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.95",
+      "counts": {
+        "requests": 1940,
+        "hits": 975,
+        "false_hits": 9,
+        "false_hit_errors": 4,
+        "inherited_errors": 146,
+        "correct_with_cache": 1631,
+        "correct_fresh": 1635
+      },
+      "hit_rate": {
+        "estimate": 0.5025773195876289,
+        "ci95": [
+          0.48722756682163176,
+          0.518036524402868
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.004639175257731959,
+        "ci95": [
+          0.0010230179028132991,
+          0.00979482828541546
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.009230769230769232,
+        "ci95": [
+          0.0020242914979757085,
+          0.0194821896210785
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.002061855670103093,
+        "ci95": [
+          0.0,
+          0.004747464663006561
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07525773195876288,
+        "ci95": [
+          0.06072926741172252,
+          0.08984377411351305
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.07731958762886598,
+        "ci95": [
+          0.062399011932323535,
+          0.09203756657229938
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8407216494845361,
+        "ci95": [
+          0.8165737227259389,
+          0.8647278520283886
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8427835051546392,
+        "ci95": [
+          0.8189167492729862,
+          0.8669145395275875
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.002061855670103093,
+        "ci95": [
+          -0.004747464663006564,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 604,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.90",
+      "counts": {
+        "requests": 1940,
+        "hits": 977,
+        "false_hits": 12,
+        "false_hit_errors": 5,
+        "inherited_errors": 146,
+        "correct_with_cache": 1630,
+        "correct_fresh": 1635
+      },
+      "hit_rate": {
+        "estimate": 0.5036082474226804,
+        "ci95": [
+          0.4880382775119617,
+          0.5188549897570969
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.006185567010309278,
+        "ci95": [
+          0.002050204392871247,
+          0.011844224641607119
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.012282497441146366,
+        "ci95": [
+          0.004056795131845842,
+          0.023552915481276616
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.002577319587628866,
+        "ci95": [
+          0.0005058168942842691,
+          0.0056268146513773
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07525773195876288,
+        "ci95": [
+          0.06072926741172252,
+          0.08984377411351305
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.07783505154639175,
+        "ci95": [
+          0.06269199941333324,
+          0.09270593057506471
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8402061855670103,
+        "ci95": [
+          0.815920203972338,
+          0.8642169425682917
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8427835051546392,
+        "ci95": [
+          0.8189167492729862,
+          0.8669145395275875
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.002577319587628866,
+        "ci95": [
+          -0.005626814651377301,
+          -0.0005058168942842691
+        ]
+      }
+    },
+    {
+      "seed": 604,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.85",
+      "counts": {
+        "requests": 1940,
+        "hits": 983,
+        "false_hits": 23,
+        "false_hit_errors": 16,
+        "inherited_errors": 144,
+        "correct_with_cache": 1623,
+        "correct_fresh": 1635
+      },
+      "hit_rate": {
+        "estimate": 0.506701030927835,
+        "ci95": [
+          0.49122807017543857,
+          0.5217179665284681
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.011855670103092783,
+        "ci95": [
+          0.005693141100833926,
+          0.019054493443256708
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.023397761953204477,
+        "ci95": [
+          0.011316001899335234,
+          0.0376982137648379
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.008247422680412371,
+        "ci95": [
+          0.003571383040722663,
+          0.014070931262933975
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07422680412371134,
+        "ci95": [
+          0.05974953021076188,
+          0.08886766502230038
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.08247422680412371,
+        "ci95": [
+          0.06728750610086315,
+          0.09809400227613566
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8365979381443299,
+        "ci95": [
+          0.8121693743795453,
+          0.8604416251583773
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8427835051546392,
+        "ci95": [
+          0.8189167492729862,
+          0.8669145395275875
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.006185567010309278,
+        "ci95": [
+          -0.011077122666809698,
+          -0.0021106513860917535
+        ]
+      }
+    },
+    {
+      "seed": 604,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.80",
+      "counts": {
+        "requests": 1940,
+        "hits": 1001,
+        "false_hits": 64,
+        "false_hit_errors": 48,
+        "inherited_errors": 144,
+        "correct_with_cache": 1592,
+        "correct_fresh": 1635
+      },
+      "hit_rate": {
+        "estimate": 0.515979381443299,
+        "ci95": [
+          0.500265808996977,
+          0.5321295406063155
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.032989690721649485,
+        "ci95": [
+          0.02063943922081622,
+          0.04600327380952379
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.06393606393606394,
+        "ci95": [
+          0.040261654194831915,
+          0.08875958690864909
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.024742268041237112,
+        "ci95": [
+          0.01440218423551757,
+          0.035958336750052236
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.07422680412371134,
+        "ci95": [
+          0.05974953021076188,
+          0.08886766502230038
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.09896907216494845,
+        "ci95": [
+          0.08168206250039803,
+          0.11702251105527087
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8206185567010309,
+        "ci95": [
+          0.7953464984348201,
+          0.8457238977690982
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8427835051546392,
+        "ci95": [
+          0.8189167492729862,
+          0.8669145395275875
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.02216494845360825,
+        "ci95": [
+          -0.03340224673787191,
+          -0.012151051740006141
+        ]
+      }
+    },
+    {
+      "seed": 605,
+      "model": "gpt-4-1106-preview",
+      "setting": "exact",
+      "counts": {
+        "requests": 1940,
+        "hits": 970,
+        "false_hits": 0,
+        "false_hit_errors": 0,
+        "inherited_errors": 43,
+        "correct_with_cache": 1858,
+        "correct_fresh": 1858
+      },
+      "hit_rate": {
+        "estimate": 0.5,
+        "ci95": [
+          0.48427183594793316,
+          0.5152275397498455
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.02216494845360825,
+        "ci95": [
+          0.013621818794661626,
+          0.031674381556403855
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.02216494845360825,
+        "ci95": [
+          0.013621818794661626,
+          0.031674381556403855
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9577319587628866,
+        "ci95": [
+          0.943104959405798,
+          0.9714593343568757
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9577319587628866,
+        "ci95": [
+          0.943104959405798,
+          0.9714593343568757
+        ]
+      },
+      "accuracy_change": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 605,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.98",
+      "counts": {
+        "requests": 1940,
+        "hits": 973,
+        "false_hits": 4,
+        "false_hit_errors": 3,
+        "inherited_errors": 43,
+        "correct_with_cache": 1855,
+        "correct_fresh": 1858
+      },
+      "hit_rate": {
+        "estimate": 0.5015463917525773,
+        "ci95": [
+          0.4856036402362281,
+          0.5164839285714287
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.002061855670103093,
+        "ci95": [
+          0.0,
+          0.004989041782217844
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.0041109969167523125,
+        "ci95": [
+          0.0,
+          0.00983284169124877
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0015463917525773195,
+        "ci95": [
+          0.0,
+          0.0041668841336116895
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.02216494845360825,
+        "ci95": [
+          0.013621818794661626,
+          0.031674381556403855
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.023711340206185566,
+        "ci95": [
+          0.015041104099929052,
+          0.033510861167241175
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9561855670103093,
+        "ci95": [
+          0.9411468618110315,
+          0.9696694630519043
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9577319587628866,
+        "ci95": [
+          0.943104959405798,
+          0.9714593343568757
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.0015463917525773195,
+        "ci95": [
+          -0.004166884133611691,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 605,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.95",
+      "counts": {
+        "requests": 1940,
+        "hits": 975,
+        "false_hits": 7,
+        "false_hit_errors": 6,
+        "inherited_errors": 43,
+        "correct_with_cache": 1852,
+        "correct_fresh": 1858
+      },
+      "hit_rate": {
+        "estimate": 0.5025773195876289,
+        "ci95": [
+          0.4866818513026685,
+          0.5177066205052088
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0036082474226804126,
+        "ci95": [
+          0.0009992041016528772,
+          0.007364738882199135
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.0071794871794871795,
+        "ci95": [
+          0.0019349200646832068,
+          0.014690836985371271
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.003092783505154639,
+        "ci95": [
+          0.0005104515073020375,
+          0.006732524963953489
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.02216494845360825,
+        "ci95": [
+          0.013621818794661626,
+          0.031674381556403855
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.025257731958762887,
+        "ci95": [
+          0.01628044650285468,
+          0.03530171113614879
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.954639175257732,
+        "ci95": [
+          0.9395544126014034,
+          0.9686237860070982
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9577319587628866,
+        "ci95": [
+          0.943104959405798,
+          0.9714593343568757
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.003092783505154639,
+        "ci95": [
+          -0.006732524963953491,
+          -0.0005104515073020376
+        ]
+      }
+    },
+    {
+      "seed": 605,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.90",
+      "counts": {
+        "requests": 1940,
+        "hits": 977,
+        "false_hits": 14,
+        "false_hit_errors": 8,
+        "inherited_errors": 43,
+        "correct_with_cache": 1850,
+        "correct_fresh": 1858
+      },
+      "hit_rate": {
+        "estimate": 0.5036082474226804,
+        "ci95": [
+          0.48750531135390773,
+          0.5187456932052419
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.007216494845360825,
+        "ci95": [
+          0.0020219903851826835,
+          0.014272063431045767
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.014329580348004094,
+        "ci95": [
+          0.003951698133659552,
+          0.02819777628351438
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.004123711340206186,
+        "ci95": [
+          0.0010070493454179255,
+          0.008618526243560975
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.02216494845360825,
+        "ci95": [
+          0.013621818794661626,
+          0.031674381556403855
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.026288659793814433,
+        "ci95": [
+          0.017159352003940188,
+          0.036492930916993814
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9536082474226805,
+        "ci95": [
+          0.9383252314049327,
+          0.9674647926195725
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9577319587628866,
+        "ci95": [
+          0.943104959405798,
+          0.9714593343568757
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.004123711340206186,
+        "ci95": [
+          -0.008618526243560987,
+          -0.0010070493454179255
+        ]
+      }
+    },
+    {
+      "seed": 605,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.85",
+      "counts": {
+        "requests": 1940,
+        "hits": 983,
+        "false_hits": 21,
+        "false_hit_errors": 14,
+        "inherited_errors": 43,
+        "correct_with_cache": 1845,
+        "correct_fresh": 1858
+      },
+      "hit_rate": {
+        "estimate": 0.506701030927835,
+        "ci95": [
+          0.4904661016949153,
+          0.5221945137157107
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.010824742268041237,
+        "ci95": [
+          0.0046364873215139525,
+          0.01836427146920519
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.021363173957273652,
+        "ci95": [
+          0.009173612665025734,
+          0.03626955704561617
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.007216494845360825,
+        "ci95": [
+          0.0030471547958346766,
+          0.012339490304357485
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.02216494845360825,
+        "ci95": [
+          0.013621818794661626,
+          0.031674381556403855
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.029381443298969072,
+        "ci95": [
+          0.019786771539746943,
+          0.039960567576550206
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9510309278350515,
+        "ci95": [
+          0.935638174617087,
+          0.9653070065946868
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9577319587628866,
+        "ci95": [
+          0.943104959405798,
+          0.9714593343568757
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.006701030927835051,
+        "ci95": [
+          -0.012158208766678426,
+          -0.0025047289091899524
+        ]
+      }
+    },
+    {
+      "seed": 605,
+      "model": "gpt-4-1106-preview",
+      "setting": "cos>=0.80",
+      "counts": {
+        "requests": 1940,
+        "hits": 1001,
+        "false_hits": 49,
+        "false_hit_errors": 40,
+        "inherited_errors": 43,
+        "correct_with_cache": 1819,
+        "correct_fresh": 1858
+      },
+      "hit_rate": {
+        "estimate": 0.515979381443299,
+        "ci95": [
+          0.4992074805945855,
+          0.5316593953291168
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.025257731958762887,
+        "ci95": [
+          0.015832448435617628,
+          0.03593834307553956
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.04895104895104895,
+        "ci95": [
+          0.030949547010567978,
+          0.06920839174298365
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.020618556701030927,
+        "ci95": [
+          0.011941229641825256,
+          0.03055422617719107
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.02216494845360825,
+        "ci95": [
+          0.013621818794661626,
+          0.031674381556403855
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.042783505154639176,
+        "ci95": [
+          0.03062523717586625,
+          0.05591079494117007
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.9376288659793814,
+        "ci95": [
+          0.9203305263605861,
+          0.9534898560015196
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.9577319587628866,
+        "ci95": [
+          0.943104959405798,
+          0.9714593343568757
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.020103092783505156,
+        "ci95": [
+          -0.030239885717649434,
+          -0.011252765884077132
+        ]
+      }
+    },
+    {
+      "seed": 605,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "exact",
+      "counts": {
+        "requests": 1940,
+        "hits": 970,
+        "false_hits": 0,
+        "false_hit_errors": 0,
+        "inherited_errors": 170,
+        "correct_with_cache": 1611,
+        "correct_fresh": 1611
+      },
+      "hit_rate": {
+        "estimate": 0.5,
+        "ci95": [
+          0.48427183594793316,
+          0.5152275397498455
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.08762886597938144,
+        "ci95": [
+          0.07201585214405727,
+          0.10380330539673438
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.08762886597938144,
+        "ci95": [
+          0.07201585214405727,
+          0.10380330539673438
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8304123711340207,
+        "ci95": [
+          0.8036320486541334,
+          0.8565510419233824
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8304123711340207,
+        "ci95": [
+          0.8036320486541334,
+          0.8565510419233824
+        ]
+      },
+      "accuracy_change": {
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 605,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.98",
+      "counts": {
+        "requests": 1940,
+        "hits": 973,
+        "false_hits": 4,
+        "false_hit_errors": 3,
+        "inherited_errors": 170,
+        "correct_with_cache": 1608,
+        "correct_fresh": 1611
+      },
+      "hit_rate": {
+        "estimate": 0.5015463917525773,
+        "ci95": [
+          0.4856036402362281,
+          0.5164839285714287
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.002061855670103093,
+        "ci95": [
+          0.0,
+          0.004989041782217844
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.0041109969167523125,
+        "ci95": [
+          0.0,
+          0.00983284169124877
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0015463917525773195,
+        "ci95": [
+          0.0,
+          0.0041668841336116895
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.08762886597938144,
+        "ci95": [
+          0.07201585214405727,
+          0.10380330539673438
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.08917525773195877,
+        "ci95": [
+          0.07282983427203368,
+          0.10532189502639266
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8288659793814434,
+        "ci95": [
+          0.8019481446702228,
+          0.8552089570973522
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8304123711340207,
+        "ci95": [
+          0.8036320486541334,
+          0.8565510419233824
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.0015463917525773195,
+        "ci95": [
+          -0.004166884133611691,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 605,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.95",
+      "counts": {
+        "requests": 1940,
+        "hits": 975,
+        "false_hits": 7,
+        "false_hit_errors": 5,
+        "inherited_errors": 170,
+        "correct_with_cache": 1606,
+        "correct_fresh": 1611
+      },
+      "hit_rate": {
+        "estimate": 0.5025773195876289,
+        "ci95": [
+          0.4866818513026685,
+          0.5177066205052088
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.0036082474226804126,
+        "ci95": [
+          0.0009992041016528772,
+          0.007364738882199135
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.0071794871794871795,
+        "ci95": [
+          0.0019349200646832068,
+          0.014690836985371271
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.002577319587628866,
+        "ci95": [
+          0.0,
+          0.006182459886231457
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.08762886597938144,
+        "ci95": [
+          0.07201585214405727,
+          0.10380330539673438
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.09020618556701031,
+        "ci95": [
+          0.07418661533010366,
+          0.10668727213312232
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8278350515463917,
+        "ci95": [
+          0.8009237421383648,
+          0.854139069869303
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8304123711340207,
+        "ci95": [
+          0.8036320486541334,
+          0.8565510419233824
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.002577319587628866,
+        "ci95": [
+          -0.006182459886231457,
+          0.0
+        ]
+      }
+    },
+    {
+      "seed": 605,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.90",
+      "counts": {
+        "requests": 1940,
+        "hits": 977,
+        "false_hits": 14,
+        "false_hit_errors": 7,
+        "inherited_errors": 170,
+        "correct_with_cache": 1604,
+        "correct_fresh": 1611
+      },
+      "hit_rate": {
+        "estimate": 0.5036082474226804,
+        "ci95": [
+          0.48750531135390773,
+          0.5187456932052419
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.007216494845360825,
+        "ci95": [
+          0.0020219903851826835,
+          0.014272063431045767
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.014329580348004094,
+        "ci95": [
+          0.003951698133659552,
+          0.02819777628351438
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.0036082474226804126,
+        "ci95": [
+          0.0005104580116885958,
+          0.007866482212347856
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.08762886597938144,
+        "ci95": [
+          0.07201585214405727,
+          0.10380330539673438
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.09123711340206185,
+        "ci95": [
+          0.07484354931271009,
+          0.1080247303082992
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8268041237113402,
+        "ci95": [
+          0.7995911727908069,
+          0.852990824810954
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8304123711340207,
+        "ci95": [
+          0.8036320486541334,
+          0.8565510419233824
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.0036082474226804126,
+        "ci95": [
+          -0.007866482212347859,
+          -0.0005104580116885958
+        ]
+      }
+    },
+    {
+      "seed": 605,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.85",
+      "counts": {
+        "requests": 1940,
+        "hits": 983,
+        "false_hits": 21,
+        "false_hit_errors": 14,
+        "inherited_errors": 170,
+        "correct_with_cache": 1599,
+        "correct_fresh": 1611
+      },
+      "hit_rate": {
+        "estimate": 0.506701030927835,
+        "ci95": [
+          0.4904661016949153,
+          0.5221945137157107
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.010824742268041237,
+        "ci95": [
+          0.0046364873215139525,
+          0.01836427146920519
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.021363173957273652,
+        "ci95": [
+          0.009173612665025734,
+          0.03626955704561617
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.007216494845360825,
+        "ci95": [
+          0.003050021558242649,
+          0.012422682071251566
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.08762886597938144,
+        "ci95": [
+          0.07201585214405727,
+          0.10380330539673438
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.09484536082474226,
+        "ci95": [
+          0.07857049364248317,
+          0.11155986946990322
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8242268041237113,
+        "ci95": [
+          0.7970559676260514,
+          0.8505425442612338
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8304123711340207,
+        "ci95": [
+          0.8036320486541334,
+          0.8565510419233824
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.006185567010309278,
+        "ci95": [
+          -0.011224776427424902,
+          -0.00206393029268137
+        ]
+      }
+    },
+    {
+      "seed": 605,
+      "model": "mistralai/mixtral-8x7b-chat",
+      "setting": "cos>=0.80",
+      "counts": {
+        "requests": 1940,
+        "hits": 1001,
+        "false_hits": 49,
+        "false_hit_errors": 44,
+        "inherited_errors": 169,
+        "correct_with_cache": 1571,
+        "correct_fresh": 1611
+      },
+      "hit_rate": {
+        "estimate": 0.515979381443299,
+        "ci95": [
+          0.4992074805945855,
+          0.5316593953291168
+        ]
+      },
+      "false_hit_rate": {
+        "estimate": 0.025257731958762887,
+        "ci95": [
+          0.015832448435617628,
+          0.03593834307553956
+        ]
+      },
+      "false_hits_per_hit": {
+        "estimate": 0.04895104895104895,
+        "ci95": [
+          0.030949547010567978,
+          0.06920839174298365
+        ]
+      },
+      "false_hit_error_rate": {
+        "estimate": 0.02268041237113402,
+        "ci95": [
+          0.013647995705082318,
+          0.03281480960796914
+        ]
+      },
+      "inherited_error_rate": {
+        "estimate": 0.08711340206185567,
+        "ci95": [
+          0.07124099925035962,
+          0.10322687050091378
+        ]
+      },
+      "wrong_cached_answer_rate": {
+        "estimate": 0.10979381443298969,
+        "ci95": [
+          0.09187819040326697,
+          0.1286008230452675
+        ]
+      },
+      "accuracy_with_cache": {
+        "estimate": 0.8097938144329897,
+        "ci95": [
+          0.7819931931426821,
+          0.8369061035174106
+        ]
+      },
+      "accuracy_fresh": {
+        "estimate": 0.8304123711340207,
+        "ci95": [
+          0.8036320486541334,
+          0.8565510419233824
+        ]
+      },
+      "accuracy_change": {
+        "estimate": -0.020618556701030927,
+        "ci95": [
+          -0.030715359076032223,
+          -0.011903000845308546
+        ]
+      }
+    }
+  ],
+  "hits_file": {
+    "path": "raw/hits-601.jsonl",
+    "sha256": "1ae30508ba680fb4d086579610259db7a06c380b5dec748e7d247f6fdeb54552",
+    "note": "Every cache hit for the first seed; kept local (gitignored), used for the hand check"
+  }
+}

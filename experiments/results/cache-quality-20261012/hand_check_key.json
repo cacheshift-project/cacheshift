@@ -1,0 +1,456 @@
+{
+  "hits_file": "experiments/results/cache-quality-20261012/raw/hits-601.jsonl",
+  "seed": 0,
+  "items": {
+    "1": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.80",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.273",
+      "matched_question_id": "arc-challenge.test.368"
+    },
+    "2": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.80",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.511",
+      "matched_question_id": "arc-challenge.test.215"
+    },
+    "3": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.80",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.test.511",
+      "matched_question_id": "arc-challenge.test.215"
+    },
+    "4": {
+      "same_question": true,
+      "served_correct": true,
+      "label": "hit_ok",
+      "setting": "exact",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.test.990",
+      "matched_question_id": "arc-challenge.test.990"
+    },
+    "5": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.80",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.test.735",
+      "matched_question_id": "arc-challenge.test.1079"
+    },
+    "6": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.95",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.819",
+      "matched_question_id": "arc-challenge.test.484"
+    },
+    "7": {
+      "same_question": true,
+      "served_correct": false,
+      "label": "inherited_error",
+      "setting": "exact",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.456",
+      "matched_question_id": "arc-challenge.test.456"
+    },
+    "8": {
+      "same_question": true,
+      "served_correct": true,
+      "label": "hit_ok",
+      "setting": "exact",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.val.228",
+      "matched_question_id": "arc-challenge.val.228"
+    },
+    "9": {
+      "same_question": true,
+      "served_correct": true,
+      "label": "hit_ok",
+      "setting": "exact",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.1143",
+      "matched_question_id": "arc-challenge.test.1143"
+    },
+    "10": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.80",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.val.234",
+      "matched_question_id": "arc-challenge.test.1171"
+    },
+    "11": {
+      "same_question": true,
+      "served_correct": true,
+      "label": "hit_ok",
+      "setting": "exact",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.1094",
+      "matched_question_id": "arc-challenge.test.1094"
+    },
+    "12": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.80",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.val.136",
+      "matched_question_id": "arc-challenge.test.948"
+    },
+    "13": {
+      "same_question": true,
+      "served_correct": true,
+      "label": "hit_ok",
+      "setting": "exact",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.653",
+      "matched_question_id": "arc-challenge.test.653"
+    },
+    "14": {
+      "same_question": true,
+      "served_correct": false,
+      "label": "inherited_error",
+      "setting": "exact",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.765",
+      "matched_question_id": "arc-challenge.test.765"
+    },
+    "15": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.80",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.val.136",
+      "matched_question_id": "arc-challenge.test.948"
+    },
+    "16": {
+      "same_question": true,
+      "served_correct": true,
+      "label": "hit_ok",
+      "setting": "exact",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.test.757",
+      "matched_question_id": "arc-challenge.test.757"
+    },
+    "17": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.85",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.test.345",
+      "matched_question_id": "arc-challenge.test.1171"
+    },
+    "18": {
+      "same_question": false,
+      "served_correct": true,
+      "label": "false_hit_lucky",
+      "setting": "cos>=0.90",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.test.590",
+      "matched_question_id": "arc-challenge.test.215"
+    },
+    "19": {
+      "same_question": true,
+      "served_correct": true,
+      "label": "hit_ok",
+      "setting": "exact",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.1018",
+      "matched_question_id": "arc-challenge.test.1018"
+    },
+    "20": {
+      "same_question": true,
+      "served_correct": false,
+      "label": "inherited_error",
+      "setting": "exact",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.150",
+      "matched_question_id": "arc-challenge.test.150"
+    },
+    "21": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.98",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.val.168",
+      "matched_question_id": "arc-challenge.test.623"
+    },
+    "22": {
+      "same_question": true,
+      "served_correct": false,
+      "label": "inherited_error",
+      "setting": "exact",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.91",
+      "matched_question_id": "arc-challenge.test.91"
+    },
+    "23": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.85",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.813",
+      "matched_question_id": "arc-challenge.test.730"
+    },
+    "24": {
+      "same_question": true,
+      "served_correct": true,
+      "label": "hit_ok",
+      "setting": "exact",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.val.280",
+      "matched_question_id": "arc-challenge.val.280"
+    },
+    "25": {
+      "same_question": false,
+      "served_correct": true,
+      "label": "false_hit_lucky",
+      "setting": "cos>=0.98",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.1081",
+      "matched_question_id": "arc-challenge.test.771"
+    },
+    "26": {
+      "same_question": true,
+      "served_correct": false,
+      "label": "inherited_error",
+      "setting": "exact",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.test.829",
+      "matched_question_id": "arc-challenge.test.829"
+    },
+    "27": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.85",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.1039",
+      "matched_question_id": "arc-challenge.test.548"
+    },
+    "28": {
+      "same_question": true,
+      "served_correct": false,
+      "label": "inherited_error",
+      "setting": "exact",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.test.86",
+      "matched_question_id": "arc-challenge.test.86"
+    },
+    "29": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.85",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.821",
+      "matched_question_id": "arc-challenge.test.571"
+    },
+    "30": {
+      "same_question": true,
+      "served_correct": false,
+      "label": "inherited_error",
+      "setting": "exact",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.test.434",
+      "matched_question_id": "arc-challenge.test.434"
+    },
+    "31": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.98",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.test.340",
+      "matched_question_id": "arc-challenge.test.980"
+    },
+    "32": {
+      "same_question": true,
+      "served_correct": false,
+      "label": "inherited_error",
+      "setting": "exact",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.test.628",
+      "matched_question_id": "arc-challenge.test.628"
+    },
+    "33": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.80",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.600",
+      "matched_question_id": "arc-challenge.val.20"
+    },
+    "34": {
+      "same_question": true,
+      "served_correct": false,
+      "label": "inherited_error",
+      "setting": "exact",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.test.69",
+      "matched_question_id": "arc-challenge.test.69"
+    },
+    "35": {
+      "same_question": false,
+      "served_correct": true,
+      "label": "false_hit_lucky",
+      "setting": "cos>=0.90",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.590",
+      "matched_question_id": "arc-challenge.test.215"
+    },
+    "36": {
+      "same_question": true,
+      "served_correct": true,
+      "label": "hit_ok",
+      "setting": "exact",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.719",
+      "matched_question_id": "arc-challenge.test.719"
+    },
+    "37": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.85",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.1090",
+      "matched_question_id": "arc-challenge.test.312"
+    },
+    "38": {
+      "same_question": true,
+      "served_correct": false,
+      "label": "inherited_error",
+      "setting": "exact",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.test.301",
+      "matched_question_id": "arc-challenge.test.301"
+    },
+    "39": {
+      "same_question": false,
+      "served_correct": true,
+      "label": "false_hit_lucky",
+      "setting": "cos>=0.80",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.161",
+      "matched_question_id": "arc-challenge.test.826"
+    },
+    "40": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.95",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.183",
+      "matched_question_id": "arc-challenge.test.386"
+    },
+    "41": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.85",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.test.1090",
+      "matched_question_id": "arc-challenge.test.312"
+    },
+    "42": {
+      "same_question": false,
+      "served_correct": true,
+      "label": "false_hit_lucky",
+      "setting": "cos>=0.80",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.test.240",
+      "matched_question_id": "arc-challenge.test.722"
+    },
+    "43": {
+      "same_question": false,
+      "served_correct": false,
+      "label": "false_hit_error",
+      "setting": "cos>=0.80",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.test.959",
+      "matched_question_id": "arc-challenge.test.97"
+    },
+    "44": {
+      "same_question": true,
+      "served_correct": false,
+      "label": "inherited_error",
+      "setting": "exact",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.48",
+      "matched_question_id": "arc-challenge.test.48"
+    },
+    "45": {
+      "same_question": true,
+      "served_correct": true,
+      "label": "hit_ok",
+      "setting": "exact",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.603",
+      "matched_question_id": "arc-challenge.test.603"
+    },
+    "46": {
+      "same_question": false,
+      "served_correct": true,
+      "label": "false_hit_lucky",
+      "setting": "cos>=0.85",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.345",
+      "matched_question_id": "arc-challenge.test.1171"
+    },
+    "47": {
+      "same_question": true,
+      "served_correct": true,
+      "label": "hit_ok",
+      "setting": "exact",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.val.43",
+      "matched_question_id": "arc-challenge.val.43"
+    },
+    "48": {
+      "same_question": true,
+      "served_correct": true,
+      "label": "hit_ok",
+      "setting": "exact",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.test.319",
+      "matched_question_id": "arc-challenge.test.319"
+    },
+    "49": {
+      "same_question": true,
+      "served_correct": true,
+      "label": "hit_ok",
+      "setting": "exact",
+      "model": "gpt-4-1106-preview",
+      "question_id": "arc-challenge.test.751",
+      "matched_question_id": "arc-challenge.test.751"
+    },
+    "50": {
+      "same_question": true,
+      "served_correct": false,
+      "label": "inherited_error",
+      "setting": "exact",
+      "model": "mistralai/mixtral-8x7b-chat",
+      "question_id": "arc-challenge.val.251",
+      "matched_question_id": "arc-challenge.val.251"
+    }
+  }
+}
