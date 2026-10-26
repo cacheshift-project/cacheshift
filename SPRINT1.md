@@ -24,7 +24,7 @@ For **engineers who run an LLM feature under a monthly budget, with a cache in f
 
 - **Data: RouterBench (11 models' recorded answers, scores, costs).** **Done:** `data/load_routerbench.py` downloads and safety-checks it: 36,497 questions, 11 models (GPT-4 avg. score 0.78; Mixtral 0.55); 20-question sample committed. **Gap:** no answer keys; ARC keys joined for 500 questions so far.
 - **Router: RouteLLM's released routers.** **Done:** `python -m cacheshift.score_router` scores 10 questions on CPU with the BERT router, no GPU or API key ([notes](docs/sprints/Sprint_1/RouteLLM_Feasibility.md)).
-- **API keys (OpenAI and/or Anthropic) for live mode and the rewording check.** **Not yet:** `scripts/check_api.py` is tested with mocked calls only (#9); the replay demo does not need it.
+- **API keys (OpenAI and/or Anthropic) for live mode and the rewording check.** **Not yet:** `scripts/check_api.py` supports OpenAI and Anthropic (`--provider anthropic`) and is tested with mocked calls only (#9); the replay demo does not need it.
 - **Repo runs on a second machine.** **Done:** fresh install and `pytest` pass on Spencer's Mac and Anthony's Windows laptop.
 - **GPU (energy stretch goal only).** BU shared GPU access requested; not needed for the minimum project.
 

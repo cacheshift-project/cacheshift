@@ -152,16 +152,22 @@ so raw hashes differ even when deterministic decisions and summary results agree
 
 ## #9: one real API call on each laptop
 
-Copy `.env.example` to `.env`, then privately fill `OPENAI_API_KEY` and
-`OPENAI_MODEL` with a Chat Completions model your account can access. Choose a
-model that can give a short text response within the 32-token output cap.
+Copy `.env.example` to `.env`, then privately fill the key and model for the
+provider you will use. Choose a model that can give a short text response within
+the 32-token output cap (a reasoning model may spend the cap thinking and fail).
+
+- **Anthropic (team choice, 2026-10-25):** `ANTHROPIC_API_KEY` and
+  `ANTHROPIC_MODEL`, e.g. `claude-haiku-5-5`; add `--provider anthropic`.
+- **OpenAI:** `OPENAI_API_KEY` and `OPENAI_MODEL` with a Chat Completions model;
+  this is the default provider.
 
 ```powershell
-.venv/Scripts/python.exe scripts/check_api.py --output experiments/results/api-anthony.json
+.venv/Scripts/python.exe -m pip install -e ".[dev]"   # once, installs the Anthropic SDK
+.venv/Scripts/python.exe scripts/check_api.py --provider anthropic --output experiments/results/api-anthony.json
 ```
 
-The script sends only “Reply with OK.” to the official OpenAI endpoint, with no
-automatic retries. A real call can incur a small provider charge. It prints only
+The script sends only “Reply with OK.” to the provider's official endpoint, with no
+automatic retries or redirects. A real call can incur a small provider charge. It prints only
 success metadata and token usage, never the key. Errors omit provider response
 bodies. `--env` can point to another local .env; do not upload it. Spencer must run
 the same command with his own .env and a different evidence filename. Mocked tests
