@@ -47,10 +47,31 @@ Even a passing engineered test leaves real-traffic drift correction unverified.
 
 ## Results
 
-Protocol/code commit `cfe2af5` was pushed before this run started. All 15 cutoffs
-were frozen before single-question test scoring. Each policy exposes the same
-unique tuning-miss pool; the replacement is fit once on that pool, while baseline
-fits count all 3,648 incoming tuning requests per policy/seed.
+The protocol was frozen in commit `cfe2af5`, pushed before this run started. The
+committed `report.json` and the other artifacts in this run's directory were produced
+by the code in commit `4ecee44` (both commits are on the
+`codex/story3-balanced-calibration` branch; PR #28 squash-merged them into main
+as `5467e48`). After the freeze, `4ecee44` added only reporting outputs: the
+descriptive `paired_accuracy_loss_detected` flag and `paired_accuracy_loss_cases`
+list, the audit's `paired_score_file` export (`batch-single-scores.jsonl`), and a
+load-time check that `midgap` calibrations use single scoring. It did not change
+stream sampling, scoring, fitting, cutoffs or routing. All 15 cutoffs were frozen
+before single-question test scoring. Each policy exposes the same unique
+tuning-miss pool; the replacement is fit once on that pool, while baseline fits
+count all 3,648 incoming tuning requests per policy/seed.
+
+**The retuned 50.99% is guaranteed by the design, not a measured recovery.**
+Every cache here starts empty, never evicts and matches exact text, so every
+question misses once: on its first appearance, and never again. The router
+therefore sees each unique test question exactly once whatever the repeat policy,
+and the miss set never changes. The replacement cutoff is fit on the unique tuning
+questions (exactly 50% strong); applied to the unique test questions it gives
+930/1,824 = 50.99% in all 15 runs, the uniform control included. The untuned drift
+is equally mechanical: that cutoff is fit on the incoming stream, so the
+score-weighted repeats move it before the cache removes those repeats. This test
+shows that refitting on misses behaves as intended in a cold exact cache. It does
+not show that re-tuning recovers a target when the miss mix itself shifts (a warm,
+bounded or semantic cache, or traffic whose new questions change over time).
 
 The [full report](../../../experiments/results/controlled-drift-20261012/report.json)
 records all scenarios and failures/controls, paired intervals, quality warnings
@@ -74,7 +95,7 @@ the issue's marginal-baseline-interval check, but paired accuracy tells more:
 
 | Policy | Paired retuned-minus-untuned accuracy | Paired 95% intervals |
 |---|---:|---|
-| High-score popularity | +1.37 to +1.65 points | All above zero |
+| High-score popularity | +1.37 to +1.64 points | All above zero |
 | Low-score popularity | −1.75 to −2.08 points | All below zero |
 
 Thus high-score popularity demonstrates correction with an accuracy improvement;
