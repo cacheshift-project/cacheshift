@@ -1,0 +1,202 @@
+{
+  "scope": "Assumption A6 feasibility check: one GPU, batch size 1, greedy decoding",
+  "started": "2026-10-26T21:07:02.062967+00:00",
+  "host": "scc-j08",
+  "gpu": {
+    "name": "NVIDIA L40S",
+    "driver": "610.57.04",
+    "memory_gib": 45.0,
+    "compute_capability": "8.9",
+    "power_limit_w": 350.0,
+    "nvml_target": [
+      "index",
+      0
+    ],
+    "cuda_visible_devices": "0",
+    "gpus_in_node": 4
+  },
+  "versions": {
+    "python": "3.12.11",
+    "torch": "2.8.0+cu128",
+    "transformers": "4.55.0",
+    "bitsandbytes": "0.50.2",
+    "accelerate": "1.15.0",
+    "pynvml": null,
+    "cuda_runtime": "12.8"
+  },
+  "model": "meta-llama/Llama-3.1-8B-Instruct",
+  "settings": {
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "idle_seconds": 300,
+    "load_seconds": 300,
+    "load_tokens": 128,
+    "skip_model": false,
+    "output": "report.json"
+  },
+  "idle": {
+    "seconds": 300.027,
+    "joules": 10040.842,
+    "mean_watts": 33.47,
+    "power_samples": 300,
+    "sampled_watts_min_mean_max": [
+      33.15,
+      33.58,
+      33.93
+    ]
+  },
+  "models": [
+    {
+      "precision": "full",
+      "dtype": "bfloat16",
+      "model_revision": "0e9e39f249a16976918f6564b8830bc894c89659",
+      "torch_gpu": {
+        "name": "NVIDIA L40S",
+        "uuid": "a73a44d4-da0e-32fd-370a-4ea52d23d2bf"
+      },
+      "load_seconds": 47.7,
+      "ten_questions": {
+        "seconds": 0.839,
+        "joules": 175.43,
+        "mean_watts": 209.14,
+        "requests": 10,
+        "input_tokens": 1182,
+        "output_tokens": 24,
+        "joules_per_output_token": 7.3096,
+        "output_tokens_per_second": 28.61,
+        "joules_per_request": 17.543,
+        "answers": [
+          {
+            "question_id": "arc-challenge.test.248",
+            "answer": "A)"
+          },
+          {
+            "question_id": "arc-challenge.val.254",
+            "answer": "A"
+          },
+          {
+            "question_id": "arc-challenge.val.169",
+            "answer": "C"
+          },
+          {
+            "question_id": "arc-challenge.test.794",
+            "answer": "A"
+          },
+          {
+            "question_id": "arc-challenge.test.529",
+            "answer": "B"
+          },
+          {
+            "question_id": "arc-challenge.val.297",
+            "answer": "A"
+          },
+          {
+            "question_id": "arc-challenge.test.270",
+            "answer": "A"
+          },
+          {
+            "question_id": "arc-challenge.test.1043",
+            "answer": "C)"
+          },
+          {
+            "question_id": "arc-challenge.test.242",
+            "answer": "D)"
+          },
+          {
+            "question_id": "arc-challenge.test.700",
+            "answer": "D)"
+          }
+        ]
+      },
+      "sustained_load": {
+        "seconds": 302.037,
+        "joules": 78742.441,
+        "mean_watts": 260.7,
+        "requests": 98,
+        "input_tokens": 7675,
+        "output_tokens": 12544,
+        "joules_per_output_token": 6.2773,
+        "output_tokens_per_second": 41.53,
+        "joules_per_request": 803.494,
+        "batch_size": 1,
+        "output_tokens_per_request": 128
+      }
+    },
+    {
+      "precision": "4bit",
+      "dtype": "bfloat16",
+      "model_revision": "0e9e39f249a16976918f6564b8830bc894c89659",
+      "torch_gpu": {
+        "name": "NVIDIA L40S",
+        "uuid": "a73a44d4-da0e-32fd-370a-4ea52d23d2bf"
+      },
+      "load_seconds": 13.6,
+      "ten_questions": {
+        "seconds": 0.727,
+        "joules": 177.996,
+        "mean_watts": 244.68,
+        "requests": 10,
+        "input_tokens": 1182,
+        "output_tokens": 28,
+        "joules_per_output_token": 6.357,
+        "output_tokens_per_second": 38.49,
+        "joules_per_request": 17.8,
+        "answers": [
+          {
+            "question_id": "arc-challenge.test.248",
+            "answer": "A)"
+          },
+          {
+            "question_id": "arc-challenge.val.254",
+            "answer": "A"
+          },
+          {
+            "question_id": "arc-challenge.val.169",
+            "answer": "C)"
+          },
+          {
+            "question_id": "arc-challenge.test.794",
+            "answer": "A)"
+          },
+          {
+            "question_id": "arc-challenge.test.529",
+            "answer": "B)"
+          },
+          {
+            "question_id": "arc-challenge.val.297",
+            "answer": "A"
+          },
+          {
+            "question_id": "arc-challenge.test.270",
+            "answer": "A)"
+          },
+          {
+            "question_id": "arc-challenge.test.1043",
+            "answer": "A)"
+          },
+          {
+            "question_id": "arc-challenge.test.242",
+            "answer": "D)"
+          },
+          {
+            "question_id": "arc-challenge.test.700",
+            "answer": "D)"
+          }
+        ]
+      },
+      "sustained_load": {
+        "seconds": 301.712,
+        "joules": 63813.839,
+        "mean_watts": 211.51,
+        "requests": 139,
+        "input_tokens": 10891,
+        "output_tokens": 17792,
+        "joules_per_output_token": 3.5867,
+        "output_tokens_per_second": 58.97,
+        "joules_per_request": 459.092,
+        "batch_size": 1,
+        "output_tokens_per_request": 128
+      }
+    }
+  ],
+  "finished": "2026-10-26T21:24:37.567938+00:00"
+}

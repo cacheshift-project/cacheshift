@@ -120,4 +120,11 @@ Idle for 300 s before loading any model: 10,040.8 J, **33.5 W**; once-a-second s
 - **Limits:** one GPU, one run, batch size 1, greedy decoding, 128-token answers, no repeat runs or
   intervals. This is a feasibility check. RQ4 needs readings at several load levels and repeats.
 
-The JSON report and job log are in `experiments/results/scc-energy-8291245/` *(to be added from the SCC)*.
+- Full and 4-bit gave the same letter on 9 of the 10 smoke questions (they differ on
+  `arc-challenge.test.1043`). Ten questions say nothing about accuracy; this only shows both versions answer.
+- Software: Python 3.12.11, torch 2.8.0+cu128, transformers 4.55.0, bitsandbytes 0.50.2, model revision
+  `0e9e39f2`. Load time 47.7 s (bf16, first load after a 39 s download) and 13.6 s (4-bit, from cache).
+
+Report: [`experiments/results/scc-energy-8291245/report.json`](../../../experiments/results/scc-energy-8291245/report.json)
+(downloaded from the SCC via OnDemand; checked to contain no token). The job log is not committed: it
+only repeats these numbers plus about 250 transformers warnings that are now silenced.
