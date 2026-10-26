@@ -31,7 +31,7 @@ use the linked check for the current #5/#6 evidence and the final
 |---|---|---|
 | #6: app endpoint | A tested Chat Completions replay endpoint, unchanged SDK client, real local HTTP demo and request logs | Closed by merged #27 for the replay contract; arbitrary live prompts remain unsupported. |
 | #5: re-tune | One command fits a cutoff on tuning cache misses, evaluates five seeds, saves an applicable configuration and reports paired confidence intervals | ARC runs failed (53.33%, 55.05%). Balanced MMLU meets share/accuracy but has no drift to correct. Synthetic correction is demonstrated, but low-popularity paired accuracy falls; quality-safe real-traffic correction remains open. |
-| #9: API key | One-call script, local .env configuration, bounded output, no retries, sanitized evidence and mocked success/error tests | Anthony's actual paid call and Spencer's independent laptop run. There was no .env in this checkout; no paid call was made. |
+| #9: API key | One-call script for OpenAI or Anthropic, local .env configuration, bounded output, no retries, sanitized evidence and mocked success/error tests. Anthony's real call passed on 2026-10-25 (Anthropic `claude-haiku-5-5`, 15 input / 4 output tokens; [evidence](../../../experiments/results/api-anthony.json)) | Spencer's independent laptop run with his own .env: `--provider anthropic --output experiments/results/api-spencer.json`. |
 | #15: two-model review | Initial ChatGPT/Codex review, supplied Claude initial critique, ChatGPT Round 2 response, immutable plan reference and merged evaluation correction | None. Both reviews, both cross-reviews, public chat links and the team decision are in the AI review log (closed by #24). |
 
 ## Setup
