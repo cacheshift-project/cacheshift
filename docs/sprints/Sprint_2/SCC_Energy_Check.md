@@ -24,6 +24,10 @@ check, not the load-dependent measurement RQ4 needs.
 
 ## One-time setup (on the SCC)
 
+**Shortcut:** after cloning (first two lines below), `bash tools/scc/setup_and_check.sh` does the rest of
+this setup and the 2-minute check as a batch job, then prints the log. You still need step 3 (Llama
+licence and token) before the full run.
+
 ```bash
 ssh <bu_login>@scc1.bu.edu
 # 1. Work in project space: home is only 10 GB and the model is ~16 GB.
