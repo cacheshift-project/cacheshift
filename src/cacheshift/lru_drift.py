@@ -15,8 +15,11 @@ Protocol (docs/sprints/Sprint_2/LRU_Retune_Protocol.md, proposed in #37):
   the midgap rule and are fixed before the test stream is generated.
 - No-shift arms (uniform/high/low in tuning and test) decide #5. Shift arms (tune
   uniform, test high or low) are reported descriptively.
-- Pass for one run: re-tuned share of routed requests within 47-53%, and the paired 95%
-  CI for re-tuned minus untuned accuracy has a lower bound above -1.0 point.
+- Decision rule (agreed on #37, 26 Oct 2026): #5 is decided per capacity x no-shift policy
+  (6 decisions). A decision passes if every one of its 5 seeds has a re-tuned share of routed
+  requests within 47-53%, and the paired 95% CI for re-tuned minus untuned accuracy, pooled
+  over the 5 seeds (bootstrap over question groups), has a lower bound above -1.0 point.
+  Every run is still reported individually.
 """
 
 import argparse
@@ -78,12 +81,33 @@ def load_scores(scores_dir, digest):
 
 
 def checks(stats):
+    """Per-run checks. The share check is part of the decision; the per-run accuracy check is
+    descriptive only (a single run's interval is too wide to decide on, see #37)."""
     share = stats["cache_retuned"]["strong_share_of_routed"]["estimate"]
     accuracy_low = stats["paired_differences"]["retune_effect"]["accuracy"]["ci95"][0]
     result = {"share_within_47_53": abs(share - TARGET) <= SHARE_TOLERANCE + 1e-12,
               "retune_accuracy_ci_lower_above_minus_1pt": accuracy_low > ACCURACY_MARGIN}
     result["passes"] = all(result.values())
     return result
+
+
+def pooled_decision(runs, events_by_run, records, samples, seed=SEEDS[0]):
+    """One #5 decision: pool the seeds' paired traces and bootstrap over question groups.
+
+    The same test question groups recur in every seed's stream, so pooled totals are
+    resampled by group (each draw keeps a group's requests from all seeds together).
+    """
+    pooled = {name: [event for key in events_by_run for event in events_by_run[key][name]]
+              for name in ("no_cache", "cache_untuned", "cache_retuned")}
+    stats = paired_report(pooled, records, seed, samples)
+    effect = stats["paired_differences"]["retune_effect"]["accuracy"]
+    shares_ok = all(row["checks"]["share_within_47_53"] for row in runs)
+    return {"seeds": [row["seed"] for row in runs],
+            "pooled_retune_accuracy_effect": effect,
+            "pooled_retuned_share": stats["cache_retuned"]["strong_share_of_routed"],
+            "every_seed_share_within_47_53": shares_ok,
+            "pooled_accuracy_ci_lower_above_minus_1pt": effect["ci95"][0] > ACCURACY_MARGIN,
+            "passes": shares_ok and effect["ci95"][0] > ACCURACY_MARGIN}
 
 
 def run_one(records, router, scores, capacity, tune_policy, test_policy, seed, popularity_cutoff,
@@ -106,7 +130,7 @@ def run_one(records, router, scores, capacity, tune_policy, test_policy, seed, p
         hashes[name] = hashlib.sha256(path.read_bytes()).hexdigest()
     stats = paired_report(events, records, seed, samples)
     hits = sum(event["cache_hit"] for event in events["cache_retuned"])
-    return {"capacity": capacity, "tune_policy": tune_policy, "test_policy": test_policy, "seed": seed,
+    return events, {"capacity": capacity, "tune_policy": tune_policy, "test_policy": test_policy, "seed": seed,
             "arm": "no_shift" if tune_policy == test_policy else "shift",
             "untuned_threshold": untuned["threshold"], "retuned_threshold": retuned["threshold"],
             "tuning_requests": len(tuning_stream), "tuning_misses": len(misses),
@@ -130,25 +154,36 @@ def run(records, scores, output, digest, samples=2000, seeds=SEEDS, fractions=CA
               "protocol_file": protocol.name if protocol.is_file() else None,
               "protocol_sha256": hashlib.sha256(protocol.read_bytes()).hexdigest() if protocol.is_file() else None,
               "target": TARGET, "share_tolerance": SHARE_TOLERANCE, "accuracy_margin": ACCURACY_MARGIN,
+              "decision_rule": "per capacity x no-shift policy: every seed's share within 47-53% and the "
+                               "seed-pooled paired accuracy CI lower bound above -1.0 point",
               "capacity_fractions": list(fractions), "popularity_cutoff": popularity_cutoff,
               "threshold_rule": "midgap", "bootstrap_samples": samples, "seeds": list(seeds),
-              "runs": []}
+              "runs": [], "decisions": []}
     for fraction in fractions:
         capacity = capacity_for(records, "tuning", fraction)
         if capacity != capacity_for(records, "test", fraction):
             raise ValueError("Tuning and test splits must have the same number of unique questions")
         for tune_policy, test_policy in arms:
+            group_rows, group_events = [], {}
             for seed in seeds:
-                row = run_one(records, router, scores, capacity, tune_policy, test_policy, seed,
-                              popularity_cutoff, output, digest, samples)
+                events, row = run_one(records, router, scores, capacity, tune_policy, test_policy, seed,
+                                      popularity_cutoff, output, digest, samples)
                 report["runs"].append(row)
+                group_rows.append(row)
+                group_events[seed] = events
                 print(f"cap {capacity} {tune_policy}->{test_policy} seed {seed}: "
                       f"share {row['metrics']['cache_retuned']['strong_share_of_routed']['estimate']:.4f} "
                       f"{row['checks']}", flush=True)
-    decisive = [row for row in report["runs"] if row["arm"] == "no_shift"]
-    report["issue_5_passes"] = bool(decisive) and all(row["checks"]["passes"] for row in decisive)
-    report["failures"] = [{key: row[key] for key in ("capacity", "tune_policy", "test_policy", "seed", "checks")}
-                          for row in report["runs"] if not row["checks"]["passes"]]
+            decision = {"capacity": capacity, "tune_policy": tune_policy, "test_policy": test_policy,
+                        "arm": "no_shift" if tune_policy == test_policy else "shift",
+                        **pooled_decision(group_rows, group_events, records, samples)}
+            report["decisions"].append(decision)
+            print(f"  pooled {tune_policy}->{test_policy} cap {capacity}: "
+                  f"accuracy effect {decision['pooled_retune_accuracy_effect']} passes={decision['passes']}", flush=True)
+    decisive = [row for row in report["decisions"] if row["arm"] == "no_shift"]
+    report["issue_5_passes"] = bool(decisive) and all(row["passes"] for row in decisive)
+    report["failed_decisions"] = [{key: row[key] for key in ("capacity", "tune_policy", "test_policy", "arm")}
+                                  for row in report["decisions"] if not row["passes"]]
     (output / "report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
     return report
 
@@ -162,8 +197,8 @@ def main(argv=None):
     records = load_dataset(args.dataset)
     digest = hashlib.sha256(args.dataset.read_bytes()).hexdigest()
     report = run(records, load_scores(args.scores_dir, digest), args.run_dir, digest)
-    print("Issue #5 decisive (no-shift) runs all pass:", report["issue_5_passes"])
-    print("Runs that did not pass:", len(report["failures"]))
+    print("Issue #5 (all 6 no-shift decisions pass):", report["issue_5_passes"])
+    print("Decisions that did not pass:", report["failed_decisions"])
 
 
 if __name__ == "__main__":

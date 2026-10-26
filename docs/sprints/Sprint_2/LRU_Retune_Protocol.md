@@ -1,9 +1,9 @@
 # Re-tuning under a size-limited cache: protocol (#37, unblocks #5)
 
-**Status: PROPOSED, not yet agreed.** Proposed on #37 on 26 Oct 2026. Do not run
-`python -m cacheshift.lru_drift` on the MMLU pool until Spencer and Anthony have agreed this file
-on #37; then change this line to "AGREED <date>" in the same commit as the first run. The run records
-this file's SHA-256, so the report shows which protocol text was in force.
+**Status: AGREED 26 Oct 2026** by Spencer and Anthony on #37, before any run on the MMLU pool.
+Proposed by Anthony; Spencer agreed to the design and changed the accuracy rule to pooled decisions
+(below). This file was committed before the first run, and the run records its SHA-256, so the report
+shows which protocol text was in force.
 
 ## Why a new test
 
@@ -34,19 +34,24 @@ the traffic.
   measures what happens when traffic changes after tuning. We expect failures here; they are reported,
   not hidden, and they are the argument for re-tuning periodically.
 
-## Pass rule
+## Decision rule
 
-A run passes if **both** hold:
+#5 is decided per **capacity × no-shift policy**: 2 × 3 = **6 decisions**. A decision passes if **both** hold:
 
-1. The re-tuned strong-model share of routed requests is within **47–53%**.
-2. The paired 95% CI for **re-tuned minus untuned accuracy** has a lower bound **above −1.0 percentage
-   point**.
+1. In **every one of its 5 seeds**, the re-tuned strong-model share of routed requests is within **47–53%**.
+2. The paired 95% CI for **re-tuned minus untuned accuracy, pooled over its 5 seeds**, has a lower bound
+   **above −1.0 percentage point**. The seeds' paired traces are combined and the bootstrap resamples
+   question groups (a group's requests from all five seeds stay together, since the same test groups
+   recur in every seed).
 
-Why 1.0 point: paired intervals in the controlled study were about ±0.85 points wide on 1,824 test
-questions, so a true zero effect passes, while the synthetic low-score loss (−1.75 to −2.08 points) fails.
+**#5 passes** if all 6 no-shift decisions pass. The 4 shift decisions (2 capacities × 2 shifts) are
+reported the same way but are descriptive. All 50 runs are also reported individually, failures included.
 
-**#5 passes** if every no-shift run passes (2 capacities × 3 policies × 5 seeds = 30 runs). Every run,
-failures included, goes in the report.
+Why pooled (Spencer, #37): one run's interval is about ±0.85 points wide, so a run passes only if its
+estimate is above about −0.15. Even if re-tuning truly cost nothing, a single run would then fail about
+one time in three, and requiring all 30 runs to pass would almost surely fail. Why 1.0 point: a true
+zero effect clears it comfortably once pooled, while the synthetic low-score loss in the controlled
+study (−1.75 to −2.08 points) would not.
 
 ## Limits (stated now, before results)
 

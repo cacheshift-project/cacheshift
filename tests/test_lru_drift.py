@@ -86,6 +86,27 @@ def test_small_end_to_end_run_records_protocol_and_decision(tmp_path):
     assert first["capacity"] == 10 and first["tuning_requests"] == 80
     assert first["tuning_misses"] > 40          # a 10-entry LRU cache misses repeats too
     assert 0 < first["test_hit_rate"] < 0.5
+    assert [d["arm"] for d in report["decisions"]] == ["no_shift", "shift"]
+    assert report["decisions"][0]["seeds"] == [601]
     assert isinstance(report["issue_5_passes"], bool)
     saved = json.loads((tmp_path / "run/report.json").read_text())
     assert saved["accuracy_margin"] == -0.010 and len(saved["runs"]) == 2
+
+
+def test_pooled_decision_needs_every_seed_share_and_the_pooled_bound(tmp_path):
+    records, scores = synthetic_pool()
+    router = lru_drift.FixedRouter(records, scores)
+    cutoff = lru_drift.calibrate_midgap([scores[q] for q in records if records[q]["split"] == "tuning"], 0.5)["threshold"]
+    rows, events = [], {}
+    for seed in (601, 602, 603):
+        ev, row = lru_drift.run_one(records, router, scores, 10, "uniform", "uniform", seed, cutoff,
+                                    tmp_path, "d", samples=50)
+        rows.append(row)
+        events[seed] = ev
+    decision = lru_drift.pooled_decision(rows, events, records, samples=50)
+    pooled_requests = sum(len(events[s]["cache_retuned"]) for s in events)
+    assert decision["seeds"] == [601, 602, 603] and pooled_requests == 3 * 80
+    assert decision["passes"] == (decision["every_seed_share_within_47_53"]
+                                  and decision["pooled_accuracy_ci_lower_above_minus_1pt"])
+    rows[1]["checks"]["share_within_47_53"] = False  # one seed outside 47-53% fails the decision
+    assert lru_drift.pooled_decision(rows, events, records, samples=50)["passes"] is False
