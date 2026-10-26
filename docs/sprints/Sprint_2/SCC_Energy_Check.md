@@ -96,4 +96,28 @@ Fallback model if Llama is not approved yet:
   (`nvml_target`, `cuda_visible_devices`, and PyTorch's device) in the report.
 - The quick-check `report.json` was not committed (it predates the fix); the full run will be.
 
-**Full run:** pending the Llama 3.1 licence and Hugging Face token.
+**Full run, 26 Oct 2026 (job 8291245, `meta-llama/Llama-3.1-8B-Instruct`, default settings): A6 holds.**
+The job was assigned GPU 0 (`CUDA_VISIBLE_DEVICES=0`) on a node with four L40S GPUs, and NVML read
+that same GPU, so these readings are of our GPU.
+
+| Phase | Full precision (bf16) | 4-bit (NF4) |
+|---|---:|---:|
+| 10 smoke questions (short answers), J per request | 17.54 | 17.80 |
+| Sustained load: J per output token | **6.28** | **3.59** |
+| Sustained load: output tokens per second | 41.5 | 59.0 |
+| Implied mean GPU power under load (J/token × tokens/s) | ≈ 261 W | ≈ 212 W |
+
+Idle for 300 s before loading any model: 10,040.8 J, **33.5 W**; once-a-second samples 33.2 to 33.9 W
+(mean 33.6 W).
+
+- **4-bit used 43% less energy per output token and was 42% faster** at batch size 1. On this GPU,
+  decoding one request at a time is limited by reading the weights from memory, and 4-bit weights are
+  about a quarter of the size.
+- **Short answers cost the same in both** (about 17.5 J each): the smoke questions ask for a single
+  letter, so processing the prompt dominates and there are almost no output tokens to save on.
+- These are whole-GPU figures and include idle power. Subtracting 33.5 W idle gives about 5.5 J/token
+  (full) and 3.0 J/token (4-bit).
+- **Limits:** one GPU, one run, batch size 1, greedy decoding, 128-token answers, no repeat runs or
+  intervals. This is a feasibility check. RQ4 needs readings at several load levels and repeats.
+
+The JSON report and job log are in `experiments/results/scc-energy-8291245/` *(to be added from the SCC)*.
