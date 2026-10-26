@@ -14,9 +14,12 @@ does not guarantee production behavior. Size, balance and benchmark are confound
 
 **Controlled follow-up, 2026-10-12:** [the single-scoring synthetic test](Controlled_Drift_20261012.md)
 shows drift correction in both engineered popularity directions. Share returns to
-50.99%, but low-score popularity has a paired accuracy loss of 1.75–2.08 points.
-The high-score case improves accuracy. This is a mechanism demonstration on
-exposed data; quality preservation across directions and real traffic remain open.
+50.99%, but that value is guaranteed by the design, not a measured recovery: with an
+empty, never-evicting exact cache every question misses once, so the re-tuned router
+sees the same 1,824 unique test questions (930 routed strong) in every run.
+Low-score popularity has a paired accuracy loss of 1.75–2.08 points; the high-score
+case improves accuracy. This is a mechanism demonstration on exposed data; quality
+preservation across directions and real traffic remain open.
 
 **Update, 2026-10-07:** PRs #21–#24 are merged; #15 is closed. The latest
 [gateway and fresh retuning check](Gateway_Retune_Check_20261007.md) demonstrates
@@ -31,7 +34,7 @@ use the linked check for the current #5/#6 evidence and the final
 |---|---|---|
 | #6: app endpoint | A tested Chat Completions replay endpoint, unchanged SDK client, real local HTTP demo and request logs | Closed by merged #27 for the replay contract; arbitrary live prompts remain unsupported. |
 | #5: re-tune | One command fits a cutoff on tuning cache misses, evaluates five seeds, saves an applicable configuration and reports paired confidence intervals | ARC runs failed (53.33%, 55.05%). Balanced MMLU meets share/accuracy but has no drift to correct. Synthetic correction is demonstrated, but low-popularity paired accuracy falls; quality-safe real-traffic correction remains open. |
-| #9: API key | One-call script, local .env configuration, bounded output, no retries, sanitized evidence and mocked success/error tests | Anthony's actual paid call and Spencer's independent laptop run. There was no .env in this checkout; no paid call was made. |
+| #9: API key | One-call script for OpenAI or Anthropic, local .env configuration, bounded output, no retries, sanitized evidence and mocked success/error tests. Anthony's real call passed on 2026-10-25 (Anthropic `claude-haiku-5-5`, 15 input / 4 output tokens; [evidence](../../../experiments/results/api-anthony.json)) | Spencer's independent laptop run with his own .env: `--provider anthropic --output experiments/results/api-spencer.json`. |
 | #15: two-model review | Initial ChatGPT/Codex review, supplied Claude initial critique, ChatGPT Round 2 response, immutable plan reference and merged evaluation correction | None. Both reviews, both cross-reviews, public chat links and the team decision are in the AI review log (closed by #24). |
 
 ## Setup
@@ -152,16 +155,22 @@ so raw hashes differ even when deterministic decisions and summary results agree
 
 ## #9: one real API call on each laptop
 
-Copy `.env.example` to `.env`, then privately fill `OPENAI_API_KEY` and
-`OPENAI_MODEL` with a Chat Completions model your account can access. Choose a
-model that can give a short text response within the 32-token output cap.
+Copy `.env.example` to `.env`, then privately fill the key and model for the
+provider you will use. Choose a model that can give a short text response within
+the 32-token output cap (a reasoning model may spend the cap thinking and fail).
+
+- **Anthropic (team choice, 2026-10-25):** `ANTHROPIC_API_KEY` and
+  `ANTHROPIC_MODEL`, e.g. `claude-haiku-5-5`; add `--provider anthropic`.
+- **OpenAI:** `OPENAI_API_KEY` and `OPENAI_MODEL` with a Chat Completions model;
+  this is the default provider.
 
 ```powershell
-.venv/Scripts/python.exe scripts/check_api.py --output experiments/results/api-anthony.json
+.venv/Scripts/python.exe -m pip install -e ".[dev]"   # once, installs the Anthropic SDK
+.venv/Scripts/python.exe scripts/check_api.py --provider anthropic --output experiments/results/api-anthony.json
 ```
 
-The script sends only “Reply with OK.” to the official OpenAI endpoint, with no
-automatic retries. A real call can incur a small provider charge. It prints only
+The script sends only “Reply with OK.” to the provider's official endpoint, with no
+automatic retries or redirects. A real call can incur a small provider charge. It prints only
 success metadata and token usage, never the key. Errors omit provider response
 bodies. `--env` can point to another local .env; do not upload it. Spencer must run
 the same command with his own .env and a different evidence filename. Mocked tests
