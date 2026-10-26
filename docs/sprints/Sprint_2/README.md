@@ -17,7 +17,7 @@ Milestone [Sprint 2](https://github.com/cacheshift-project/cacheshift/milestone/
 | #38 Report mock-up | Anthony | One page; bill, cached-answer errors and drift with ranges; cost and quality separate; linked from the interview guide | ◐ [`Report_Mockup.html`](Report_Mockup.html) in PR #34 |
 | #37 Re-tuning quality margin and drift test | Anthony + Spencer | Margin and a drift scenario where the miss mix moves, agreed and recorded before any results | ◐ Proposed on #37 (26 Oct); [protocol](LRU_Retune_Protocol.md) and code ready, not yet agreed or run |
 | #5 Story 3: re-tune command | Anthony | All 30 no-shift LRU runs pass: re-tuned share within 47–53% and paired accuracy CI lower bound above −1.0 point | ☐ Waiting on #37 |
-| #35 SCC GPU energy check (A6) | Anthony | NVML energy idle and under load; Llama-3.1-8B full precision and 4-bit with J/token and tokens/s; notes so it can be rerun | ◐ NVML works on an SCC L40S (34.8 W idle); full Llama run submitted 26 Oct (PR #40) |
+| #35 SCC GPU energy check (A6) | Anthony | NVML energy idle and under load; Llama-3.1-8B full precision and 4-bit with J/token and tokens/s; notes so it can be rerun | ◐ Done on the SCC (PR #40): L40S, 6.28 J/token full precision vs 3.59 J/token 4-bit; closes when PR #40 merges with the JSON report |
 | #9 API key works | Anthony + Spencer | One real call on each laptop | ◐ Anthony's call passed with Anthropic `claude-haiku-5-5` (PR #33); Spencer's run pending |
 | #39 This report | Anthony | Plan, demo, retro, assumptions and LLM links filled in | ◐ Draft |
 
@@ -38,7 +38,7 @@ Milestone [Sprint 2](https://github.com/cacheshift-project/cacheshift/milestone/
 |---|---|---|---|
 | A1: small-business owners who pay for AI calls in their own app would use a drift and cached-answer-quality report | At least one 15-minute interview around the mock-up; pass line: they agree to try it on their own traffic | *(pending)* | *(pending)* |
 | A2 (real traffic): repeated prompts score differently from one-off prompts | #36 on LMSYS-Chat-1M | *(pending)* | *(pending)* |
-| A6: we can read GPU energy on the SCC and run a 4-bit model there | #35: NVML idle reading, then Llama-3.1-8B full and 4-bit | Energy reading works (L40S, 34.8 W idle; counter agrees with power samples within 1%). Model run *(pending)* | No |
+| A6: we can read GPU energy on the SCC and run a 4-bit model there | #35: NVML idle reading, then Llama-3.1-8B full and 4-bit | **Holds.** NVML energy works on an SCC L40S (33.5 W idle). Llama-3.1-8B: 6.28 J/token at 41.5 tok/s (bf16) vs 3.59 J/token at 59.0 tok/s (4-bit), batch size 1, one run | No |
 
 ## LLM chat links used this sprint
 - Claude Code session (Anthony; #29, #9, #14, #35, #37, #38, this report): https://claude.ai/code/session_016kQAwqT5pRuqKDEzzan91j *(check that the link is shared before submitting)*
