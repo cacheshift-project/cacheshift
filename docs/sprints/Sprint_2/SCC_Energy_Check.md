@@ -80,4 +80,20 @@ Fallback model if Llama is not approved yet:
 
 ## Result
 
-*Not run yet.*
+**Quick check, 25 Oct 2026 (job 8282386, `--skip-model --idle-seconds 60`): NVML energy works on the SCC.**
+
+| GPU | Driver | Memory | Compute capability | Power limit |
+|---|---|---|---|---|
+| NVIDIA L40S | 610.57.04 | 45 GiB | 8.9 | 350 W |
+
+- Idle for 60.0 s: 2,088.8 J from the energy counter, i.e. **34.8 W**. The 60 once-a-second power samples
+  read 35.0 to 35.3 W (mean 35.1 W), so the counter and the instantaneous readings agree within 1%.
+- `-l gpu_c=7.0` was granted an L40S (bf16-capable), and the module/venv setup in
+  `tools/scc/setup_and_check.sh` worked as written with `academic-ml/fall-2025`.
+- **Caveat found:** the node had four L40S GPUs, and this run read NVML index 0, which is not necessarily
+  the GPU the scheduler assigned to the job. The idle figure is therefore an L40S idle reading but possibly
+  not of our GPU. The script now reads the GPU named in `CUDA_VISIBLE_DEVICES` and records it
+  (`nvml_target`, `cuda_visible_devices`, and PyTorch's device) in the report.
+- The quick-check `report.json` was not committed (it predates the fix); the full run will be.
+
+**Full run:** pending the Llama 3.1 licence and Hugging Face token.

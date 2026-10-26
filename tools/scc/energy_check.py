@@ -10,6 +10,7 @@ import argparse
 from datetime import datetime, timezone
 import gc
 import json
+import os
 from pathlib import Path
 import platform
 import sys
@@ -22,14 +23,36 @@ LOAD_PROMPT = ("Explain step by step how you would reason about this question be
                "Question: {question}")
 
 
+def job_gpu(visible=None):
+    """Which physical GPU this job owns, as NVML sees it.
+
+    NVML ignores CUDA_VISIBLE_DEVICES and numbers every GPU in the node, while
+    PyTorch's cuda:0 is the first *visible* GPU. On a shared SCC node, NVML
+    index 0 can be another user's GPU, so read the scheduler's assignment.
+    Returns ("index", n) or ("uuid", "GPU-...").
+    """
+    visible = os.environ.get("CUDA_VISIBLE_DEVICES") if visible is None else visible
+    first = (visible or "").split(",")[0].strip()
+    if not first:
+        return ("index", 0)  # no restriction: a whole-node or single-GPU machine
+    if first.isdigit():
+        return ("index", int(first))
+    if first.startswith(("GPU-", "MIG-")):
+        return ("uuid", first)
+    raise ValueError(f"Unrecognised CUDA_VISIBLE_DEVICES entry: {first!r}")
+
+
 class NvmlMeter:
     """Total-energy counter (millijoules since driver load) and power (milliwatts) of one GPU."""
 
-    def __init__(self, index=0):
+    def __init__(self, target=None):
         import pynvml
         self._nvml = pynvml
         pynvml.nvmlInit()
-        self._handle = pynvml.nvmlDeviceGetHandleByIndex(index)
+        self.target = target or job_gpu()
+        kind, value = self.target
+        self._handle = (pynvml.nvmlDeviceGetHandleByIndex(value) if kind == "index"
+                        else pynvml.nvmlDeviceGetHandleByUUID(value))
 
     def energy_mj(self):
         return self._nvml.nvmlDeviceGetTotalEnergyConsumption(self._handle)
@@ -45,7 +68,10 @@ class NvmlMeter:
                 "driver": driver.decode() if isinstance(driver, bytes) else driver,
                 "memory_gib": round(nvml.nvmlDeviceGetMemoryInfo(handle).total / 2**30, 1),
                 "compute_capability": ".".join(map(str, nvml.nvmlDeviceGetCudaComputeCapability(handle))),
-                "power_limit_w": nvml.nvmlDeviceGetEnforcedPowerLimit(handle) / 1000}
+                "power_limit_w": nvml.nvmlDeviceGetEnforcedPowerLimit(handle) / 1000,
+                "nvml_target": list(self.target),
+                "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
+                "gpus_in_node": nvml.nvmlDeviceGetCount()}
 
 
 def measure(meter, work, clock=time.perf_counter):
@@ -121,6 +147,8 @@ class Generator:
         self.load_seconds = round(time.perf_counter() - start, 1)
         self.precision, self.dtype = precision, str(dtype).replace("torch.", "")
         self.revision = getattr(self.model.config, "_commit_hash", None)
+        props = torch.cuda.get_device_properties(0)
+        self.torch_gpu = {"name": props.name, "uuid": str(getattr(props, "uuid", "")) or None}
 
     def generate(self, text, max_new_tokens, min_new_tokens=0):
         torch, tok = self.torch, self.tokenizer
@@ -172,6 +200,7 @@ def model_phases(meter, model_id, precision, questions, load_seconds, load_token
             return totals
 
         return {"precision": precision, "dtype": gen.dtype, "model_revision": gen.revision,
+                "torch_gpu": gen.torch_gpu,
                 "load_seconds": gen.load_seconds,
                 "ten_questions": {**measure(meter, answer_all), "answers": answers},
                 "sustained_load": {**measure(meter, sustained), "batch_size": 1,

@@ -62,3 +62,18 @@ def test_cli_refuses_to_overwrite_a_report(tmp_path):
     with pytest.raises(SystemExit) as exc:
         energy.main(["--output", str(out), "--skip-model"])
     assert exc.value.code == 2
+
+
+@pytest.mark.parametrize("visible, expected", [
+    ("2", ("index", 2)),
+    ("3,1", ("index", 3)),
+    ("GPU-8a3b1c2d-0000-1111-2222-333344445555", ("uuid", "GPU-8a3b1c2d-0000-1111-2222-333344445555")),
+    ("", ("index", 0)),
+])
+def test_job_gpu_follows_the_scheduler_not_nvml_index_zero(visible, expected):
+    assert energy.job_gpu(visible) == expected
+
+
+def test_job_gpu_rejects_unknown_formats():
+    with pytest.raises(ValueError, match="Unrecognised"):
+        energy.job_gpu("gpu_two")
