@@ -39,7 +39,7 @@ Ask about what they have actually done, not what they would do. Don't describe C
 4. **Quality.** How do you find out when the AI gives a customer a wrong or bad answer? When did that last happen?
 5. **Trade-off.** If a setting cut the bill by a third but made one answer in fifty worse, would you take it?
    How would you decide?
-6. **The report.** *(Show the drift-report mock-up.)* What would you do with this? Would you run it on a week
+6. **The report.** *(Show the [report mock-up](../Sprint_2/Report_Mockup.html): open the file in a browser, or print it.)* What would you do with this? Would you run it on a week
    of your own requests? *(The pass line: ask for a yes or no and what they'd need from us to do it.)*
 
 End with: "Who else do you know who runs something like this?"
