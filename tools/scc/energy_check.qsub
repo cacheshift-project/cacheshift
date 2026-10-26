@@ -2,7 +2,7 @@
 # Assumption A6: GPU energy check on the BU SCC (issue: "Feasibility: GPU energy reading on the SCC").
 # Setup and how to read the result: docs/sprints/Sprint_2/SCC_Energy_Check.md
 # Submit from the repository root on the SCC:
-#   qsub -P <your_scc_project> tools/scc/energy_check.qsub
+#   qsub -P ece601 tools/scc/energy_check.qsub
 #$ -N cacheshift-energy
 #$ -cwd
 #$ -j y

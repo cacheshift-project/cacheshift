@@ -27,9 +27,9 @@ check, not the load-dependent measurement RQ4 needs.
 ```bash
 ssh <bu_login>@scc1.bu.edu
 # 1. Work in project space: home is only 10 GB and the model is ~16 GB.
-cd /projectnb/<your_scc_project>/$USER
+cd /projectnb/ece601/$USER
 git clone https://github.com/cacheshift-project/cacheshift.git && cd cacheshift
-echo "export HF_HOME=/projectnb/<your_scc_project>/$USER/hf" >> ~/.bashrc && source ~/.bashrc
+echo "export HF_HOME=/projectnb/ece601/$USER/hf" >> ~/.bashrc && source ~/.bashrc
 
 # 2. A small venv on top of BU's PyTorch module, for the extra libraries.
 module load miniconda academic-ml/fall-2025 && conda activate fall-2025-pyt
@@ -50,8 +50,8 @@ If the licence is not approved in time, use an open model instead (see below) an
 **Quick check first (2 minutes, interactive):** does NVML energy work on an SCC GPU at all?
 
 ```bash
-qrsh -P <your_scc_project> -l gpus=1 -l gpu_c=7.0 -pe omp 4
-cd /projectnb/<your_scc_project>/$USER/cacheshift
+qrsh -P ece601 -l gpus=1 -l gpu_c=7.0 -pe omp 4
+cd /projectnb/ece601/$USER/cacheshift
 module load miniconda academic-ml/fall-2025 && conda activate fall-2025-pyt
 source ~/.venvs/cacheshift-energy/bin/activate
 python tools/scc/energy_check.py --skip-model --idle-seconds 60 --output experiments/results/scc-energy-quick/report.json
@@ -61,12 +61,12 @@ exit
 **Full check (batch job, about 20–30 minutes plus the first model download):**
 
 ```bash
-qsub -P <your_scc_project> tools/scc/energy_check.qsub
+qsub -P ece601 tools/scc/energy_check.qsub
 qstat -u $USER                       # watch it; the log is cacheshift-energy.o<job id>
 ```
 
 Fallback model if Llama is not approved yet:
-`qsub -P <your_scc_project> -v CACHESHIFT_ENERGY_ARGS="--model Qwen/Qwen2.5-7B-Instruct" tools/scc/energy_check.qsub`
+`qsub -P ece601 -v CACHESHIFT_ENERGY_ARGS="--model Qwen/Qwen2.5-7B-Instruct" tools/scc/energy_check.qsub`
 
 ## What to commit
 
