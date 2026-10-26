@@ -2,7 +2,9 @@ import importlib.util
 import json
 from pathlib import Path
 
+import anthropic
 import httpx
+import httpx2  # the Anthropic SDK's HTTP library
 from openai import AuthenticationError
 import pytest
 
@@ -68,5 +70,81 @@ def test_cli_sanitizes_provider_errors(monkeypatch, capsys):
     with pytest.raises(SystemExit) as exc:
         check.main()
     assert exc.value.code == 1
+    output = capsys.readouterr()
+    assert "401" in output.err and "secret-key" not in output.err
+
+
+def test_anthropic_one_request_with_mock_transport_and_no_secrets(tmp_path, monkeypatch):
+    path = tmp_path / ".env"
+    path.write_text('ANTHROPIC_API_KEY="fake-anthropic-key"\nANTHROPIC_MODEL=test-claude\n')
+    calls = []
+
+    def handle(request):
+        calls.append(request)
+        assert str(request.url) == "https://api.anthropic.com/v1/messages"
+        assert "fake-anthropic-key" in (request.headers.get("x-api-key", "") + request.headers.get("authorization", ""))
+        payload = json.loads(request.content)
+        assert payload["max_tokens"] == 32 and payload["model"] == "test-claude"
+        assert payload["messages"] == [{"role": "user", "content": "Reply with OK."}]
+        return httpx2.Response(200, json={"id": "msg_test", "type": "message", "role": "assistant",
+                              "model": "test-claude", "content": [{"type": "text", "text": "OK"}],
+                              "stop_reason": "end_turn", "stop_sequence": None,
+                              "usage": {"input_tokens": 11, "output_tokens": 4}})
+
+    real_client = httpx2.Client
+    def factory(**kwargs):
+        assert kwargs["follow_redirects"] is False
+        return real_client(transport=httpx2.MockTransport(handle), **kwargs)
+    monkeypatch.setattr(check, "AnthropicHttpClient", factory)
+    report = check.check_api(path, provider="anthropic")
+    assert len(calls) == 1 and report["status"] == "passed"
+    assert report["provider"] == "anthropic" and report["request_id"] == "msg_test"
+    assert report["usage"]["output_tokens"] == 4
+    assert "fake-anthropic-key" not in json.dumps(report)
+
+
+def test_anthropic_missing_settings_and_empty_reply(tmp_path, monkeypatch):
+    path = tmp_path / ".env"
+    path.write_text("OPENAI_API_KEY=fake\nOPENAI_MODEL=test\n")
+    with pytest.raises(ValueError, match="Set ANTHROPIC_API_KEY and ANTHROPIC_MODEL"):
+        check.check_api(path, provider="anthropic")
+    path.write_text("ANTHROPIC_API_KEY=fake\nANTHROPIC_MODEL=test\n")
+    def handle(request):
+        return httpx2.Response(200, json={"id": "msg_empty", "type": "message", "role": "assistant",
+                              "model": "test", "content": [], "stop_reason": "max_tokens",
+                              "stop_sequence": None, "usage": {"input_tokens": 11, "output_tokens": 32}})
+    real_client = httpx2.Client
+    monkeypatch.setattr(check, "AnthropicHttpClient", lambda **kwargs: real_client(transport=httpx2.MockTransport(handle), **kwargs))
+    with pytest.raises(ValueError, match="without text"):
+        check.check_api(path, provider="anthropic")
+
+
+def test_anthropic_authentication_error_is_not_retried(tmp_path, monkeypatch):
+    path = tmp_path / ".env"
+    path.write_text("ANTHROPIC_API_KEY=fake\nANTHROPIC_MODEL=test\n")
+    calls = []
+    def handle(request):
+        calls.append(request)
+        return httpx2.Response(401, json={"type": "error", "error": {"type": "authentication_error",
+                                                                    "message": "secret-error-body"}})
+    real_client = httpx2.Client
+    monkeypatch.setattr(check, "AnthropicHttpClient", lambda **kwargs: real_client(transport=httpx2.MockTransport(handle), **kwargs))
+    with pytest.raises(anthropic.AuthenticationError):
+        check.check_api(path, provider="anthropic")
+    assert len(calls) == 1
+
+
+def test_cli_sanitizes_anthropic_errors(monkeypatch, capsys):
+    seen = {}
+    def fail(env, model, provider):
+        seen["provider"] = provider
+        request = httpx2.Request("POST", "https://api.anthropic.com/v1/messages")
+        raise anthropic.AuthenticationError("secret-key-must-not-appear",
+                                            response=httpx2.Response(401, request=request), body=None)
+    monkeypatch.setattr(check, "check_api", fail)
+    monkeypatch.setattr("sys.argv", ["check_api.py", "--provider", "anthropic"])
+    with pytest.raises(SystemExit) as exc:
+        check.main()
+    assert exc.value.code == 1 and seen["provider"] == "anthropic"
     output = capsys.readouterr()
     assert "401" in output.err and "secret-key" not in output.err
