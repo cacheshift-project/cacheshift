@@ -144,6 +144,11 @@ class Generator:
         start = time.perf_counter()
         self.tokenizer = AutoTokenizer.from_pretrained(model_id)
         self.model = AutoModelForCausalLM.from_pretrained(model_id, **kwargs).eval()
+        # Greedy decoding: drop the model's default sampling settings so transformers
+        # does not warn on every call that they are ignored.
+        for name in ("temperature", "top_p", "top_k"):
+            if hasattr(self.model.generation_config, name):
+                setattr(self.model.generation_config, name, None)
         self.load_seconds = round(time.perf_counter() - start, 1)
         self.precision, self.dtype = precision, str(dtype).replace("torch.", "")
         self.revision = getattr(self.model.config, "_commit_hash", None)
