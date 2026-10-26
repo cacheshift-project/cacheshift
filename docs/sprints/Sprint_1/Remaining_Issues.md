@@ -14,9 +14,12 @@ does not guarantee production behavior. Size, balance and benchmark are confound
 
 **Controlled follow-up, 2026-10-12:** [the single-scoring synthetic test](Controlled_Drift_20261012.md)
 shows drift correction in both engineered popularity directions. Share returns to
-50.99%, but low-score popularity has a paired accuracy loss of 1.75–2.08 points.
-The high-score case improves accuracy. This is a mechanism demonstration on
-exposed data; quality preservation across directions and real traffic remain open.
+50.99%, but that value is guaranteed by the design, not a measured recovery: with an
+empty, never-evicting exact cache every question misses once, so the re-tuned router
+sees the same 1,824 unique test questions (930 routed strong) in every run.
+Low-score popularity has a paired accuracy loss of 1.75–2.08 points; the high-score
+case improves accuracy. This is a mechanism demonstration on exposed data; quality
+preservation across directions and real traffic remain open.
 
 **Update, 2026-10-07:** PRs #21–#24 are merged; #15 is closed. The latest
 [gateway and fresh retuning check](Gateway_Retune_Check_20261007.md) demonstrates
