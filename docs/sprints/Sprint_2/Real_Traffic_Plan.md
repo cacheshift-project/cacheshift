@@ -74,3 +74,27 @@ cutoff, drifts and intervals only. **No LMSYS text, not even examples.** Per-pro
 - The router's scores on this traffic are not checked against answer quality; this measures where requests
   would be sent, not whether answers are correct.
 - Intervals exclude uncertainty in fitting the cutoff.
+
+## Amendment, 28 Oct 2026 (before any scoring)
+
+Loading the data (counts only; no prompt had been scored) showed two things the fixed plan did not
+anticipate:
+
+- **Far more repeated keys than the cap, with very large groups.** 777,453 English requests; 478,507 unique
+  keys; repeat rate 38.5%; 114,649 repeated keys (69,029 of size 2, 45,620 of size 3 or more; the largest
+  group has 10,464 copies). A random 30,000 of the repeated keys could miss the largest groups, which carry
+  much of the request weight, so the estimate would be unstable.
+- **Possible Chatbot Arena pairs.** 76% of the size-2 groups were answered by two different models. Some may
+  be one prompt sent to two models in a side-by-side comparison rather than a user repeating it.
+
+Changes (the decision rule and all other rules are unchanged):
+
+| Item | Value |
+|---|---|
+| Scored set | Three strata, seed 601: **every key of size ≥ 3** (45,620), a random **15,000 size-2 keys**, and a random **20,000 one-off keys**. Each scored key's weight is (keys in its stratum) / (keys scored in its stratum) |
+| Intervals | Bootstrap resamples prompt groups within each of the three strata |
+| Added sensitivity check | **Possible Arena pairs:** every size-2 group counted as one request and as one-off |
+| Added sensitivity check | **Possible automated traffic:** keys repeated more than 100 times left out |
+
+Single-prompt scoring takes about 0.08–0.15 s per key on Spencer's laptop, so the 80,620 keys take about
+2–2.5 hours; the script resumes if interrupted.
