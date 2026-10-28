@@ -4,27 +4,35 @@
 
 ## 1. Mission (best guess, not final)
 
-For **engineers who run an LLM feature under a monthly budget, with a cache in front of a model router**, CacheShift is a **gateway and measurement tool** that **shows how the cache shifts the router's cost and answer quality, and re-tunes the router for the questions it actually sees**. Unlike **gateway dashboards that only show how often the cache is used and how much it saves**, it **shows how good the cached answers are and how far the router has drifted from its budget, with margins of error.**
+For **people who build and run an AI feature for a small business on a tight budget (a freelancer, a solo developer or a startup's one technical person)**, CacheShift is a **drop-in gateway and measurement tool** that **cuts that bill with a cache and a cheaper-model router, shows how the cache shifts the router's cost and answer quality, and re-tunes the router for the questions it actually sees**. Unlike **gateway dashboards that only show how often the cache is used and how much it saves**, it **shows how good the cached answers are and how far the router has drifted from its budget, with margins of error.**
 
 ## 2. Target user
 
-**Not named yet, and this is our biggest gap: we have not contacted anyone.** Profile: an engineer who runs an LLM feature with a cache and a router under a budget. Our first three messages go out by 9 Oct (a BU team running an AI service, an open-source gateway maintainer, an industry engineer); we name one person here once they agree to talk. Backup: Spencer's own K-12 assessment LLM service, though a teammate is a biased user.
+**Updated 26 Oct 2026 (#14, PR #34 review): small-budget AI features, and the person who builds them.**
+
+- **Primary: the builder.** This is the person who builds and runs an AI feature for a small business (for example a customer-service chatbot or a booking assistant) that calls OpenAI or Anthropic from code they control: a freelancer or small agency, a solo developer, or a startup's one technical person. They can change the web address the app calls, which is all CacheShift needs (story 4).
+- **Also affected: the business owner**, who pays the bill and reads the summary. The plain-language [report mock-up](docs/sprints/Sprint_2/Report_Mockup.html) is written for them.
+- **Secondary: a student** who has built an AI app or project on a paid API and pays for the calls out of pocket. This is the group we can reach this week.
+- **Not our user:** owners on a hosted chatbot service they cannot reconfigure, and people who only use ChatGPT or Claude in the browser. CacheShift sits between an app and the AI provider.
+- **Why the builder and not the owner:** for one small business the drift itself is worth little money (about $1.49 a month in the mock-up), while wrong cached answers clearly matter, and the builder answers for both. Owners without an engineer usually never touch the API.
+
+**Still not named: no one has been contacted yet.** We aim for three conversations (section 7) and name one person here afterwards. Candidates: (1) freelancers who build chatbots for small businesses (Upwork, Fiverr) or a local web/AI agency, (2) a solo developer or a startup's one technical person, (3) BU students who have built on a paid AI API. Interview guide and notes: [`Target_User_Interviews.md`](docs/sprints/Sprint_1/Target_User_Interviews.md). The original profile (an engineer running an LLM feature with a cache and a router) remains in the proposal; Spencer's K-12 assessment service remains a backup, though a teammate is a biased user.
 
 ## 3. User stories (each is an issue on the board)
 
 | # | Story | Done when | Owner |
 |---|---|---|---|
-| 1 | **See the drift.** As the engineer, I want to see how far my router's strong-model share, cost and accuracy change once the cache is on, so I know whether my cost/quality trade-off is still where I set it. | For 3 budgets × 5 cache settings × 3 repetition rates: planned vs. real share, cost per 1,000 questions and accuracy, each with a 95% CI | Spencer |
-| 2 | **Know what a cached answer costs in quality.** As the engineer, I want every cached answer checked against the correct answer, so I know whether savings come out of quality. | False hits and inherited errors per cache setting; a hand check of 50 cached answers agrees with the automatic labels ≥ 90% | Spencer |
-| 3 | **Fix the drift.** As the engineer, I want one command that re-tunes the router on the questions that get past the cache, so my real share returns to my plan. | On the test split, real share within ±3 points of plan; accuracy within the no-cache margin | Anthony |
-| 4 | **Use it on my app.** As the engineer, I want to point my app at the gateway instead of the AI provider, so I get the savings and the report without changing my code. | An example app switches by changing one web address; the gateway writes a valid request log | Anthony |
+| 1 | **See the drift.** As the builder, I want to see how far my router's strong-model share, cost and accuracy change once the cache is on, so I know whether my cost/quality trade-off is still where I set it. | For 3 budgets × 5 cache settings × 3 repetition rates: planned vs. real share, cost per 1,000 questions and accuracy, each with a 95% CI | Spencer |
+| 2 | **Know what a cached answer costs in quality.** As the builder, I want every cached answer checked against the correct answer, so I know whether savings come out of quality. | False hits and inherited errors per cache setting; a hand check of 50 cached answers agrees with the automatic labels ≥ 90% | Spencer |
+| 3 | **Fix the drift.** As the builder, I want one command that re-tunes the router on the questions that get past the cache, so my real share returns to my plan. | On the test split, real share within ±3 points of plan; accuracy within the no-cache margin | Anthony |
+| 4 | **Use it on my app.** As the builder, I want to point my app at the gateway instead of the AI provider, so I get the savings and the report without changing my code. | An example app switches by changing one web address; the gateway writes a valid request log | Anthony |
 | 5 | **Trust the test set.** As a researcher, I want reworded questions with human-written correct answers, so results don't depend on an AI grading itself. | Answers only from benchmark keys; ≥ 95% of 100 hand-checked rewordings keep their meaning; one-command rebuild | Spencer |
 
 ## 4. Feasibility — what we have proven
 
 - **Data: RouterBench (11 models' recorded answers, scores, costs).** **Done:** `data/load_routerbench.py` downloads and safety-checks it: 36,497 questions, 11 models (GPT-4 avg. score 0.78; Mixtral 0.55); 20-question sample committed. **Gap:** no answer keys; ARC keys joined for 500 questions so far.
 - **Router: RouteLLM's released routers.** **Done:** `python -m cacheshift.score_router` scores 10 questions on CPU with the BERT router, no GPU or API key ([notes](docs/sprints/Sprint_1/RouteLLM_Feasibility.md)).
-- **API keys (OpenAI and/or Anthropic) for live mode and the rewording check.** **Not yet:** `scripts/check_api.py` is tested with mocked calls only (#9); the replay demo does not need it.
+- **API keys (OpenAI and/or Anthropic) for live mode and the rewording check.** **Partly done:** `scripts/check_api.py` supports OpenAI and Anthropic (`--provider anthropic`). Anthony's real one-call check passed with Anthropic `claude-haiku-5-5` on 2026-10-25 ([evidence](experiments/results/api-anthony.json)); Spencer's independent run on his laptop is still needed (#9). The replay demo does not need a key.
 - **Repo runs on a second machine.** **Done:** fresh install and `pytest` pass on Spencer's Mac and Anthony's Windows laptop.
 - **GPU (energy stretch goal only).** BU shared GPU access requested; not needed for the minimum project.
 
@@ -46,7 +54,7 @@ For **engineers who run an LLM feature under a monthly budget, with a cache in f
 
 ## 7. Riskiest assumption and its test
 
-- **A1:** Engineers put a cache in front of a budget-tuned router and would use a drift report. *If wrong:* no user, so nothing anyone adopts.
+- **A1:** People who build small-budget AI features (and students) watch the AI bill closely enough to put a cache and a cheaper-model router in front of it, and would use a report showing whether that costs answer quality. *If wrong:* no user, so nothing anyone adopts.
 - **A2:** The drift is real: the questions a cache answers are not a fair sample of the router's scores. *If wrong:* the main finding is "no effect".
 - **A3:** A model that answers a question right also answers its rewording right (so replay mode is valid). *If wrong:* experiments need paid live calls.
 - **A4:** Routers are tuned to a budget percentile. **Verified** in RouteLLM's tuning code.
@@ -85,6 +93,6 @@ Full references: [`docs/proposal/`](docs/proposal/).
 
 ## 10. Harm
 
-- **Who gets hurt if it's wrong:** app users given wrong cached answers nobody notices, and the engineer who trusts our report.
+- **Who gets hurt if it's wrong:** app users given wrong cached answers nobody notices, and the builder and owner who trust our report.
 - **Worst realistic misuse:** a favourable CacheShift number used to justify aggressive caching that hides a quality drop.
 - **How we limit it:** margins of error on every number, quality never blended with cost, claims limited to what we tested.
