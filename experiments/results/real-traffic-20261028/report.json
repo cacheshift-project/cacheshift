@@ -1,0 +1,316 @@
+{
+  "scope": "LMSYS-Chat-1M English first user messages; exact-match repeats; router scores only (no answer quality)",
+  "plan_file": "Real_Traffic_Plan.md",
+  "plan_sha256": "9469a086072641713cbac55016e1b06013acd4925a35e918cfac2e5d4de50646",
+  "data_files": [
+    {
+      "name": "train-00000-of-00006-4feeb3f83346a0e9.parquet",
+      "sha256": "61a04cfeb3831d1981d58f29732f6bb87a4e2521a32fcfd1e3405ae40a256c54"
+    },
+    {
+      "name": "train-00001-of-00006-4030672591c2f478.parquet",
+      "sha256": "f4c962cd1cbe55ff78af6a72d9272434d5c3c9726199c40abafd98b6b14c5217"
+    },
+    {
+      "name": "train-00002-of-00006-1779b7cec9462180.parquet",
+      "sha256": "8764bd02a631e208ee74bd6301bd4e6fe56c73a7872a4f0331539d23a83a3c1c"
+    },
+    {
+      "name": "train-00003-of-00006-2fa862bfed56af1f.parquet",
+      "sha256": "50c5be93a7ae4086deba7af8381046a8f64a9a9e610b5ff43b9e4c99c2a95446"
+    },
+    {
+      "name": "train-00004-of-00006-18f4bdd50c103e71.parquet",
+      "sha256": "33d44fc51bed290115b7b4d2b362ba1bc82a61f98738dccdc134d5c3090b4d37"
+    },
+    {
+      "name": "train-00005-of-00006-fe1acc5d10a9f0e2.parquet",
+      "sha256": "02ce4842775e2d4e825cd375c78354170b5687a34e11f1f62f25ac11365f69c3"
+    }
+  ],
+  "router": {
+    "checkpoint": "routellm/bert",
+    "revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+    "scoring_mode": "single",
+    "device": "cpu",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "tokenizers": "0.22.2"
+    },
+    "python": "3.12.1",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 601,
+  "lru_seeds": [
+    601,
+    602,
+    603,
+    604,
+    605
+  ],
+  "capacity_fractions": [
+    0.1,
+    0.25
+  ],
+  "bootstrap_samples": 2000,
+  "decision_line": 0.05,
+  "sampling": {
+    "scored": {
+      "multi": 45620,
+      "pair": 15000,
+      "one_off": 20000
+    },
+    "weights": {
+      "multi": 1.0,
+      "pair": 4.601933333333333,
+      "one_off": 18.1929
+    }
+  },
+  "traffic": {
+    "conversations": 1000000,
+    "other_language": 222547,
+    "requests": 777453,
+    "non_english_share": 0.222547,
+    "unique_keys": 478507,
+    "repeated_groups": 114649,
+    "size_2_groups": 69029,
+    "largest_group": 10464,
+    "requests_in_repeated_groups": 413595,
+    "repeat_rate": 0.38451970730063423
+  },
+  "main": {
+    "scored_keys": {
+      "multi": 45620,
+      "pair": 15000,
+      "one_off": 20000
+    },
+    "estimated_keys": {
+      "repeated": 114649.00000000003,
+      "one_off": 363858.0000000001
+    },
+    "calibration": {
+      "threshold": 0.46184891360651986,
+      "threshold_rule": "weighted_midgap",
+      "target_strong_share": 0.5,
+      "strong_share_of_requests": 0.500001718689104
+    },
+    "estimates": {
+      "cache_off_share": 0.500001718689104,
+      "unbounded_cache_on_share": 0.5218351351181905,
+      "unbounded_drift": 0.021833416429086427,
+      "mean_score_repeated": 0.466482212563596,
+      "mean_score_one_off": 0.4676846006421825,
+      "share_above_cutoff_repeated": 0.5082998648047519,
+      "share_above_cutoff_one_off": 0.5260999999999999,
+      "score_gap": -0.0012023880785864693,
+      "share_gap": -0.017800135195248035
+    },
+    "intervals_95": {
+      "unbounded_drift": [
+        0.0030665985085033018,
+        0.041469351649096445
+      ],
+      "score_gap": [
+        -0.001623123221986142,
+        -0.0007974591882150208
+      ],
+      "share_gap": [
+        -0.026354578561522502,
+        -0.009251640009216565
+      ]
+    },
+    "decision": "drift too small to matter at this traffic's repeat rate (A2, real traffic, fails)",
+    "truncated_scored": 2614,
+    "truncated_share_of_requests": 0.030460293762666894,
+    "lru": [
+      {
+        "capacity_fraction": 0.1,
+        "order_seed": 601,
+        "drift": 0.017288016127196437
+      },
+      {
+        "capacity_fraction": 0.1,
+        "order_seed": 602,
+        "drift": 0.017097400674675023
+      },
+      {
+        "capacity_fraction": 0.1,
+        "order_seed": 603,
+        "drift": 0.017383910639680478
+      },
+      {
+        "capacity_fraction": 0.1,
+        "order_seed": 604,
+        "drift": 0.01741010522334563
+      },
+      {
+        "capacity_fraction": 0.1,
+        "order_seed": 605,
+        "drift": 0.017076628044509823
+      },
+      {
+        "capacity_fraction": 0.25,
+        "order_seed": 601,
+        "drift": 0.019937756456332667
+      },
+      {
+        "capacity_fraction": 0.25,
+        "order_seed": 602,
+        "drift": 0.01950905575482209
+      },
+      {
+        "capacity_fraction": 0.25,
+        "order_seed": 603,
+        "drift": 0.020110785289450428
+      },
+      {
+        "capacity_fraction": 0.25,
+        "order_seed": 604,
+        "drift": 0.019982019435030085
+      },
+      {
+        "capacity_fraction": 0.25,
+        "order_seed": 605,
+        "drift": 0.01959605683573018
+      }
+    ]
+  },
+  "sensitivity": {
+    "without_name_tags": {
+      "scored_keys": {
+        "multi": 35593,
+        "pair": 12043,
+        "one_off": 15461
+      },
+      "estimated_keys": {
+        "repeated": 91014.08313333335,
+        "one_off": 281280.4269000001
+      },
+      "calibration": {
+        "threshold": 0.4645578710815467,
+        "threshold_rule": "weighted_midgap",
+        "target_strong_share": 0.5,
+        "strong_share_of_requests": 0.5000051574710555
+      },
+      "estimates": {
+        "cache_off_share": 0.5000051574710555,
+        "unbounded_cache_on_share": 0.5240391615834787,
+        "unbounded_drift": 0.02403400411242329,
+        "mean_score_repeated": 0.4693476683262306,
+        "mean_score_one_off": 0.47078342671837503,
+        "share_above_cutoff_repeated": 0.5090812103454638,
+        "share_above_cutoff_one_off": 0.5288791151930664,
+        "score_gap": -0.0014357583921444372,
+        "share_gap": -0.019797904847602577
+      },
+      "intervals_95": {
+        "unbounded_drift": [
+          -0.0005306677633894414,
+          0.0506487351088571
+        ],
+        "score_gap": [
+          -0.0018958931675271463,
+          -0.0009604269526291053
+        ],
+        "share_gap": [
+          -0.029802276062817844,
+          -0.010312296829987626
+        ]
+      },
+      "decision": "inconclusive",
+      "truncated_scored": 1074,
+      "truncated_share_of_requests": 0.015070274759005218
+    },
+    "pairs_as_one_request": {
+      "scored_keys": {
+        "multi": 45620,
+        "pair": 15000,
+        "one_off": 20000
+      },
+      "estimated_keys": {
+        "repeated": 45620.0,
+        "one_off": 432887.0000000001
+      },
+      "calibration": {
+        "threshold": 0.46177629039116663,
+        "threshold_rule": "weighted_midgap",
+        "target_strong_share": 0.5,
+        "strong_share_of_requests": 0.4999972073692214
+      },
+      "estimates": {
+        "cache_off_share": 0.4999972073692214,
+        "unbounded_cache_on_share": 0.5232358599421394,
+        "unbounded_drift": 0.023238652572918017,
+        "mean_score_repeated": 0.4654337958706307,
+        "mean_score_one_off": 0.4676033533948786,
+        "share_above_cutoff_repeated": 0.5028934677772907,
+        "share_above_cutoff_one_off": 0.5253796525036172,
+        "score_gap": -0.002169557524247856,
+        "share_gap": -0.022486184726326464
+      },
+      "intervals_95": {
+        "unbounded_drift": [
+          0.0026878622226171266,
+          0.04459196561547341
+        ],
+        "score_gap": [
+          -0.002532829476678021,
+          -0.001812492099665348
+        ],
+        "share_gap": [
+          -0.02955167479144909,
+          -0.014820977894399451
+        ]
+      },
+      "decision": "drift too small to matter at this traffic's repeat rate (A2, real traffic, fails)",
+      "truncated_scored": 2614,
+      "truncated_share_of_requests": 0.030167352084815486
+    },
+    "without_automated": {
+      "scored_keys": {
+        "multi": 45557,
+        "pair": 15000,
+        "one_off": 20000
+      },
+      "estimated_keys": {
+        "repeated": 114586.00000000001,
+        "one_off": 363858.0000000001
+      },
+      "calibration": {
+        "threshold": 0.4623570966671814,
+        "threshold_rule": "weighted_midgap",
+        "target_strong_share": 0.5,
+        "strong_share_of_requests": 0.499997359727842
+      },
+      "estimates": {
+        "cache_off_share": 0.499997359727842,
+        "unbounded_cache_on_share": 0.5107951857828014,
+        "unbounded_drift": 0.01079782605495938,
+        "mean_score_repeated": 0.4664933807221853,
+        "mean_score_one_off": 0.4676846006421825,
+        "share_above_cutoff_repeated": 0.49839578366176207,
+        "share_above_cutoff_one_off": 0.5146999999999999,
+        "score_gap": -0.0011912199199971552,
+        "share_gap": -0.016304216338237865
+      },
+      "intervals_95": {
+        "unbounded_drift": [
+          0.00845762760153683,
+          0.013169002921760787
+        ],
+        "score_gap": [
+          -0.0016138953662358153,
+          -0.0007945240349111136
+        ],
+        "share_gap": [
+          -0.02486554376189057,
+          -0.008012865009687023
+        ]
+      },
+      "decision": "drift too small to matter at this traffic's repeat rate (A2, real traffic, fails)",
+      "truncated_scored": 2613,
+      "truncated_share_of_requests": 0.03225002158173591
+    }
+  }
+}
