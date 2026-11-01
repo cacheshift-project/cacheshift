@@ -27,9 +27,11 @@ RETUNE = RESULTS / "lru-retune-20261026/report.json"
 ENERGY = RESULTS / "scc-energy-8291245/report.json"
 OUT = ROOT / "docs/sprints/Sprint_2/figures"
 
-INK, MUTED, GRID = "#16202E", "#6A7684", "#C9D1DA"
-EASY, HARD, REAL_C = "#C2410C", "#1D4ED8", "#16202E"   # same easy/hard colours as the Sprint 1 figures
-PASS, FAIL, BAND = "#4B5563", "#B91C1C", "#E8EDF2"
+# Colours from the Sprint 2 slide template (Slidesgo, teal); red only marks wrong answers and failures
+BG, INK, MUTED, GRID = "#F3F3F3", "#212121", "#66706E", "#D3D9D7"
+EASY, HARD, REAL_C = "#2FAE92", "#305C54", "#212121"
+PASS, FAIL, BAND, FAIL_BAND = "#4C9484", "#B91C1C", "#DDE9E6", "#F2DCDC"
+plt.rcParams.update({"figure.facecolor": BG, "axes.facecolor": BG, "savefig.facecolor": BG})
 
 
 def pts(x):
@@ -147,7 +149,7 @@ def figure_retune(retune, out):
     decisions = [d for d in retune["decisions"] if d["arm"] == "no_shift"]
     sizes = sorted({d["capacity"] for d in decisions})
     fig, ax = plt.subplots(figsize=(10, 4.6), dpi=200)
-    ax.axvspan(-2, -1, color="#F7E3E3", zorder=0)
+    ax.axvspan(-2, -1, color=FAIL_BAND, zorder=0)
     ax.axvline(-1, color=FAIL, lw=1.4, ls="--", zorder=1)
     ax.text(-1.05, 5.75, "fails below −1.0\n(agreed before the run)", ha="right", va="center", fontsize=10.5,
             color=FAIL)
