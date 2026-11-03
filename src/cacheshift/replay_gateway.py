@@ -1,5 +1,6 @@
 """Replay-only gateway core. Routing never reads answers or correctness labels."""
 
+from collections import OrderedDict
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -100,12 +101,18 @@ def calibrate_midgap(scores, target=0.5):
 
 class ReplayGateway:
     def __init__(self, records, router, calibration, log_path, cache_enabled=True,
-                 dataset_sha256="", router_revision="", seed=601, repeats=5):
+                 dataset_sha256="", router_revision="", seed=601, repeats=5, cache_capacity=None):
+        """cache_capacity=None keeps the unbounded exact cache; an integer >= 1 makes it a
+        least-recently-used (LRU) cache that evicts the oldest-used entry when full."""
+        if cache_capacity is not None and (isinstance(cache_capacity, bool) or not isinstance(cache_capacity, int)
+                                           or cache_capacity < 1):
+            raise ValueError("cache_capacity must be None or a positive integer")
         self.records = records
         self.router = router
         self.threshold = calibration["threshold"]
         self.cache_enabled = cache_enabled
-        self.cache = {}
+        self.cache_capacity = cache_capacity if cache_enabled else None
+        self.cache = OrderedDict()
         self.lock = threading.Lock()
         self.config = {
             "mode": "recorded-answer-replay", "cache": "exact" if cache_enabled else "none",
@@ -114,6 +121,9 @@ class ReplayGateway:
             "router_revision": router_revision, "seed": seed, "extra_repeats": repeats,
             "strong_model": STRONG, "weak_model": WEAK,
         }
+        if self.cache_capacity is not None:
+            # Only added when bounded, so unbounded runs keep their earlier config_id.
+            self.config.update(cache="exact-lru", cache_capacity=self.cache_capacity)
         self.config_id = hashlib.sha256(json.dumps(self.config, sort_keys=True).encode()).hexdigest()[:16]
         self.log_path = Path(log_path)
         self.log_path.parent.mkdir(parents=True, exist_ok=True)
@@ -131,6 +141,7 @@ class ReplayGateway:
             cached = self.cache.get(key) if self.cache_enabled else None
             hit = cached is not None
             if hit:
+                self.cache.move_to_end(key)  # most recently used
                 model, answer = cached
                 score, cost, route = None, 0.0, "cache"
             else:
@@ -155,6 +166,8 @@ class ReplayGateway:
                 stream.write(json.dumps(event, allow_nan=False) + "\n")
             if not hit and self.cache_enabled:
                 self.cache[key] = (model, answer)
+                if self.cache_capacity is not None and len(self.cache) > self.cache_capacity:
+                    self.cache.popitem(last=False)  # evict the least recently used
             return event
 
 

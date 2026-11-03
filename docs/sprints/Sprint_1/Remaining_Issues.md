@@ -21,6 +21,11 @@ Low-score popularity has a paired accuracy loss of 1.75–2.08 points; the high-
 case improves accuracy. This is a mechanism demonstration on exposed data; quality
 preservation across directions and real traffic remain open.
 
+**Size-limited cache test, 2026-10-26 (#37):** [protocol](../Sprint_2/LRU_Retune_Protocol.md) agreed on #37
+before running; [results](../Sprint_2/LRU_Retune_Results.md). With an LRU cache the miss mix moves with
+traffic and every no-shift re-tuned share lands in 47–53%, but #5 does not pass: 5 of 6 decisions pass, and
+low-score popularity with a 25% cache costs −0.86 accuracy points [−1.38, −0.37]. #5 remains open.
+
 **Update, 2026-10-07:** PRs #21–#24 are merged; #15 is closed. The latest
 [gateway and fresh retuning check](Gateway_Retune_Check_20261007.md) demonstrates
 #6's replay acceptance and records a new #5 failure (55.05% against 47–53%).

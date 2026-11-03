@@ -1,0 +1,29 @@
+#!/bin/bash -l
+# Assumption A6: GPU energy check on the BU SCC (issue: "Feasibility: GPU energy reading on the SCC").
+# Setup and how to read the result: docs/sprints/Sprint_2/SCC_Energy_Check.md
+# Submit from the repository root on the SCC:
+#   qsub -P ece601 tools/scc/energy_check.qsub
+#$ -N cacheshift-energy
+#$ -cwd
+#$ -j y
+#$ -l h_rt=01:30:00
+#$ -pe omp 4
+#$ -l gpus=1
+#$ -l gpu_c=7.0
+#$ -l gpu_memory=24G
+
+set -eo pipefail  # no -u: conda activation scripts read unset variables
+module load miniconda
+module load academic-ml/fall-2025
+conda activate fall-2025-pyt
+# One-time venv layered on the module's PyTorch (see the setup notes).
+source "${CACHESHIFT_VENV:-$HOME/.venvs/cacheshift-energy}/bin/activate"
+
+# Model weights (~16 GB) must not go to the 10 GB home directory.
+: "${HF_HOME:?Set HF_HOME to a /projectnb directory first (see setup notes)}"
+export HF_HOME
+
+nvidia-smi --query-gpu=name,driver_version,memory.total,power.limit --format=csv
+python tools/scc/energy_check.py \
+  --output "experiments/results/scc-energy-${JOB_ID}/report.json" \
+  ${CACHESHIFT_ENERGY_ARGS:-}
