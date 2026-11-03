@@ -1,6 +1,6 @@
 # Sprint 2
 
-**Dates:** 13 Oct to 1 Nov 2026  ·  **Demo:** week of 2 Nov (2-minute presentation) · **Slides:** [Sprint2_Presentation.pdf](Sprint2_Presentation.pdf)
+**Dates:** 13 Oct to 1 Nov 2026  ·  **Demo:** 4 Nov 2026 (2-minute presentation) · **Slides:** [Sprint2_Presentation.pdf](Sprint2_Presentation.pdf)
 
 ## Goal
 Test whether the cache's effect on routing matters in real traffic (A2, part 2), show that cached answers can be checked (Story 2), settle the re-tuning quality rule (#37/#5), confirm GPU energy can be measured (A6), and pin down the target user (A1).
@@ -26,7 +26,7 @@ Milestone [Sprint 2](https://github.com/cacheshift-project/cacheshift/milestone/
 
 ## Demo
 - **What we show:** a semantic cache in front of a made-up bakery chatbot (`python -m cacheshift.cache_demo --step`, PR #45). Six prepared questions run at three match settings, ≥ 0.80, ≥ 0.90 and ≥ 0.95 similarity. Loose settings reuse right answers ("When do you open on Saturday?") but also serve wrong ones ("What time do you close on Sunday?" gets Saturday's closing time; "Are your muffins dairy-free?" gets the nut-free answer). At ≥ 0.90 there is one wrong answer; at ≥ 0.95 every question goes to the model. The slides then show the measured versions of this: cached-answer quality by setting, real-traffic drift, the re-tuning trade-off and GPU energy.
-- **What worked live:** *[fill in after presenting]*
+- **What worked live:** the demo ran end to end without problems in our run-through before the 4 Nov presentation.
 - **What is not real yet:** the semantic cache runs in offline tests and the demo but is **not wired into the running gateway**. Answers are recorded RouterBench answers (replay mode), not live model calls. The energy numbers are one run on one GPU.
 
 ## Retro
