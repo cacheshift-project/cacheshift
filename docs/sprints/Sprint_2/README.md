@@ -1,6 +1,6 @@
 # Sprint 2
 
-**Dates:** 13 Oct to 1 Nov 2026  ·  **Demo:** 4 Nov 2026 (2-minute presentation) · **Slides:** [Sprint2_Presentation.pdf](Sprint2_Presentation.pdf)
+**Dates:** 13 Oct to 1 Nov 2026  ·  **Demo:** 4 Nov 2026 (in-class presentation) · **Slides:** [Sprint2_Presentation.pdf](Sprint2_Presentation.pdf)
 
 ## Goal
 Test whether the cache's effect on routing matters in real traffic (A2, part 2), show that cached answers can be checked (Story 2), settle the re-tuning quality rule (#37/#5), confirm GPU energy can be measured (A6), and pin down the target user (A1).
@@ -19,14 +19,14 @@ Milestone [Sprint 2](https://github.com/cacheshift-project/cacheshift/milestone/
 | #38 Report mock-up for interviews | Anthony | One page; cost and quality separate; ranges on every number; linked from the guide | ☑ PR #34 ([mock-up](Report_Mockup.html)) |
 | #9 API key works | Anthony + Spencer | One real call on each laptop | ☑ PRs #33 (Anthony, Anthropic `claude-haiku-5-5`) and #42 (Spencer) |
 | #29 Controlled-drift report fixes | Anthony | Report commit named; empty-cache guarantee explained; 1.6447 → 1.64 | ☑ PR #32 |
-| Demo and slide figures | Spencer | Semantic-cache demo and figures generated from committed reports | ◐ PR #45 (in review) |
+| Demo and slide figures | Spencer | Semantic-cache demo and figures generated from committed reports | ☑ PR #45 |
 | #39 This report | Anthony | Plan, demo, retro, assumptions, LLM links | ☑ This file |
 
 **Moved to Backlog (26 Oct):** #3 (full drift report), #7 (reworded test set), #13 (rewording check). They wait on the real-traffic result and the API budget.
 
 ## Demo
 - **What we show:** a semantic cache in front of a made-up bakery chatbot (`python -m cacheshift.cache_demo --step`, PR #45). Six prepared questions run at three match settings, ≥ 0.80, ≥ 0.90 and ≥ 0.95 similarity. Loose settings reuse right answers ("When do you open on Saturday?") but also serve wrong ones ("What time do you close on Sunday?" gets Saturday's closing time; "Are your muffins dairy-free?" gets the nut-free answer). At ≥ 0.90 there is one wrong answer; at ≥ 0.95 every question goes to the model. The slides then show the measured versions of this: cached-answer quality by setting, real-traffic drift, the re-tuning trade-off and GPU energy.
-- **What worked live:** the demo ran end to end without problems in our run-through before the 4 Nov presentation.
+- **What worked live:** shown in class as a screenshot of the `--step` run's terminal output, walked through one question at a time; the full script ran without problems in our run-through. The bakery questions, answers and right/wrong key are made up and written by hand; the cache code and the similarity model are the real ones from Story 2.
 - **What is not real yet:** the semantic cache runs in offline tests and the demo but is **not wired into the running gateway**. Answers are recorded RouterBench answers (replay mode), not live model calls. The energy numbers are one run on one GPU.
 
 ## Retro
@@ -39,8 +39,10 @@ Milestone [Sprint 2](https://github.com/cacheshift-project/cacheshift/milestone/
   - **A1 was not tested.** No interviews happened, which was the plan's riskiest assumption and the one item that needed people outside the team.
   - The **Sprint 2 report was late**, and the semantic cache is still not inside the gateway.
   - **Setup friction early on:** GitHub write access for the assistant, and Windows line endings that made every file show as changed.
+  - **Two questions in class we answered poorly:** how the similarity score is computed, and how the energy numbers were measured.
 - **What we're changing next sprint:**
-  - Interviews first. Outreach goes out in the first days of Sprint 3, before any new code.
+  - User conversations (#14) move to the Backlog. They are not blocking the Sprint 3 build.
+  - Every number in the next presentation gets a one-line "how it was measured" in the speaker notes.
   - The gateway produces the one-page report from a real run, with the semantic cache inside it (Sprint 3 demo goal).
   - Decide in week 1 whether re-tuning must never cost accuracy or shows the user the trade-off, and reword Story 3 **before** any new run.
 
