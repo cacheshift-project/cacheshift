@@ -1,0 +1,56 @@
+{
+  "purpose": "#47: semantic cache inside the gateway vs Story 2's offline replay",
+  "dataset_sha256": "1f58859af72bf8b6eb98b4268834128a6b06ee1da74e307d274e4aae08aa66ce",
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+  "seed": 601,
+  "requests": 970,
+  "unique_questions": 485,
+  "settings": {
+    "cos>=0.90": {
+      "config_id": "e40cdb775447da62",
+      "log": "semantic_0.90.jsonl",
+      "hits": 486,
+      "wrong_question_hits": 1,
+      "hit_rate": 0.5010309278350515,
+      "wrong_question_rate": 0.0010309278350515464,
+      "story2_offline_wrong_question_hits": 1,
+      "mismatches": 0,
+      "first_mismatches": [],
+      "passes": true,
+      "story2_published_wrong_question_rate": {
+        "estimate": 0.0036082474226804126,
+        "ci95": [
+          0.0010564822430406495,
+          0.0066294399805914145
+        ]
+      }
+    },
+    "cos>=0.80": {
+      "config_id": "9040cf2b2158c22b",
+      "log": "semantic_0.80.jsonl",
+      "hits": 495,
+      "wrong_question_hits": 22,
+      "hit_rate": 0.5103092783505154,
+      "wrong_question_rate": 0.02268041237113402,
+      "story2_offline_wrong_question_hits": 22,
+      "mismatches": 0,
+      "first_mismatches": [],
+      "passes": true,
+      "story2_published_wrong_question_rate": {
+        "estimate": 0.031958762886597936,
+        "ci95": [
+          0.01991568797330253,
+          0.04557697081079411
+        ]
+      }
+    }
+  },
+  "passes": true,
+  "calibration": {
+    "target_strong_share": 0.5,
+    "threshold": 0.46594350275814495,
+    "tuning_strong_share": 0.49896907216494846
+  },
+  "story2_report_sha256": "21809f39f6984e58095cfd9c7fef91942f9d38e00e7102f7db40539897ffc3a9"
+}
