@@ -123,7 +123,7 @@ def test_footer_states_the_amber_accuracy_threshold():
     fresh = [event("q1"), event("q2"), event("q3", route="weak"), event("q3", route="weak"), event("q4"), event("q4")]
     out = report.build(semantic_run(), records(), planned_share=None, fresh_events=fresh, samples=200)
     page = report.render_html(out, "t", "run.jsonl")
-    assert "vs fresh answers" label is amber when the low end of its range is below -0.5 points" in page
+    assert 'vs fresh answers" label is amber when the low end of its range is below -0.5 points' in page
     assert "within ±3 points of plan" not in page   # no plan given
 
 
