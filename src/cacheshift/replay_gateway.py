@@ -10,6 +10,8 @@ import threading
 import time
 import uuid
 
+from cacheshift.semantic_cache import SemanticCache
+
 STRONG = "gpt-4-1106-preview"
 WEAK = "mistralai/mixtral-8x7b-chat"
 
@@ -101,12 +103,25 @@ def calibrate_midgap(scores, target=0.5):
 
 class ReplayGateway:
     def __init__(self, records, router, calibration, log_path, cache_enabled=True,
-                 dataset_sha256="", router_revision="", seed=601, repeats=5, cache_capacity=None):
+                 dataset_sha256="", router_revision="", seed=601, repeats=5, cache_capacity=None,
+                 semantic_threshold=None, embed=None):
         """cache_capacity=None keeps the unbounded exact cache; an integer >= 1 makes it a
-        least-recently-used (LRU) cache that evicts the oldest-used entry when full."""
+        least-recently-used (LRU) cache that evicts the oldest-used entry when full.
+
+        semantic_threshold (with an embed function, #47) swaps the exact cache for the Story 2
+        semantic cache: a request reuses the answer of the most similar saved question when the
+        cosine similarity is at or above the threshold, which may be a different question."""
         if cache_capacity is not None and (isinstance(cache_capacity, bool) or not isinstance(cache_capacity, int)
                                            or cache_capacity < 1):
             raise ValueError("cache_capacity must be None or a positive integer")
+        if semantic_threshold is not None:
+            if not cache_enabled:
+                raise ValueError("semantic_threshold needs the cache enabled")
+            if cache_capacity is not None:
+                raise ValueError("The semantic cache has no size limit; use cache_capacity=None")
+            if embed is None:
+                raise ValueError("semantic_threshold needs an embed function")
+        self.semantic = SemanticCache(embed, semantic_threshold) if semantic_threshold is not None else None
         self.records = records
         self.router = router
         self.threshold = calibration["threshold"]
@@ -124,6 +139,9 @@ class ReplayGateway:
         if self.cache_capacity is not None:
             # Only added when bounded, so unbounded runs keep their earlier config_id.
             self.config.update(cache="exact-lru", cache_capacity=self.cache_capacity)
+        if self.semantic is not None:
+            self.config.update(cache="semantic", semantic_threshold=semantic_threshold,
+                               embedding_model=getattr(embed, "model_name", "unnamed"))
         self.config_id = hashlib.sha256(json.dumps(self.config, sort_keys=True).encode()).hexdigest()[:16]
         self.log_path = Path(log_path)
         self.log_path.parent.mkdir(parents=True, exist_ok=True)
@@ -138,10 +156,17 @@ class ReplayGateway:
             if row is None or row["split"] != "test":
                 raise KeyError("Unknown test question; arbitrary prompts and tuning IDs are not served")
             key = (question_id, row["text"])
-            cached = self.cache.get(key) if self.cache_enabled else None
+            if self.semantic is not None:
+                entry, similarity = self.semantic.lookup(row["text"])
+                cached = None if entry is None else (entry["model"], entry["answer"])
+                matched = None if entry is None else entry["question_id"]
+            else:
+                cached = self.cache.get(key) if self.cache_enabled else None
+                similarity, matched = 1.0, question_id
             hit = cached is not None
             if hit:
-                self.cache.move_to_end(key)  # most recently used
+                if self.semantic is None:
+                    self.cache.move_to_end(key)  # most recently used
                 model, answer = cached
                 score, cost, route = None, 0.0, "cache"
             else:
@@ -154,8 +179,8 @@ class ReplayGateway:
                 "request_id": str(uuid.uuid4()),
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "question_id": question_id, "config_id": self.config_id,
-                "cache_hit": hit, "similarity": 1.0 if hit else None,
-                "matched_question_id": question_id if hit else None,
+                "cache_hit": hit, "similarity": similarity if hit else None,
+                "matched_question_id": matched if hit else None,
                 "router_score": score, "route": route, "model": model,
                 "answer": answer, "cost_usd": cost,
                 "latency_ms": (time.perf_counter() - start) * 1000,
@@ -164,7 +189,11 @@ class ReplayGateway:
             }
             with self.log_path.open("a", encoding="utf-8", newline="\n") as stream:
                 stream.write(json.dumps(event, allow_nan=False) + "\n")
-            if not hit and self.cache_enabled:
+            if not hit and self.semantic is not None:
+                # Only misses are stored, as in Story 2: a question served from another
+                # question's entry is never saved itself.
+                self.semantic.insert(row["text"], {"question_id": question_id, "model": model, "answer": answer})
+            elif not hit and self.cache_enabled:
                 self.cache[key] = (model, answer)
                 if self.cache_capacity is not None and len(self.cache) > self.cache_capacity:
                     self.cache.popitem(last=False)  # evict the least recently used
