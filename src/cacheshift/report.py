@@ -42,6 +42,9 @@ EXAMPLES = 5
 DRIFT_BAND = 0.03
 # The accuracy pill turns amber when the low end of the paired range is below this change.
 ACCURACY_AMBER = -0.005
+# #37/#5: the accuracy margin agreed for re-tuning (low end of the paired range).
+RETUNE_MARGIN = -0.01
+RETUNE_RATES = ("strong_share_of_routed", "accuracy", "usd_per_1000")
 
 
 def read_log(path):
@@ -123,7 +126,44 @@ def bootstrap(groups, keys, seed=SEED, samples=SAMPLES):
     return out
 
 
-def build(events, records, planned_share, fresh_events=None, seed=SEED, samples=SAMPLES):
+def retune_comparison(events, retuned_events, records, retune, planned_share, seed=SEED, samples=SAMPLES):
+    """#49: the old and new cutoffs on the held-out question groups only, paired by group."""
+    if len(retuned_events) != len(events):
+        raise ValueError("The re-tuned log must replay the same number of requests as the cached run")
+    if [e["question_id"] for e in retuned_events] != [e["question_id"] for e in events]:
+        raise ValueError("The re-tuned log must replay the same question stream as the cached run")
+    fitted = set(retune["fit_group_ids"])
+
+    def held_out(stream):
+        return [event for event in stream if records[event["question_id"]]["group_id"] not in fitted]
+
+    before, after = group_totals(held_out(events), records), group_totals(held_out(retuned_events), records)
+    if not before or set(before) != set(after):
+        raise ValueError("The re-tune file's fit half leaves no held-out question groups in this run")
+    keys = sorted(before)
+    boot = bootstrap({"before": before, "after": after}, keys, seed, samples)
+    (bp, bd), (ap, ad) = boot["before"], boot["after"]
+    out = {"threshold_before": retune.get("previous_threshold"), "threshold_after": retune["threshold"],
+           "held_out_groups": len(keys),
+           "held_out_requests": int(np.array([before[key] for key in keys]).sum(axis=0)[FIELDS.index("requests")]),
+           "before": {name: interval(bp[name], bd[name]) for name in RETUNE_RATES},
+           "after": {name: interval(ap[name], ad[name]) for name in RETUNE_RATES},
+           "change": {name: interval(ap[name] - bp[name], ad[name] - bd[name]) for name in RETUNE_RATES},
+           "accuracy_margin": RETUNE_MARGIN}
+    low = out["change"]["accuracy"]["ci95"][0]
+    out["accuracy_range_above_margin"] = low is not None and low >= RETUNE_MARGIN - 1e-12
+    if planned_share is not None:
+        out["after_drift_from_plan"] = interval(ap["strong_share_of_routed"] - planned_share,
+                                                ad["strong_share_of_routed"] - planned_share)
+        out["before_drift_from_plan"] = interval(bp["strong_share_of_routed"] - planned_share,
+                                                 bd["strong_share_of_routed"] - planned_share)
+        estimate = out["after_drift_from_plan"]["estimate"]
+        out["after_within_band"] = estimate is not None and abs(estimate) <= DRIFT_BAND + 1e-12
+    return out
+
+
+def build(events, records, planned_share, fresh_events=None, seed=SEED, samples=SAMPLES,
+          retuned_events=None, retune=None):
     cached = group_totals(events, records)
     groups = {"cached": cached}
     if fresh_events is not None:
@@ -158,6 +198,13 @@ def build(events, records, planned_share, fresh_events=None, seed=SEED, samples=
             "strong_share_change": interval(point["strong_share_of_routed"] - fresh_point["strong_share_of_routed"],
                                             draws["strong_share_of_routed"] - fresh_draws["strong_share_of_routed"]),
         }
+    if (retuned_events is None) != (retune is None):
+        raise ValueError("Re-tuning needs both the re-tuned log and the re-tune file")
+    if retuned_events is not None:
+        if retune.get("target_strong_share") is not None and planned_share is not None \
+                and abs(retune["target_strong_share"] - planned_share) > 1e-12:
+            raise ValueError("The re-tune file was fitted to a different planned share")
+        report["retune"] = retune_comparison(events, retuned_events, records, retune, planned_share, seed, samples)
     report["examples"] = wrong_question_examples(events, records)
     return report
 
@@ -232,6 +279,20 @@ def text_summary(report, title):
         lines.append(f"Versus fresh answers (same stream, no cache): accuracy {pts(p['accuracy_change']['estimate'])} points "
                      f"({rng(p['accuracy_change'], pts)}); expensive-model share {pts(p['strong_share_change']['estimate'])} "
                      f"points ({rng(p['strong_share_change'], pts)})")
+    if "retune" in report:
+        x = report["retune"]
+        lines.append(f"Re-tuning (new cutoff {x['threshold_after']:.4f}; {x['held_out_groups']:,} held-out question groups, "
+                     f"{x['held_out_requests']:,} requests):")
+        lines.append(f"  expensive-model share {pct(x['before']['strong_share_of_routed']['estimate'])} -> "
+                     f"{pct(x['after']['strong_share_of_routed']['estimate'])} "
+                     f"({rng(x['after']['strong_share_of_routed'], pct)})"
+                     + ("" if "after_within_band" not in x else
+                        f", {'within' if x['after_within_band'] else 'outside'} the ±{100 * DRIFT_BAND:g}-point band"))
+        lines.append(f"  accuracy {pts(x['change']['accuracy']['estimate'])} points ({rng(x['change']['accuracy'], pts)}); "
+                     f"cost per 1,000 {money(x['before']['usd_per_1000']['estimate'])} -> "
+                     f"{money(x['after']['usd_per_1000']['estimate'])}")
+        lines.append(f"  accuracy range {'stays above' if x['accuracy_range_above_margin'] else 'reaches below'} "
+                     f"the {pts(RETUNE_MARGIN)}-point margin; your call whether to apply the new cutoff")
     return "\n".join(lines)
 
 
@@ -299,9 +360,40 @@ def render_html(report, title, source):
     fresh = ""
     if "fresh" in report:
         fresh = row("Fresh answers, no cache", pct(report["fresh"]["accuracy"]["estimate"]))
+    retune = ""
+    if "retune" in report:
+        x = report["retune"]
+        signed_money = lambda v: "n/a" if v is None else ("−" if v < 0 else "+") + money(abs(v))
+        share_label = ""
+        if "after_within_band" in x:
+            share_label = (f'<span class="pill {"good" if x["after_within_band"] else "warn"}">'
+                           f'{"Within" if x["after_within_band"] else "Still more than"} {100 * DRIFT_BAND:g} points '
+                           f'{"of" if x["after_within_band"] else "from"} your plan after re-tuning</span> ')
+        acc_cls = "good" if x["accuracy_range_above_margin"] else "warn"
+        before_cut = "" if x["threshold_before"] is None else f'{x["threshold_before"]:.4f} → '
+        retune = (f'<section class="card full"><h2>Re-tune the router? (your call)</h2>{share_label}'
+                  f'<span class="pill {acc_cls}">{pts(x["change"]["accuracy"]["estimate"])} accuracy points</span> '
+                  f'<span class="range">({rng(x["change"]["accuracy"], pts)})</span>'
+                  + row("Expensive-model share", f'{pct(x["before"]["strong_share_of_routed"]["estimate"])} → '
+                        f'{pct(x["after"]["strong_share_of_routed"]["estimate"])} '
+                        f'<span class="range">({rng(x["after"]["strong_share_of_routed"], pct)})</span>')
+                  + row("Correct answers", f'{pct(x["before"]["accuracy"]["estimate"])} → '
+                        f'{pct(x["after"]["accuracy"]["estimate"])}')
+                  + row("Cost per 1,000 requests", f'{money(x["before"]["usd_per_1000"]["estimate"])} → '
+                        f'{money(x["after"]["usd_per_1000"]["estimate"])} <span class="range">(change '
+                        f'{signed_money(x["change"]["usd_per_1000"]["estimate"])}, '
+                        f'{rng(x["change"]["usd_per_1000"], signed_money)})</span>')
+                  + row("Router cutoff", f'{before_cut}{x["threshold_after"]:.4f}')
+                  + f'<p class="range">Fitted on the requests from half of the question groups that reached the router; '
+                    f'compared here on the other {x["held_out_groups"]:,} groups ({x["held_out_requests"]:,} requests), '
+                    f'old cutoff vs new, same cache. Apply the new cutoff if the accuracy change is acceptable to you.</p>'
+                    f'</section>')
     rules = []
+    if "retune" in report:
+        rules.append(f"The re-tuning accuracy label is amber when the low end of its range is below "
+                     f"{pts(RETUNE_MARGIN)} point (the margin agreed in #37).")
     if "paired" in report:
-        rules.append(f"The accuracy label is amber when the low end of its range is below "
+        rules.append(f"The \"vs fresh answers\" label is amber when the low end of its range is below "
                      f"{pts(ACCURACY_AMBER)} points.")
     if report["planned_strong_share"] is not None:
         rules.append(f"The plan label is green when the expensive-model share is within "
@@ -331,6 +423,7 @@ def render_html(report, title, source):
      f'{t["repeated_wrong"]:,} ({pct(r["repeated_wrong_rate"]["estimate"], 2)})')}
 </section>
 {plan}
+{retune}
 <section class="card full"><h2>Answers to check: saved answer served to a different question</h2>{examples}</section>
 </div>
 <footer>Ranges are 95% bootstrap intervals over question groups ({report.get("bootstrap_samples", SAMPLES):,} resamples). Cost and quality are shown
@@ -358,6 +451,9 @@ def main(argv=None):
     plan = parser.add_mutually_exclusive_group()
     plan.add_argument("--planned-share", type=float, help="Planned expensive-model share, e.g. 0.5")
     plan.add_argument("--config", type=Path, help="Run report.json holding the gateway config (target_strong_share)")
+    parser.add_argument("--retuned-log", type=Path,
+                        help="Optional (#49): the same stream through the cache with the re-tuned cutoff")
+    parser.add_argument("--retune", type=Path, help="The re-tune file from cacheshift.retune_log (with --retuned-log)")
     parser.add_argument("--out", type=Path, required=True, help="HTML report to write; a .json file is written next to it")
     parser.add_argument("--title", default="Your AI assistant: CacheShift report")
     args = parser.parse_args(argv)
@@ -369,11 +465,18 @@ def main(argv=None):
             raise ValueError("--planned-share must be between 0 and 1")
         events = read_log(args.log)
         fresh = read_log(args.fresh_log) if args.fresh_log else None
-        report = build(events, records, planned, fresh)
+        if (args.retuned_log is None) != (args.retune is None):
+            raise ValueError("--retuned-log and --retune go together")
+        retuned, retune = None, None
+        if args.retune:
+            from cacheshift import retune_log
+            retuned, retune = read_log(args.retuned_log), retune_log.load(args.retune)
+        report = build(events, records, planned, fresh, retuned_events=retuned, retune=retune)
     except (OSError, ValueError, KeyError) as exc:
         parser.exit(1, f"Could not build the report: {exc}\n")
     report["inputs"] = {"log": args.log.name, "log_sha256": hashlib.sha256(args.log.read_bytes()).hexdigest(),
                         "fresh_log": args.fresh_log.name if args.fresh_log else None,
+                        "retuned_log": args.retuned_log.name if args.retuned_log else None,
                         "dataset_sha256": hashlib.sha256(args.dataset.read_bytes()).hexdigest(),
                         "seed": SEED}
     args.out.parent.mkdir(parents=True, exist_ok=True)

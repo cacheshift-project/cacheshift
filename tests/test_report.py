@@ -123,7 +123,7 @@ def test_footer_states_the_amber_accuracy_threshold():
     fresh = [event("q1"), event("q2"), event("q3", route="weak"), event("q3", route="weak"), event("q4"), event("q4")]
     out = report.build(semantic_run(), records(), planned_share=None, fresh_events=fresh, samples=200)
     page = report.render_html(out, "t", "run.jsonl")
-    assert "amber when the low end of its range is below -0.5 points" in page
+    assert 'vs fresh answers" label is amber when the low end of its range is below -0.5 points' in page
     assert "within ±3 points of plan" not in page   # no plan given
 
 
@@ -140,3 +140,99 @@ def test_cli_on_the_committed_sprint1_gateway_run_matches_its_own_summary(tmp_pa
     assert saved["planned_strong_share"] == summary["planned_strong_share"]
     assert out.read_text().startswith("<!doctype html>")
     assert "Expensive-model share of routed requests" in capsys.readouterr().out
+
+
+# ---------- #49: re-tuning step ----------
+
+def retune_records(groups=40):
+    """Groups of one question; router scores spread evenly so a cutoff can hit any share."""
+    rows = {}
+    for i in range(groups):
+        qid = f"r{i:02d}"
+        rows[qid] = {"question_id": qid, "group_id": f"g-{qid}", "split": "test", "text": f"Question {i}?",
+                     "gold_answer": "A",
+                     "answers": {STRONG: {"answer": "A", "cost_usd": 0.01},
+                                 WEAK: {"answer": "A" if i % 4 else "B", "cost_usd": 0.001}}}
+    return rows
+
+
+def routed_run(rows, cutoff):
+    """Each question once (routed) and once more (exact cache hit); score = i / len."""
+    events = []
+    for i, qid in enumerate(sorted(rows)):
+        score = i / len(rows)
+        route = "strong" if score >= cutoff else "weak"
+        model = STRONG if route == "strong" else WEAK
+        answer = rows[qid]["answers"][model]["answer"]
+        events.append({"question_id": qid, "cache_hit": False, "route": route, "answer": answer,
+                       "cost_usd": rows[qid]["answers"][model]["cost_usd"], "router_score": score,
+                       "matched_question_id": None, "similarity": None, "config_id": f"cut-{cutoff}"})
+        events.append({"question_id": qid, "cache_hit": True, "route": "cache", "answer": answer, "cost_usd": 0.0,
+                       "router_score": None, "matched_question_id": qid, "similarity": 1.0,
+                       "config_id": f"cut-{cutoff}"})
+    return events
+
+
+def test_retune_fits_on_one_half_and_the_report_compares_on_the_other():
+    from cacheshift import retune_log
+
+    rows = retune_records()
+    before = routed_run(rows, cutoff=0.2)                 # 80% expensive vs a 50% plan
+    retune = retune_log.fit(before, rows, 0.5)
+    fitted = set(retune["fit_group_ids"])
+    assert fitted and retune["held_out_groups"] == len(rows) - len(fitted)
+    assert all(retune_log.fit_half(group) for group in fitted)
+    assert retune["fit_strong_share"] == pytest.approx(0.5, abs=0.05)
+    after = routed_run(rows, cutoff=retune["threshold"])
+    retune["previous_threshold"] = 0.2
+    out = report.build(before, rows, 0.5, retuned_events=after, retune=retune, samples=200)
+    x = out["retune"]
+    held = [qid for qid in rows if rows[qid]["group_id"] not in fitted]
+    assert x["held_out_groups"] == len(held) and x["held_out_requests"] == 2 * len(held)
+    share = lambda cut: sum(int(q[1:]) / len(rows) >= cut for q in held) / len(held)
+    assert x["before"]["strong_share_of_routed"]["estimate"] == pytest.approx(share(0.2))
+    assert x["after"]["strong_share_of_routed"]["estimate"] == pytest.approx(share(retune["threshold"]))
+    assert x["change"]["usd_per_1000"]["estimate"] < 0           # fewer expensive calls
+    assert x["change"]["accuracy"]["estimate"] <= 0              # the weak model misses some
+    assert x["after_within_band"] == (abs(share(retune["threshold"]) - 0.5) <= 0.03)
+    page = report.render_html(out, "t", "run.jsonl")
+    assert "Re-tune the router? (your call)" in page and "0.2000 → " in page
+    assert "below -1.0 point (the margin agreed in #37)" in page
+    assert "Re-tuning (new cutoff" in report.text_summary(out, "t")
+
+
+def test_retune_inputs_are_checked():
+    from cacheshift import retune_log
+
+    rows = retune_records()
+    before = routed_run(rows, cutoff=0.2)
+    retune = retune_log.fit(before, rows, 0.5)
+    with pytest.raises(ValueError, match="both the re-tuned log and the re-tune file"):
+        report.build(before, rows, 0.5, retuned_events=before, samples=20)
+    with pytest.raises(ValueError, match="same question stream"):
+        report.build(before, rows, 0.5, retuned_events=before[::-1], retune=retune, samples=20)
+    with pytest.raises(ValueError, match="different planned share"):
+        report.build(before, rows, 0.4, retuned_events=before, retune=retune, samples=20)
+    no_score = [dict(event, router_score=None) for event in before]
+    with pytest.raises(ValueError, match="no valid router_score"):
+        retune_log.fit(no_score, rows, 0.5)
+
+
+def test_retune_cli_on_the_committed_sprint1_run_feeds_the_report(tmp_path, capsys):
+    from cacheshift import retune_log
+
+    out = tmp_path / "retune.json"
+    retune_log.main(["--log", str(DEMO / "exact_cache.jsonl"), "--config", str(DEMO / "report.json"), "--out", str(out)])
+    saved = retune_log.load(out)
+    config = json.loads((DEMO / "report.json").read_text())["runs"]["exact_cache"]["config"]
+    assert saved["target_strong_share"] == config["target_strong_share"]
+    assert saved["previous_threshold"] == config["threshold"] and saved["log"] == "exact_cache.jsonl"
+    assert "New cutoff" in capsys.readouterr().out
+    # The same log as its own "re-tuned" run: nothing changes, and the report still renders.
+    html = tmp_path / "report.html"
+    report.main(["--log", str(DEMO / "exact_cache.jsonl"), "--config", str(DEMO / "report.json"),
+                 "--retuned-log", str(DEMO / "exact_cache.jsonl"), "--retune", str(out), "--out", str(html)])
+    change = json.loads(html.with_suffix(".json").read_text())["retune"]["change"]
+    assert change["strong_share_of_routed"]["estimate"] == 0 and change["accuracy"]["estimate"] == 0
+    with pytest.raises(SystemExit):
+        report.main(["--log", str(DEMO / "exact_cache.jsonl"), "--retune", str(out), "--out", str(html)])
