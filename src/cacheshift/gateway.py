@@ -100,14 +100,22 @@ def main():
     parser.add_argument("--run-dir", type=Path, required=True)
     parser.add_argument("--download", action="store_true", help="Allow the initial public checkpoint download")
     parser.add_argument("--calibration", type=Path, help="Validated tuning-only artifact from cacheshift.retune")
+    parser.add_argument("--semantic-threshold", type=float,
+                        help="Use the semantic cache (#47) at this cosine setting, e.g. 0.90; default is the exact cache")
     args = parser.parse_args()
     args.run_dir.mkdir(parents=True, exist_ok=False)
     records, router, calibration, digest = prepare(args.dataset, offline=not args.download)
     if args.calibration:
         from cacheshift.retune import load_calibration
         calibration = load_calibration(args.calibration, digest, REVISION, records)
+    embed = None
+    if args.semantic_threshold is not None:
+        from cacheshift.semantic_cache import EMBEDDING_MODEL, SentenceEmbedder
+        embed = SentenceEmbedder(EMBEDDING_MODEL, cache_dir=str(ROOT / "data/cache/embeddings"))
+        embed.warm(row["text"] for row in records.values() if row["split"] == "test")
     engine = ReplayGateway(records, router, calibration, args.run_dir / "requests.jsonl",
-                           dataset_sha256=digest, router_revision=REVISION)
+                           dataset_sha256=digest, router_revision=REVISION,
+                           semantic_threshold=args.semantic_threshold, embed=embed)
     (args.run_dir / "config.json").write_text(json.dumps({**engine.config, **calibration}, indent=2), encoding="utf-8")
     uvicorn.run(create_app(engine), host="127.0.0.1", port=args.port)
 
