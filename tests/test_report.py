@@ -90,8 +90,41 @@ def test_html_escapes_text_and_shows_the_wrong_question_example():
     page = report.render_html(out, "Test <report>", "run.jsonl")
     assert "Test &lt;report&gt;" in page and "<b>bold</b>" not in page and "&lt;b&gt;bold&lt;/b&gt;" in page
     assert "What time do you close on Saturday?" in page and "similarity 0.94" in page
-    assert "Drifted from your plan" in page or "No clear drift from your plan" in page
+    assert "Drifted more than 3 points from your plan" in page   # 66.7% vs 50% planned
     assert "(50 resamples)" in page
+    assert "within ±3 points of plan" in page and "amber" not in page   # no fresh run, so no accuracy pill
+
+
+def test_drift_label_uses_the_story3_band_not_whether_the_range_excludes_zero():
+    share = 2 / 3
+    # Spencer's #52 example: +2.2 points with a range clear of zero is still within ±3, so not "Drifted".
+    out = report.build(semantic_run(), records(), planned_share=share - 0.022, samples=200)
+    assert out["rates"]["drift_from_plan"]["estimate"] == pytest.approx(0.022)
+    assert out["within_band"] and out["drift_band"] == 0.03
+    page = report.render_html(out, "t", "run.jsonl")
+    assert "Within 3 points of your plan" in page and "Drifted" not in page
+    assert "within the ±3-point band" in report.text_summary(out, "t")
+    for planned, within in ((share - 0.03, True), (share + 0.03, True), (share - 0.031, False), (share + 0.031, False)):
+        assert report.build(semantic_run(), records(), planned_share=planned, samples=20)["within_band"] is within
+
+
+def test_cache_hit_without_matched_question_is_an_error(tmp_path):
+    bad = dict(event("q4", hit=True, matched="q4", similarity=1.0, answer="D"), matched_question_id=None)
+    log = tmp_path / "run.jsonl"
+    log.write_text(json.dumps(event("q4")) + "\n" + json.dumps(bad) + "\n")
+    with pytest.raises(ValueError, match=r"run.jsonl:2 is a cache hit without 'matched_question_id'"):
+        report.read_log(log)
+    missing = {key: value for key, value in bad.items() if key != "matched_question_id"}
+    with pytest.raises(ValueError, match="no matched_question_id"):
+        report.build([event("q4"), missing], records(), planned_share=None, samples=20)
+
+
+def test_footer_states_the_amber_accuracy_threshold():
+    fresh = [event("q1"), event("q2"), event("q3", route="weak"), event("q3", route="weak"), event("q4"), event("q4")]
+    out = report.build(semantic_run(), records(), planned_share=None, fresh_events=fresh, samples=200)
+    page = report.render_html(out, "t", "run.jsonl")
+    assert "amber when the low end of its range is below -0.5 points" in page
+    assert "within ±3 points of plan" not in page   # no plan given
 
 
 def test_cli_on_the_committed_sprint1_gateway_run_matches_its_own_summary(tmp_path, capsys):

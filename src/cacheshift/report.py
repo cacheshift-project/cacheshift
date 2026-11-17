@@ -38,6 +38,10 @@ SEED = 601
 FIELDS = ("requests", "hits", "routed", "strong", "correct", "cost", "all_strong_cost",
           "wrong_question", "wrong_question_wrong", "repeated_wrong")
 EXAMPLES = 5
+# Story 3 (#5): the real expensive-model share should be within this many points of plan.
+DRIFT_BAND = 0.03
+# The accuracy pill turns amber when the low end of the paired range is below this change.
+ACCURACY_AMBER = -0.005
 
 
 def read_log(path):
@@ -49,6 +53,9 @@ def read_log(path):
         for key in ("question_id", "cache_hit", "route", "answer", "cost_usd"):
             if key not in event:
                 raise ValueError(f"{path}:{number} is missing '{key}'; is this a gateway request log?")
+        if event["cache_hit"] and not event.get("matched_question_id"):
+            raise ValueError(f"{path}:{number} is a cache hit without 'matched_question_id', so a saved answer "
+                             "served to a different question could not be detected")
         events.append(event)
     if not events:
         raise ValueError(f"{path} has no requests")
@@ -62,8 +69,9 @@ def classify(event, records):
     """(correct, wrong_question, repeated_wrong) for one request."""
     row = records[event["question_id"]]
     correct = is_correct(row, event["answer"])
-    matched = event.get("matched_question_id") or event["question_id"]
-    wrong_question = bool(event["cache_hit"]) and matched != event["question_id"]
+    if event["cache_hit"] and not event.get("matched_question_id"):
+        raise ValueError(f"Cache hit for {event['question_id']} has no matched_question_id")
+    wrong_question = bool(event["cache_hit"]) and event["matched_question_id"] != event["question_id"]
     repeated_wrong = bool(event["cache_hit"]) and not wrong_question and not correct
     return correct, wrong_question, repeated_wrong
 
@@ -135,8 +143,11 @@ def build(events, records, planned_share, fresh_events=None, seed=SEED, samples=
               "planned_strong_share": planned_share, "question_groups": len(keys),
               "bootstrap_samples": samples}
     if planned_share is not None:
-        report["rates"]["drift_from_plan"] = interval(point["strong_share_of_routed"] - planned_share,
-                                                      draws["strong_share_of_routed"] - planned_share)
+        drift = interval(point["strong_share_of_routed"] - planned_share,
+                         draws["strong_share_of_routed"] - planned_share)
+        report["rates"]["drift_from_plan"] = drift
+        report["drift_band"] = DRIFT_BAND
+        report["within_band"] = drift["estimate"] is not None and abs(drift["estimate"]) <= DRIFT_BAND + 1e-12
     if fresh_events is not None:
         fresh_point, fresh_draws = boot["fresh"]
         report["fresh"] = {name: interval(fresh_point[name], fresh_draws[name])
@@ -212,8 +223,10 @@ def text_summary(report, title):
              f"Expensive-model share of routed requests: {pct(r['strong_share_of_routed']['estimate'])} "
              f"({rng(r['strong_share_of_routed'], pct)})"]
     if report["planned_strong_share"] is not None:
+        band = f"±{100 * report['drift_band']:g}"
+        verdict = f"within the {band}-point band" if report["within_band"] else f"outside the {band}-point band"
         lines.append(f"  plan {pct(report['planned_strong_share'])}; drift {pts(r['drift_from_plan']['estimate'])} points "
-                     f"({rng(r['drift_from_plan'], pts)})")
+                     f"({rng(r['drift_from_plan'], pts)}), {verdict}")
     if "paired" in report:
         p = report["paired"]
         lines.append(f"Versus fresh answers (same stream, no cache): accuracy {pts(p['accuracy_change']['estimate'])} points "
@@ -256,16 +269,16 @@ def render_html(report, title, source):
     quality_pill = ""
     if "paired" in report:
         change = report["paired"]["accuracy_change"]
-        cls = "good" if change["ci95"][0] is not None and change["ci95"][0] >= -0.005 else "warn"
+        cls = "good" if change["ci95"][0] is not None and change["ci95"][0] >= ACCURACY_AMBER else "warn"
         quality_pill = (f'<span class="pill {cls}">{pts(change["estimate"])} points vs fresh answers</span> '
                         f'<span class="range">({rng(change, pts)})</span>')
     plan = ""
     if report["planned_strong_share"] is not None:
         drift = r["drift_from_plan"]
-        low, high = drift["ci95"]
-        off = low is not None and (low > 0 or high < 0)
-        cls = "warn" if off else "good"
-        verdict = "Drifted from your plan" if off else "No clear drift from your plan"
+        band = f"{100 * report['drift_band']:g}"
+        cls = "good" if report["within_band"] else "warn"
+        verdict = (f"Within {band} points of your plan" if report["within_band"]
+                   else f"Drifted more than {band} points from your plan")
         plan = (f'<section class="card full"><h2>Is the expensive-model share where you set it?</h2>'
                 f'<span class="pill {cls}">{verdict}: {pct(r["strong_share_of_routed"]["estimate"])} '
                 f'vs planned {pct(report["planned_strong_share"])}</span>'
@@ -286,6 +299,14 @@ def render_html(report, title, source):
     fresh = ""
     if "fresh" in report:
         fresh = row("Fresh answers, no cache", pct(report["fresh"]["accuracy"]["estimate"]))
+    rules = []
+    if "paired" in report:
+        rules.append(f"The accuracy label is amber when the low end of its range is below "
+                     f"{pts(ACCURACY_AMBER)} points.")
+    if report["planned_strong_share"] is not None:
+        rules.append(f"The plan label is green when the expensive-model share is within "
+                     f"±{100 * report['drift_band']:g} points of plan (Story 3).")
+    rules = (" " + " ".join(rules)) if rules else ""
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CacheShift Report</title><style>{CSS}</style></head><body><main>
@@ -314,7 +335,7 @@ def render_html(report, title, source):
 </div>
 <footer>Ranges are 95% bootstrap intervals over question groups ({report.get("bootstrap_samples", SAMPLES):,} resamples). Cost and quality are shown
 separately and never combined into one score. "Correct" means the answer matches the question's official answer key.
-Costs are historical estimates recorded by the replay gateway. Generated {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC.</footer>
+Costs are historical estimates recorded by the replay gateway.{rules} Generated {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC.</footer>
 </main></body></html>
 """
 
