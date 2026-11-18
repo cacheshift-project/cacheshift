@@ -1,0 +1,185 @@
+{
+  "rates": {
+    "hit_rate": {
+      "estimate": 0.5103092783505154,
+      "ci95": [
+        0.4865149129712236,
+        0.5323574309603721
+      ]
+    },
+    "accuracy": {
+      "estimate": 0.8804123711340206,
+      "ci95": [
+        0.8480210360586911,
+        0.9113961602010022
+      ]
+    },
+    "wrong_question_rate": {
+      "estimate": 0.02268041237113402,
+      "ci95": [
+        0.008105369807497468,
+        0.03975727501779085
+      ]
+    },
+    "wrong_question_wrong_rate": {
+      "estimate": 0.020618556701030927,
+      "ci95": [
+        0.006198187191361973,
+        0.03703894616265749
+      ]
+    },
+    "repeated_wrong_rate": {
+      "estimate": 0.04742268041237113,
+      "ci95": [
+        0.0307843661898298,
+        0.06549069561364643
+      ]
+    },
+    "strong_share_of_routed": {
+      "estimate": 0.5494736842105263,
+      "ci95": [
+        0.5021272107011401,
+        0.5957905701754386
+      ]
+    },
+    "usd_per_1000": {
+      "estimate": 0.2721441237113401,
+      "ci95": [
+        0.24737724801430205,
+        0.2971927846348969
+      ]
+    },
+    "all_strong_usd_per_1000": {
+      "estimate": 0.9200618556701038,
+      "ci95": [
+        0.896860927416496,
+        0.9430368969519047
+      ]
+    },
+    "saving_vs_all_strong": {
+      "estimate": 0.7042110570781888,
+      "ci95": [
+        0.6788730796958223,
+        0.7297851539454926
+      ]
+    },
+    "drift_from_plan": {
+      "estimate": 0.049473684210526336,
+      "ci95": [
+        0.0021272107011400866,
+        0.0957905701754386
+      ]
+    }
+  },
+  "totals": {
+    "requests": 970,
+    "hits": 495,
+    "routed": 475,
+    "strong": 261,
+    "correct": 854,
+    "cost": 0.2639797999999999,
+    "all_strong_cost": 0.8924600000000007,
+    "wrong_question": 22,
+    "wrong_question_wrong": 20,
+    "repeated_wrong": 46
+  },
+  "planned_strong_share": 0.5,
+  "question_groups": 483,
+  "bootstrap_samples": 2000,
+  "drift_band": 0.03,
+  "within_band": false,
+  "fresh": {
+    "accuracy": {
+      "estimate": 0.9,
+      "ci95": [
+        0.870894450237516,
+        0.926615782742175
+      ]
+    },
+    "strong_share_of_routed": {
+      "estimate": 0.5515463917525774,
+      "ci95": [
+        0.5010117425036695,
+        0.6039816071159354
+      ]
+    },
+    "usd_per_1000": {
+      "estimate": 0.5460901030927835,
+      "ci95": [
+        0.49916856762088085,
+        0.593937550999365
+      ]
+    }
+  },
+  "paired": {
+    "accuracy_change": {
+      "estimate": -0.019587628865979423,
+      "ci95": [
+        -0.03608620947258328,
+        -0.005228771970858516
+      ]
+    },
+    "strong_share_change": {
+      "estimate": -0.002072707542051022,
+      "ci95": [
+        -0.025928550360692665,
+        0.02121473499286348
+      ]
+    }
+  },
+  "examples": [
+    {
+      "question_id": "arc-challenge.test.345",
+      "question": "Which shows one example of a physical change and one example of a chemical change?",
+      "matched_question_id": "arc-challenge.val.136",
+      "matched_question": "Matter can undergo different changes. Which best demonstrates a chemical change?",
+      "similarity": 0.8206892609596252,
+      "served_answer": "A",
+      "correct_answer": "D"
+    },
+    {
+      "question_id": "arc-challenge.val.20",
+      "question": "Biological evolution can occur through all of these except",
+      "matched_question_id": "arc-challenge.test.600",
+      "matched_question": "Two different species evolving from a common ancestor most likely occurs",
+      "similarity": 0.8052645921707153,
+      "served_answer": "B)",
+      "correct_answer": "A"
+    },
+    {
+      "question_id": "arc-challenge.test.855",
+      "question": "Which of the following is a step in the life cycle of an apple tree?",
+      "matched_question_id": "arc-challenge.test.852",
+      "matched_question": "Apple trees and chickens both have a life cycle. Which life-cycle stage is in both an apple seed and a fertilized egg?",
+      "similarity": 0.8250524997711182,
+      "served_answer": "A)",
+      "correct_answer": "D"
+    },
+    {
+      "question_id": "arc-challenge.val.234",
+      "question": "Which task in the kitchen is an example of a physical change?",
+      "matched_question_id": "arc-challenge.test.1057",
+      "matched_question": "Which describes only a physical change?",
+      "similarity": 0.8473572731018066,
+      "served_answer": "D",
+      "correct_answer": "B"
+    },
+    {
+      "question_id": "arc-challenge.test.520",
+      "question": "Certain elements with similar chemical and physical properties are found in the same column in the Periodic Table of the Elements. These ch\u2026",
+      "matched_question_id": "arc-challenge.val.105",
+      "matched_question": "According to the Periodic Table of the Elements, which set of elements has similar properties?",
+      "similarity": 0.8127725124359131,
+      "served_answer": "A)",
+      "correct_answer": "D"
+    }
+  ],
+  "inputs": {
+    "log": "semantic_0.80.jsonl",
+    "log_sha256": "9316513802f29c226067034aa618c7abc1ff822f26eec98231281cbc51f3c1f9",
+    "fresh_log": "no_cache.jsonl",
+    "retuned_log": null,
+    "dataset_sha256": "1f58859af72bf8b6eb98b4268834128a6b06ee1da74e307d274e4aae08aa66ce",
+    "seed": 601
+  }
+}

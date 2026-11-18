@@ -1,0 +1,67 @@
+{
+  "purpose": "Sprint 3 demo (#50): same question stream through the live gateway with and without the cache",
+  "dataset_sha256": "1f58859af72bf8b6eb98b4268834128a6b06ee1da74e307d274e4aae08aa66ce",
+  "seed": 601,
+  "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+  "calibration": {
+    "target_strong_share": 0.5,
+    "threshold": 0.46594350275814495,
+    "tuning_strong_share": 0.49896907216494846
+  },
+  "requests": 970,
+  "unique_questions": 485,
+  "runs": {
+    "no_cache": {
+      "config": {
+        "mode": "recorded-answer-replay",
+        "cache": "none",
+        "target_strong_share": 0.5,
+        "threshold": 0.46594350275814495,
+        "dataset_sha256": "1f58859af72bf8b6eb98b4268834128a6b06ee1da74e307d274e4aae08aa66ce",
+        "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+        "seed": 601,
+        "extra_repeats": 5,
+        "strong_model": "gpt-4-1106-preview",
+        "weak_model": "mistralai/mixtral-8x7b-chat"
+      },
+      "config_id": "eba55ca999c864f8",
+      "summary": {
+        "requests": 970,
+        "cache_hits": 0,
+        "routed_requests": 970,
+        "strong_calls": 535,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.5515463917525774,
+        "strong_share_of_all": 0.5515463917525774,
+        "historical_model_cost_usd": 0.5297074
+      }
+    },
+    "semantic_0.80": {
+      "config": {
+        "mode": "recorded-answer-replay",
+        "cache": "semantic",
+        "target_strong_share": 0.5,
+        "threshold": 0.46594350275814495,
+        "dataset_sha256": "1f58859af72bf8b6eb98b4268834128a6b06ee1da74e307d274e4aae08aa66ce",
+        "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+        "seed": 601,
+        "extra_repeats": 5,
+        "strong_model": "gpt-4-1106-preview",
+        "weak_model": "mistralai/mixtral-8x7b-chat",
+        "semantic_threshold": 0.8,
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+      },
+      "config_id": "9040cf2b2158c22b",
+      "summary": {
+        "requests": 970,
+        "cache_hits": 495,
+        "routed_requests": 475,
+        "strong_calls": 261,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.5494736842105263,
+        "strong_share_of_all": 0.2690721649484536,
+        "historical_model_cost_usd": 0.2639798
+      }
+    }
+  }
+}
