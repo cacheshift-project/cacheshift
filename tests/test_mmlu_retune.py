@@ -70,3 +70,16 @@ def test_published_calibrations_bind_to_balanced_fixture():
     applied = json.loads((root / "experiments/results/story3-applied-20261007/report.json").read_text())
     path = root / "experiments/results/story3-mmlu-20261007/calibration-601.json"
     assert applied["calibration_sha256"] == hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def test_all_families_keeps_every_family_and_the_64_split_is_its_prefix():
+    sample = rows()[:-1]                                   # law 8 families, physics 7
+    selected, counts = builder.balanced_split(sample, per_subject=None)
+    assert len(selected) == 15
+    assert counts["law"] == {"eligible_families": 8, "tuning": 4, "test": 4}
+    assert counts["physics"] == {"eligible_families": 7, "tuning": 3, "test": 4}
+    assert {r["group_id"] for r in selected if r["split"] == "tuning"}.isdisjoint(
+        {r["group_id"] for r in selected if r["split"] == "test"})
+    changed = [{**row, "gold_answer": "D", "answers": {"model": "B"}} for row in reversed(sample)]
+    other, _ = builder.balanced_split(changed, per_subject=None)
+    assert [(r["question_id"], r["split"]) for r in selected] == [(r["question_id"], r["split"]) for r in other]
