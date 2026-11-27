@@ -221,7 +221,7 @@
   <section aria-labelledby="meters-title">
     <h2 id="meters-title">So far</h2>
     <div class="meter">
-      <h3>Wrong answers that came from the cache</h3>
+      <h3>Wrong answers caused by the cache</h3>
       <div class="value num" id="m-wrong">0</div>
       <div class="detail num" id="m-wrong-detail">No cached answers yet.</div>
     </div>
@@ -402,10 +402,10 @@
     $("s-strong").textContent = t.routed ? `${pct(t.strong / t.routed, 0)} of model calls` : "";
 
     // Wrong answers from the cache lead the meters.
-    $("m-wrong").textContent = t.wrong_from_cache;
-    $("m-wrong").classList.toggle("alarm", t.wrong_from_cache > 0);
+    $("m-wrong").textContent = t.wrong_question_wrong;
+    $("m-wrong").classList.toggle("alarm", t.wrong_question_wrong > 0);
     $("m-wrong-detail").textContent = t.hits
-      ? `${t.wrong_question} got another question's answer (${t.wrong_question_wrong} of them wrong); ${t.repeated_wrong} repeated an answer that was already wrong the first time.`
+      ? `Questions given another question's answer: ${t.wrong_question} (${t.wrong_question_wrong} of them wrong). Not counted: ${t.repeated_wrong} repeated an answer the model had already got wrong the first time.`
       : (session && session.setting === "off" ? "The cache is off, so every answer is fresh." : "No cached answers yet.");
 
     const top = Math.max(t.no_cache_usd_per_1000 || 0, t.usd_per_1000 || 0, 1e-9);
