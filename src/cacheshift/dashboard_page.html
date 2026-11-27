@@ -265,6 +265,11 @@
                    fast: { batch: 20, wait: 120, animate: 0 } };
   const SCALE_MIN = 0.30, SCALE_MAX = 0.70;
   let session = null, setting = "0.90", speed = "normal", playing = false, busy = false, timer = null, rows = [];
+  // Kiosk mode for the poster table: /?play=normal&loop=1&setting=0.80 plays on its own and starts over.
+  const params = new URLSearchParams(location.search);
+  const kiosk = params.get("loop") === "1";
+  if (params.get("setting") in { off: 1, "0.95": 1, "0.90": 1, "0.80": 1 }) setting = params.get("setting");
+  if (params.get("play") in SPEEDS) speed = params.get("play");
 
   const money = (v) => v == null ? "–" : "$" + v.toFixed(2);
   const callCost = (v) => v >= 0.01 ? "$" + v.toFixed(2) : "$" + Number(v.toPrecision(2)).toFixed(Math.max(2, 1 - Math.floor(Math.log10(v))));
@@ -323,7 +328,11 @@
       render(out.totals, out.position, out.total, true);
       if (out.events.some((e) => e.wrong_question)) showCallout(out.events.filter((e) => e.wrong_question).pop());
       $("open-report").disabled = false;
-      if (out.done) { stop(); $("play").disabled = true; $("step").disabled = true; $("count").textContent = `All ${out.total} questions sent. Open the one-page report for ranges.`; }
+      if (out.done) {
+        stop(); $("play").disabled = true; $("step").disabled = true;
+        $("count").textContent = `All ${out.total} questions sent. Open the one-page report for ranges.`;
+        if (kiosk) timer = setTimeout(() => { $("play").disabled = false; $("step").disabled = false; start().then(autoplay); }, 12000);
+      }
       return out;
     } catch (e) { stop(); $("error").textContent = e.message; return null; }
     finally { busy = false; }
@@ -463,8 +472,9 @@
     if (ev.key === "ArrowRight") { ev.preventDefault(); $("step").click(); }
   });
 
+  function autoplay() { if (!playing) { playing = true; $("play").textContent = "Pause"; loop(); } }
   press("settings", "setting", setting); press("speeds", "speed", speed);
-  start();
+  start().then(() => { if (params.has("play")) autoplay(); });
 })();
 </script>
 </body>

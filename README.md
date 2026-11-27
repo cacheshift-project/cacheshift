@@ -57,6 +57,8 @@ python -m cacheshift.dashboard              # after that, works offline
 
 Open http://127.0.0.1:8050. Pick a match setting (No cache, 0.95, 0.90 or 0.80), then **Start**, or **Next question** to go one at a time (Space and → also work). Loading takes about a minute on a laptop. Each run's request log is saved in `experiments/results/dashboard-runs/`, and **Open the one-page report** makes the report (#48) from it.
 
+**Kiosk mode** for the poster table: open http://127.0.0.1:8050/?play=normal&loop=1 (optionally `&setting=0.80`) and it plays by itself and starts over at the end.
+
 For the poster: at **0.80**, questions 484 and 493 of the stream get another question's answer. Run on **Fast** to about 480, then step through with **Next question**.
 
 ## How we work
