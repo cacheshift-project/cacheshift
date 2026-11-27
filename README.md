@@ -44,6 +44,21 @@ pytest
 
 API keys go in a `.env` file (copy `.env.example`). **Never commit `.env`.** It is already in `.gitignore`.
 
+## Live demo dashboard
+
+Watch questions go through the gateway one at a time: which ones the cache answers, which go to the cheap or the expensive model, when the cache gives a question another question's answer, and running cost, accuracy and expensive-model share against the plan. It uses recorded answers, so no API key or internet is needed once the models are downloaded.
+
+```bash
+pip install --index-url https://download.pytorch.org/whl/cpu torch   # CPU PyTorch, once
+pip install -r requirements-router.txt -e ".[cache]"
+python -m cacheshift.dashboard --download   # first time only: downloads the router and the similarity model
+python -m cacheshift.dashboard              # after that, works offline
+```
+
+Open http://127.0.0.1:8050. Pick a match setting (No cache, 0.95, 0.90 or 0.80), then **Start**, or **Next question** to go one at a time (Space and → also work). Loading takes about a minute on a laptop. Each run's request log is saved in `experiments/results/dashboard-runs/`, and **Open the one-page report** makes the report (#48) from it.
+
+For the poster: at **0.80**, questions 484 and 493 of the stream get another question's answer. Run on **Fast** to about 480, then step through with **Next question**.
+
 ## How we work
 
 For the app-compatible replay endpoint, re-tuning command, API check and their

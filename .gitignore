@@ -32,3 +32,6 @@ experiments/results/**/raw/
 
 # Node (used only by tools/md_to_docx.js)
 node_modules/
+
+# Live demo dashboard request logs
+experiments/results/dashboard-runs/
