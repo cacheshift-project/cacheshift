@@ -90,7 +90,7 @@ def test_html_escapes_text_and_shows_the_wrong_question_example():
     page = report.render_html(out, "Test <report>", "run.jsonl")
     assert "Test &lt;report&gt;" in page and "<b>bold</b>" not in page and "&lt;b&gt;bold&lt;/b&gt;" in page
     assert "What time do you close on Saturday?" in page and "similarity 0.94" in page
-    assert "Drifted more than 3 points from your plan" in page   # 66.7% vs 50% planned
+    assert "More than 3 points from your plan" in page   # 66.7% vs 50% planned
     assert "(50 resamples)" in page
     assert "within ±3 points of plan" in page and "amber" not in page   # no fresh run, so no accuracy pill
 
@@ -102,7 +102,7 @@ def test_drift_label_uses_the_story3_band_not_whether_the_range_excludes_zero():
     assert out["rates"]["drift_from_plan"]["estimate"] == pytest.approx(0.022)
     assert out["within_band"] and out["drift_band"] == 0.03
     page = report.render_html(out, "t", "run.jsonl")
-    assert "Within 3 points of your plan" in page and "Drifted" not in page
+    assert "Within 3 points of your plan" in page and "More than 3 points" not in page
     assert "within the ±3-point band" in report.text_summary(out, "t")
     for planned, within in ((share - 0.03, True), (share + 0.03, True), (share - 0.031, False), (share + 0.031, False)):
         assert report.build(semantic_run(), records(), planned_share=planned, samples=20)["within_band"] is within
@@ -236,3 +236,37 @@ def test_retune_cli_on_the_committed_sprint1_run_feeds_the_report(tmp_path, caps
     assert change["strong_share_of_routed"]["estimate"] == 0 and change["accuracy"]["estimate"] == 0
     with pytest.raises(SystemExit):
         report.main(["--log", str(DEMO / "exact_cache.jsonl"), "--retune", str(out), "--out", str(html)])
+
+
+# ---------- wrong answers first, "too few questions to tell" ----------
+
+def test_band_verdict_says_when_the_range_is_too_wide_to_tell():
+    v = lambda est, low, high: report.band_verdict({"estimate": est, "ci95": [low, high]})
+    assert v(0.01, -0.02, 0.025) == "within"
+    assert v(0.03, 0.0, 0.03) == "within"                     # edges count as inside
+    assert v(0.022, 0.003, 0.041) == "within-unsure"          # Spencer's #52 example
+    assert v(0.052, 0.005, 0.098) == "outside-unsure"         # the Sprint 3 demo run
+    assert v(0.08, 0.05, 0.11) == "outside" and v(-0.08, -0.11, -0.05) == "outside"
+    assert v(None, None, None) is None
+
+
+def test_report_leads_with_wrong_answers_caused_by_the_cache():
+    out = report.build(semantic_run(), records(), planned_share=0.5, samples=50)
+    t = out["totals"]
+    assert t["wrong_question_wrong"] > 0
+    page = report.render_html(out, "t", "run.jsonl")
+    lead = page.index("Wrong answers caused by the cache")
+    assert lead < page.index("<h2>Cost</h2>") < page.index("<h2>Answer quality</h2>")
+    section = page[lead:page.index("<h2>Cost</h2>")]
+    assert f'<div class="big alarm">{t["wrong_question_wrong"]}</div>' in section
+    assert "in every 1,000 answers" in section and "Answers to check" in section
+    assert "so not caused by the cache" in section
+    assert report.text_summary(out, "t").splitlines()[2].startswith("Wrong answers caused by the cache")
+    assert out["band_verdict"] in ("outside", "outside-unsure")
+
+
+def test_report_says_none_when_the_cache_caused_no_wrong_answers():
+    exact = [dict(e, matched_question_id=e["question_id"]) if e["cache_hit"] else e for e in semantic_run()]
+    out = report.build(exact, records(), planned_share=None, samples=20)
+    assert out["totals"]["wrong_question_wrong"] == 0
+    assert '<span class="pill good">None in this run</span>' in report.render_html(out, "t", "run.jsonl")
