@@ -159,7 +159,32 @@ def retune_comparison(events, retuned_events, records, retune, planned_share, se
                                                  bd["strong_share_of_routed"] - planned_share)
         estimate = out["after_drift_from_plan"]["estimate"]
         out["after_within_band"] = estimate is not None and abs(estimate) <= DRIFT_BAND + 1e-12
+        out["after_band_verdict"] = band_verdict(out["after_drift_from_plan"])
     return out
+
+
+def band_verdict(drift, band=DRIFT_BAND):
+    """Where a drift from plan sits against the ±band, and whether its 95% range is narrow enough to say.
+
+    within / outside: the estimate and its whole range are on that side of the band edge.
+    within-unsure / outside-unsure: the estimate is on that side but the range crosses the band
+    edge, so there are too few questions to tell."""
+    estimate, (low, high) = drift["estimate"], drift["ci95"]
+    if estimate is None or low is None:
+        return None
+    eps = 1e-12
+    inside = abs(estimate) <= band + eps
+    if inside:
+        return "within" if -band - eps <= low and high <= band + eps else "within-unsure"
+    return "outside" if high < -band - eps or low > band + eps else "outside-unsure"
+
+
+VERDICT_WORDS = {
+    "within": ("good", "Within {b} points of your plan"),
+    "within-unsure": ("muted", "Within {b} points of your plan, but too few questions to be sure"),
+    "outside": ("warn", "More than {b} points from your plan"),
+    "outside-unsure": ("muted", "More than {b} points from your plan, but too few questions to be sure"),
+}
 
 
 def build(events, records, planned_share, fresh_events=None, seed=SEED, samples=SAMPLES,
@@ -188,6 +213,7 @@ def build(events, records, planned_share, fresh_events=None, seed=SEED, samples=
         report["rates"]["drift_from_plan"] = drift
         report["drift_band"] = DRIFT_BAND
         report["within_band"] = drift["estimate"] is not None and abs(drift["estimate"]) <= DRIFT_BAND + 1e-12
+        report["band_verdict"] = band_verdict(drift)
     if fresh_events is not None:
         fresh_point, fresh_draws = boot["fresh"]
         report["fresh"] = {name: interval(fresh_point[name], fresh_draws[name])
@@ -258,6 +284,9 @@ def text_summary(report, title):
     r = report["rates"]
     lines = [title,
              f"Requests: {report['totals']['requests']:,} ({report['question_groups']:,} question groups)",
+             f"Wrong answers caused by the cache (another question's saved answer): "
+             f"{report['totals']['wrong_question_wrong']:,} ({pct(r['wrong_question_wrong_rate']['estimate'], 2)} of requests, "
+             f"{rng(r['wrong_question_wrong_rate'], lambda v: pct(v, 2))})",
              f"Cost per 1,000 requests: {money(r['usd_per_1000']['estimate'])} ({rng(r['usd_per_1000'], money)}); "
              f"all-strong would be {money(r['all_strong_usd_per_1000']['estimate'])}, "
              f"saving {pct(r['saving_vs_all_strong']['estimate'])}",
@@ -272,6 +301,8 @@ def text_summary(report, title):
     if report["planned_strong_share"] is not None:
         band = f"±{100 * report['drift_band']:g}"
         verdict = f"within the {band}-point band" if report["within_band"] else f"outside the {band}-point band"
+        if report.get("band_verdict", "").endswith("unsure"):
+            verdict += ", but too few questions to be sure"
         lines.append(f"  plan {pct(report['planned_strong_share'])}; drift {pts(r['drift_from_plan']['estimate'])} points "
                      f"({rng(r['drift_from_plan'], pts)}), {verdict}")
     if "paired" in report:
@@ -287,7 +318,8 @@ def text_summary(report, title):
                      f"{pct(x['after']['strong_share_of_routed']['estimate'])} "
                      f"({rng(x['after']['strong_share_of_routed'], pct)})"
                      + ("" if "after_within_band" not in x else
-                        f", {'within' if x['after_within_band'] else 'outside'} the ±{100 * DRIFT_BAND:g}-point band"))
+                        f", {'within' if x['after_within_band'] else 'outside'} the ±{100 * DRIFT_BAND:g}-point band"
+                        + (", but too few questions to be sure" if x.get("after_band_verdict", "").endswith("unsure") else "")))
         lines.append(f"  accuracy {pts(x['change']['accuracy']['estimate'])} points ({rng(x['change']['accuracy'], pts)}); "
                      f"cost per 1,000 {money(x['before']['usd_per_1000']['estimate'])} -> "
                      f"{money(x['after']['usd_per_1000']['estimate'])}")
@@ -312,7 +344,8 @@ h1{font-size:24px;margin:0 0 2px}.grid{display:grid;grid-template-columns:1fr 1f
 .row:first-of-type{border-top:0}.row b{white-space:nowrap}
 .pill{display:inline-block;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:600;margin:10px 0 4px}
 .good{background:var(--good-bg);color:var(--good)}.warn{background:var(--warn-bg);color:var(--warn)}
-.bad{background:var(--bad-bg);color:var(--bad)}.ex{border-left:3px solid var(--bad);padding:6px 0 6px 12px;margin:10px 0}
+.bad{background:var(--bad-bg);color:var(--bad)}.muted{background:var(--line);color:var(--ink)}
+.lead .big.alarm{color:var(--bad)}.lead .rows{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}.ex{border-left:3px solid var(--bad);padding:6px 0 6px 12px;margin:10px 0}
 .ex .a{color:var(--muted);font-size:14px}footer{margin-top:18px;font-size:12.5px;color:var(--muted)}
 @media (max-width:640px){.grid{grid-template-columns:1fr}.big{font-size:28px}}
 @media print{body{background:#fff}.card{break-inside:avoid}}
@@ -337,9 +370,8 @@ def render_html(report, title, source):
     if report["planned_strong_share"] is not None:
         drift = r["drift_from_plan"]
         band = f"{100 * report['drift_band']:g}"
-        cls = "good" if report["within_band"] else "warn"
-        verdict = (f"Within {band} points of your plan" if report["within_band"]
-                   else f"Drifted more than {band} points from your plan")
+        cls, words = VERDICT_WORDS[report["band_verdict"]]
+        verdict = words.format(b=band)
         plan = (f'<section class="card full"><h2>Is the expensive-model share where you set it?</h2>'
                 f'<span class="pill {cls}">{verdict}: {pct(r["strong_share_of_routed"]["estimate"])} '
                 f'vs planned {pct(report["planned_strong_share"])}</span>'
@@ -357,6 +389,22 @@ def render_html(report, title, source):
         for x in report["examples"])
     if not examples:
         examples = '<p class="range">None in this run.</p>'
+    wrong = t["wrong_question_wrong"]
+    rate = r["wrong_question_wrong_rate"]
+    lead_pill = ('<span class="pill good">None in this run</span>' if wrong == 0 else
+                 f'<span class="pill bad">About {1000 * rate["estimate"]:.1f} in every 1,000 answers</span> '
+                 f'<span class="range">({rng(rate, lambda v: f"{1000 * v:.1f}")} per 1,000)</span>')
+    lead = (f'<section class="card full lead"><h2>Wrong answers caused by the cache</h2>'
+            f'<div class="big{" alarm" if wrong else ""}">{wrong:,}</div>{lead_pill}'
+            f'<p class="range">A question that got another question\'s saved answer, and that answer was wrong for it.</p>'
+            f'<div class="rows">'
+            + row("Saved answer given to a <i>different</i> question",
+                  f'{t["wrong_question"]:,} ({pct(r["wrong_question_rate"]["estimate"], 2)})')
+            + row('Wrong answers repeated from the cache <span class="range">(the model was already wrong the '
+                  'first time, so not caused by the cache)</span>',
+                  f'{t["repeated_wrong"]:,} ({pct(r["repeated_wrong_rate"]["estimate"], 2)})')
+            + f'</div><h2 style="margin-top:14px">Answers to check: saved answer served to a different question</h2>'
+              f'{examples}</section>')
     fresh = ""
     if "fresh" in report:
         fresh = row("Fresh answers, no cache", pct(report["fresh"]["accuracy"]["estimate"]))
@@ -365,10 +413,10 @@ def render_html(report, title, source):
         x = report["retune"]
         signed_money = lambda v: "n/a" if v is None else ("−" if v < 0 else "+") + money(abs(v))
         share_label = ""
-        if "after_within_band" in x:
-            share_label = (f'<span class="pill {"good" if x["after_within_band"] else "warn"}">'
-                           f'{"Within" if x["after_within_band"] else "Still more than"} {100 * DRIFT_BAND:g} points '
-                           f'{"of" if x["after_within_band"] else "from"} your plan after re-tuning</span> ')
+        if x.get("after_band_verdict"):
+            cls, words = VERDICT_WORDS[x["after_band_verdict"]]
+            text = words.format(b=f"{100 * DRIFT_BAND:g}")
+            share_label = f'<span class="pill {cls}">After re-tuning: {text[0].lower() + text[1:]}</span> '
         acc_cls = "good" if x["accuracy_range_above_margin"] else "warn"
         before_cut = "" if x["threshold_before"] is None else f'{x["threshold_before"]:.4f} → '
         retune = (f'<section class="card full"><h2>Re-tune the router? (your call)</h2>{share_label}'
@@ -405,6 +453,7 @@ def render_html(report, title, source):
 <h1>{e(title)}</h1>
 <p class="note">{t["requests"]:,} requests · {report["question_groups"]:,} question groups · source: {e(source)}</p>
 <div class="grid">
+{lead}
 <section class="card"><h2>Cost</h2>
 <div class="big">{money(r["usd_per_1000"]["estimate"])}</div><div class="range">per 1,000 requests · {rng(r["usd_per_1000"], money)}</div>
 <span class="pill good">{pct(saving)} less than sending everything to the expensive model</span>
@@ -417,14 +466,9 @@ def render_html(report, title, source):
 <div class="big">{pct(r["accuracy"]["estimate"])}</div><div class="range">of answers correct · {rng(r["accuracy"], pct)}</div>
 {quality_pill}
 {fresh}
-{row("Saved answer given to a <i>different</i> question", f'{t["wrong_question"]:,} ({pct(r["wrong_question_rate"]["estimate"], 2)})')}
-{row("… and wrong as a result", f'{t["wrong_question_wrong"]:,} ({pct(r["wrong_question_wrong_rate"]["estimate"], 2)})')}
-{row('Wrong answers repeated from the cache <span class="range">(already wrong when first given)</span>',
-     f'{t["repeated_wrong"]:,} ({pct(r["repeated_wrong_rate"]["estimate"], 2)})')}
 </section>
 {plan}
 {retune}
-<section class="card full"><h2>Answers to check: saved answer served to a different question</h2>{examples}</section>
 </div>
 <footer>Ranges are 95% bootstrap intervals over question groups ({report.get("bootstrap_samples", SAMPLES):,} resamples). Cost and quality are shown
 separately and never combined into one score. "Correct" means the answer matches the question's official answer key.
