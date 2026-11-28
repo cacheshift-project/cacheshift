@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CacheShift poster</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#1F6E5A}a:hover{color:#13614E}
+</style>
+</helmet>
+<div style="width: 1632px; height: 1056px; box-sizing: border-box; padding: 44px 60px 48px; background: #F4F6F8; color: #1C2833; font-family: Inter, 'Segoe UI', system-ui, sans-serif; font-size: 15px; line-height: 1.45; display: flex; flex-direction: column; gap: 22px">
+
+<header style="display: flex; align-items: flex-end; gap: 24px; padding-bottom: 20px; border-bottom: 3px solid #1C2833">
+<div style="flex: 1; display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 14px; color: #4A5866">Boston University, EC601 Product Design in ECE, Fall 2026 · Spencer Aldrich and Anthony Capraru</div>
+<h1 style="margin: 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 64px; line-height: 1.0; letter-spacing: -0.01em; font-weight: 700">CacheShift</h1>
+<p style="margin: 0; font-size: 26px; line-height: 1.22; font-family: 'Space Grotesk', Inter, sans-serif; font-weight: 500; text-wrap: balance">What an answer cache really does to an AI app's cost and correctness: measured, and fixed.</p>
+</div>
+<div style="display: flex; align-items: center; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px; text-align: right; font-size: 14px; color: #4A5866">
+<span style="font-weight: 600; color: #1C2833; font-size: 17px">Live demo at this table</span>
+<span>Code, data and every result</span>
+<span>github.com/cacheshift-project/cacheshift</span>
+</div>
+<img src="/_blob/ed9aa3173b6bfb387a2579c2951b58d8" alt="QR code linking to the CacheShift GitHub repository" style="width: 112px; height: 112px; background: #ffffff; padding: 6px; box-sizing: border-box">
+</div>
+</header>
+
+<main style="flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px; min-height: 0">
+
+<section style="display: flex; flex-direction: column; gap: 9px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 22px; font-weight: 700">The problem</h2>
+<p style="margin: 0; text-wrap: pretty">Small teams cut their AI bill with a <b>cache</b>, which reuses a saved answer when a new question looks alike, and a <b>router</b>, which sends easy questions to a cheap model and hard ones to an expensive one. Together they can quietly go wrong: a question gets <b>another question's answer</b>, or the router <b>drifts off its budget</b>.</p>
+
+<h2 style="margin: 4px 0 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 22px; font-weight: 700">What we built</h2>
+<div style="position: relative; width: 304px; height: 192px; align-self: center; font-size: 14px; line-height: 16px">
+<svg role="img" aria-label="From Your app to Cache" width="31" height="8" viewBox="0 0 31 8" preserveAspectRatio="none" style="position: absolute; left: 80px; top: 92px; width: 31px; height: 8px; overflow: visible; fill: none; stroke: #4A5866; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-1" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#4A5866" stroke="none" style="stroke: none; fill: #4A5866; fill: context-stroke"/></marker></defs><path d="M 0 4 L 27 4" marker-end="url(#dc-arrow-head-filled-1)"></path></svg>
+<svg role="img" aria-label="From Cache to Router, when no saved question matches" width="31" height="8" viewBox="0 0 31 8" preserveAspectRatio="none" style="position: absolute; left: 192px; top: 92px; width: 31px; height: 8px; overflow: visible; fill: none; stroke: #4A5866; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-2" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#4A5866" stroke="none" style="stroke: none; fill: #4A5866; fill: context-stroke"/></marker></defs><path d="M 0 4 L 27 4" marker-end="url(#dc-arrow-head-filled-2)"></path></svg>
+<svg role="img" aria-label="From Cache to Saved answer, when a saved question matches" width="8" height="23" viewBox="0 0 8 23" preserveAspectRatio="none" style="position: absolute; left: 148px; top: 120px; width: 8px; height: 23px; overflow: visible; fill: none; stroke: #1F8A70; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-3" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#1F8A70" stroke="none" style="stroke: none; fill: #1F8A70; fill: context-stroke"/></marker></defs><path d="M 4 0 L 4 19" marker-end="url(#dc-arrow-head-filled-3)"></path></svg>
+<svg role="img" aria-label="From Router up to Cheap model, for easy questions" width="8" height="23" viewBox="0 0 8 23" preserveAspectRatio="none" style="position: absolute; left: 260px; top: 49px; width: 8px; height: 23px; overflow: visible; fill: none; stroke: #3D6FB6; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-4" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#3D6FB6" stroke="none" style="stroke: none; fill: #3D6FB6; fill: context-stroke"/></marker></defs><path d="M 4 23 L 4 4" marker-end="url(#dc-arrow-head-filled-4)"></path></svg>
+<svg role="img" aria-label="From Router down to Expensive model, for hard questions" width="8" height="23" viewBox="0 0 8 23" preserveAspectRatio="none" style="position: absolute; left: 260px; top: 120px; width: 8px; height: 23px; overflow: visible; fill: none; stroke: #A8740F; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-5" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#A8740F" stroke="none" style="stroke: none; fill: #A8740F; fill: context-stroke"/></marker></defs><path d="M 4 0 L 4 19" marker-end="url(#dc-arrow-head-filled-5)"></path></svg>
+<div style="position: absolute; left: 0px; top: 72px; width: 80px; height: 48px; box-sizing: border-box; padding: 4px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 2px solid #4A5866; border-radius: 8px">Your app</div>
+<div style="position: absolute; left: 112px; top: 72px; width: 80px; height: 48px; box-sizing: border-box; padding: 4px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 2px solid #1F8A70; border-radius: 8px; font-weight: 600">Cache</div>
+<div style="position: absolute; left: 224px; top: 72px; width: 80px; height: 48px; box-sizing: border-box; padding: 4px; display: flex; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 2px solid #1C2833; border-radius: 8px; font-weight: 600">Router</div>
+<div style="position: absolute; left: 224px; top: 0px; width: 80px; height: 48px; box-sizing: border-box; padding: 4px; display: flex; align-items: center; justify-content: center; text-align: center; background: #E6EDF7; border: 2px solid #3D6FB6; border-radius: 8px">Cheap model</div>
+<div style="position: absolute; left: 224px; top: 144px; width: 80px; height: 48px; box-sizing: border-box; padding: 4px; display: flex; align-items: center; justify-content: center; text-align: center; background: #F7EEDC; border: 2px solid #A8740F; border-radius: 8px">Expensive model</div>
+<div style="position: absolute; left: 112px; top: 144px; width: 80px; height: 48px; box-sizing: border-box; padding: 4px; display: flex; align-items: center; justify-content: center; text-align: center; background: #E1F2EC; border: 2px solid #1F8A70; border-radius: 8px">Saved answer</div>
+</div>
+<p style="margin: 0; text-wrap: pretty">Every request is logged. The log feeds a <b>one-page report</b> (wrong answers first), a <b>safe-setting finder</b> that replays your traffic at each setting, and a <b>live dashboard</b>.</p>
+
+<h2 style="margin: 4px 0 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 22px; font-weight: 700">How we tested it</h2>
+<p style="margin: 0; text-wrap: pretty">Recorded GPT-4 and Mixtral answers from RouterBench, scored against official keys on ARC and 13,724 MMLU questions, plus 777k real chatbot prompts. 95% ranges over question groups; each plan committed before its run.</p>
+
+<h2 style="margin: 4px 0 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 22px; font-weight: 700">What didn't hold</h2>
+<ul style="margin: 0; padding-left: 16px; display: flex; flex-direction: column; gap: 4px">
+<li>Our first headline, "caching breaks routing budgets": the drift was too small.</li>
+<li>Who the user is: the planned interviews never happened.</li>
+</ul>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 9px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 22px; font-weight: 700">Wrong answers depend on the questions</h2>
+<p style="margin: 0; color: #4A5866; font-size: 14px">Answers the cache made wrong (another question's saved answer), per 1,000 answers, with 95% ranges</p>
+<div style="display: flex; flex-direction: column; gap: 9px">
+<div style="display: grid; grid-template-columns: 170px 240px 1fr; align-items: center; gap: 8px"><span>ARC, setting 0.90</span><div style="position: relative; height: 18px; background: #E4E9EE"></div><span style="font-weight: 600">0</span></div>
+<div style="display: grid; grid-template-columns: 170px 240px 1fr; align-items: center; gap: 8px"><span>ARC, setting 0.80</span><div style="position: relative; height: 18px; background: #E4E9EE"><div style="position: absolute; left: 0; top: 0; width: 99px; height: 18px; background: #B8322F"></div><div style="position: absolute; left: 30px; top: 8px; width: 148px; height: 2px; background: #1C2833"></div></div><span style="font-weight: 600">21</span></div>
+<div style="display: grid; grid-template-columns: 170px 240px 1fr; align-items: center; gap: 8px"><span>MMLU, setting 0.90</span><div style="position: relative; height: 18px; background: #E4E9EE"><div style="position: absolute; left: 0; top: 0; width: 198px; height: 18px; background: #B8322F"></div><div style="position: absolute; left: 175px; top: 8px; width: 49px; height: 2px; background: #1C2833"></div></div><span style="font-weight: 600">41</span></div>
+<div style="display: grid; grid-template-columns: 170px 240px 1fr; align-items: center; gap: 8px"><span style="font-weight: 600; color: #13614E">MMLU, 0.90 + the fix</span><div style="position: relative; height: 18px; background: #E4E9EE"><div style="position: absolute; left: 0; top: 0; width: 24px; height: 18px; background: #1F8A70"></div><div style="position: absolute; left: 16px; top: 8px; width: 16px; height: 2px; background: #1C2833"></div></div><span style="font-weight: 600; color: #13614E">4.9</span></div>
+</div>
+<p style="margin: 0; text-wrap: pretty">A setting that was safe on ARC caused 567 wrong answers on MMLU (4.1%). Most were questions sharing a long template or passage, such as "For which of these two scenarios…": the cache matched the shared text, not the question.</p>
+
+<div style="background: #E1F2EC; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+<h3 style="margin: 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 18px; font-weight: 700; color: #13614E">The fix: compare only what differs</h3>
+<p style="margin: 0; text-wrap: pretty">Before reusing an answer, trim the words the two questions share and compare the rest. On MMLU: wrong answers <b>567 → 67 (−88%)</b>, accuracy loss 1.7 → 0.3 points, at the cost of 2.4 points fewer cache answers.</p>
+</div>
+
+<h2 style="margin: 4px 0 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 22px; font-weight: 700">The cache halves the bill</h2>
+<p style="margin: 0; color: #4A5866; font-size: 14px">Cost per 1,000 MMLU questions (recorded prices)</p>
+<div style="display: flex; flex-direction: column; gap: 9px">
+<div style="display: grid; grid-template-columns: 170px 240px 1fr; align-items: center; gap: 8px"><span>Everything to GPT-4</span><div style="position: relative; height: 18px"><div style="position: absolute; left: 0; top: 0; width: 232px; height: 18px; background: #A8740F"></div></div><span style="font-weight: 600">$1.45</span></div>
+<div style="display: grid; grid-template-columns: 170px 240px 1fr; align-items: center; gap: 8px"><span>Router, no cache</span><div style="position: relative; height: 18px"><div style="position: absolute; left: 0; top: 0; width: 112px; height: 18px; background: #3D6FB6"></div></div><span style="font-weight: 600">$0.70</span></div>
+<div style="display: grid; grid-template-columns: 170px 240px 1fr; align-items: center; gap: 8px"><span>Router + cache</span><div style="position: relative; height: 18px"><div style="position: absolute; left: 0; top: 0; width: 53px; height: 18px; background: #1F8A70"></div></div><span style="font-weight: 600">$0.33</span></div>
+<div style="display: grid; grid-template-columns: 170px 240px 1fr; align-items: center; gap: 8px"><span>… + the fix</span><div style="position: relative; height: 18px"><div style="position: absolute; left: 0; top: 0; width: 55px; height: 18px; background: #1F8A70"></div></div><span style="font-weight: 600">$0.35</span></div>
+</div>
+<p style="margin: 0; text-wrap: pretty">Reworded questions: at 0.90 the cache caught 111 of 120 rewordings (97 with the fix); exact matching catches none. Pending a hand check.</p>
+<p style="margin: 0; color: #4A5866; font-size: 14px">Limits: benchmark questions and recorded answers only.</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 9px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 22px; font-weight: 700">The router's budget barely moved</h2>
+<p style="margin: 0; color: #4A5866; font-size: 14px">The cache's effect on the expensive-model share, in points (shaded ±3)</p>
+<div style="display: flex; flex-direction: column; gap: 9px">
+<div style="display: grid; grid-template-columns: 170px 240px 1fr; align-items: center; gap: 8px"><span>Real chatbot traffic</span><div style="position: relative; height: 20px"><div style="position: absolute; left: 24px; top: 0; width: 144px; height: 20px; background: #E1E9F1"></div><div style="position: absolute; left: 96px; top: 0; width: 1px; height: 20px; background: #7A8794"></div><div style="position: absolute; left: 103px; top: 9px; width: 91px; height: 2px; background: #1C2833"></div><div style="position: absolute; left: 143px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: #1C2833"></div></div><span style="font-weight: 600">+2.2</span></div>
+<div style="display: grid; grid-template-columns: 170px 240px 1fr; align-items: center; gap: 8px"><span>MMLU, even repeats</span><div style="position: relative; height: 20px"><div style="position: absolute; left: 24px; top: 0; width: 144px; height: 20px; background: #E1E9F1"></div><div style="position: absolute; left: 96px; top: 0; width: 1px; height: 20px; background: #7A8794"></div><div style="position: absolute; left: 110px; top: 9px; width: 31px; height: 2px; background: #1C2833"></div><div style="position: absolute; left: 121px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: #1C2833"></div></div><span style="font-weight: 600">+1.3</span></div>
+<div style="display: grid; grid-template-columns: 170px 240px 1fr; align-items: center; gap: 8px"><span>Easy topics asked 3×</span><div style="position: relative; height: 20px"><div style="position: absolute; left: 24px; top: 0; width: 144px; height: 20px; background: #E1E9F1"></div><div style="position: absolute; left: 96px; top: 0; width: 1px; height: 20px; background: #7A8794"></div><div style="position: absolute; left: 84px; top: 9px; width: 38px; height: 2px; background: #1C2833"></div><div style="position: absolute; left: 97px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: #1C2833"></div></div><span style="font-weight: 600">+0.3</span></div>
+<div style="display: grid; grid-template-columns: 170px 240px 1fr; align-items: center; gap: 8px"><span>Hard topics asked 3×</span><div style="position: relative; height: 20px"><div style="position: absolute; left: 24px; top: 0; width: 144px; height: 20px; background: #E1E9F1"></div><div style="position: absolute; left: 96px; top: 0; width: 1px; height: 20px; background: #7A8794"></div><div style="position: absolute; left: 115px; top: 9px; width: 34px; height: 2px; background: #1C2833"></div><div style="position: absolute; left: 126px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: #1C2833"></div></div><span style="font-weight: 600">+1.5</span></div>
+<div style="display: grid; grid-template-columns: 170px 240px 1fr; gap: 8px; font-size: 14px; color: #4A5866"><span></span><div style="position: relative; height: 18px"><span style="position: absolute; left: 16px; top: 0">−3</span><span style="position: absolute; left: 92px; top: 0">0</span><span style="position: absolute; left: 159px; top: 0">+3</span><span style="position: absolute; left: 226px; top: 0">+6</span></div><span></span></div>
+</div>
+
+<h2 style="margin: 4px 0 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 22px; font-weight: 700">Re-tuning works, given enough traffic</h2>
+<p style="margin: 0; color: #4A5866; font-size: 14px">Expensive-model share after re-tuning, on unseen questions; shaded = ±3 of the 50% plan</p>
+<div style="display: flex; flex-direction: column; gap: 9px">
+<div style="display: grid; grid-template-columns: 170px 240px 1fr; align-items: center; gap: 8px"><span>ARC, 970 requests</span><div style="position: relative; height: 20px"><div style="position: absolute; left: 27px; top: 0; width: 80px; height: 20px; background: #E1E9F1"></div><div style="position: absolute; left: 67px; top: 0; width: 1px; height: 20px; background: #7A8794"></div><div style="position: absolute; left: 51px; top: 9px; width: 175px; height: 2px; background: #1C2833"></div><div style="position: absolute; left: 131px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: #1C2833"></div></div><span style="font-weight: 600">55.3%</span></div>
+<div style="display: grid; grid-template-columns: 170px 240px 1fr; align-items: center; gap: 8px"><span>MMLU, 13,750 requests</span><div style="position: relative; height: 20px"><div style="position: absolute; left: 27px; top: 0; width: 80px; height: 20px; background: #E1E9F1"></div><div style="position: absolute; left: 67px; top: 0; width: 1px; height: 20px; background: #7A8794"></div><div style="position: absolute; left: 48px; top: 9px; width: 45px; height: 2px; background: #1C2833"></div><div style="position: absolute; left: 63px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: #1F8A70"></div></div><span style="font-weight: 600; color: #13614E">50.2%</span></div>
+<div style="display: grid; grid-template-columns: 170px 240px 1fr; gap: 8px; font-size: 14px; color: #4A5866"><span></span><div style="position: relative; height: 18px"><span style="position: absolute; left: 19px; top: 0">47</span><span style="position: absolute; left: 59px; top: 0">50</span><span style="position: absolute; left: 99px; top: 0">53</span><span style="position: absolute; left: 188px; top: 0">60%</span></div><span></span></div>
+</div>
+<p style="margin: 0; text-wrap: pretty">At 13,750 requests it landed near plan in 16 of 20 random splits, for 0.15 points of accuracy.</p>
+
+<h2 style="margin: 4px 0 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 22px; font-weight: 700">Which setting is safe?</h2>
+<p style="margin: 0; text-wrap: pretty">Our finder replays your own traffic at every setting. On MMLU it picks <b>0.95 + the difference check</b>: 2 wrong answers per 1,000, half still from the cache. Without the check even 0.95 caused 13.</p>
+
+<div style="border-top: 3px solid #1C2833; padding-top: 14px; display: flex; flex-direction: column; gap: 6px; margin-top: auto">
+<h2 style="margin: 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 22px; font-weight: 700">If you run a cache</h2>
+<ul style="margin: 0; padding-left: 16px; display: flex; flex-direction: column; gap: 4px">
+<li>Turn it on: it halves the bill.</li>
+<li>Count wrong answers on <b>your own</b> questions; use the difference check if they share long context.</li>
+<li>Re-tune only with a few thousand requests behind it.</li>
+</ul>
+</div>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1632,"height":1056}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>
