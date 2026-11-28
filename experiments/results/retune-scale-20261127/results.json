@@ -1,0 +1,247 @@
+{
+  "protocol": "docs/sprints/Sprint_4/Retune_Scale_Protocol.md",
+  "dataset_sha256": "95c9030845ca1a9f64656c0fa41840420d516740c2f6be4e3992f626c9d84cca",
+  "requests": 13750,
+  "test_questions": 6875,
+  "question_groups": 6875,
+  "cutoff": 0.45482388610840296,
+  "cutoff_retuned_A": 0.45517563740840317,
+  "cutoff_retuned_B": 0.4552685835177659,
+  "primary": {
+    "held_out": "half B",
+    "verdict": "within",
+    "share_before": {
+      "estimate": 0.5148331273176762,
+      "ci95": [
+        0.4978447278712587,
+        0.5317917692623371
+      ]
+    },
+    "share_after": {
+      "estimate": 0.5024721878862793,
+      "ci95": [
+        0.48583370006231547,
+        0.5200641864163332
+      ]
+    },
+    "drift_after": {
+      "estimate": 0.0024721878862793423,
+      "ci95": [
+        -0.014166299937684524,
+        0.0200641864163332
+      ]
+    },
+    "held_out_groups": 3428,
+    "held_out_requests": 6801
+  },
+  "accuracy_change": {
+    "estimate": -0.0014703720041170376,
+    "ci95": [
+      -0.0036279599786015722,
+      0.00043829856990840454
+    ]
+  },
+  "accuracy_range_above_margin": true,
+  "cost_change_per_1000": {
+    "estimate": -0.008098867813556843,
+    "ci95": [
+      -0.011030068026244014,
+      -0.005491063576488751
+    ]
+  },
+  "reverse_half": {
+    "verdict": "within",
+    "share_after": {
+      "estimate": 0.49354640442532266,
+      "ci95": [
+        0.47583980457555725,
+        0.510710406806016
+      ]
+    },
+    "drift_after": {
+      "estimate": -0.00645359557467734,
+      "ci95": [
+        -0.024160195424442758,
+        0.010710406806015964
+      ]
+    },
+    "accuracy_change": {
+      "estimate": -0.004892790329543817,
+      "ci95": [
+        -0.007893708786666634,
+        -0.002466207578787128
+      ]
+    }
+  },
+  "crossfit": {
+    "verdict": "within",
+    "share_before": {
+      "estimate": 0.5141756548536209,
+      "ci95": [
+        0.5020030508189852,
+        0.5261788145938879
+      ]
+    },
+    "share_after": {
+      "estimate": 0.4979969183359014,
+      "ci95": [
+        0.485691309036987,
+        0.5104194365241188
+      ]
+    },
+    "drift_after": {
+      "estimate": -0.002003081664098627,
+      "ci95": [
+        -0.014308690963013009,
+        0.010419436524118855
+      ]
+    },
+    "accuracy_change": {
+      "estimate": -0.0031999999999999806,
+      "ci95": [
+        -0.004908471604010795,
+        -0.0016082900091652225
+      ]
+    },
+    "cost_change_per_1000": {
+      "estimate": -0.010754370909090871,
+      "ci95": [
+        -0.013218451312486834,
+        -0.008466102588153048
+      ]
+    },
+    "groups": 6875
+  },
+  "original_cutoff": {
+    "drift": {
+      "estimate": 0.014175654853620934,
+      "ci95": [
+        0.002003050818985175,
+        0.026178814593887954
+      ]
+    },
+    "verdict": "within",
+    "cache_effect_on_share": {
+      "estimate": 0.012793836671802783,
+      "ci95": [
+        0.005850234122723256,
+        0.01922565318719205
+      ]
+    },
+    "accuracy_change_vs_fresh": {
+      "estimate": -0.016799999999999926,
+      "ci95": [
+        -0.02162872329945044,
+        -0.01260111695143479
+      ]
+    }
+  },
+  "runs": {
+    "no_cache": {
+      "config_id": "bbce0fb690832d9b",
+      "config": {
+        "mode": "recorded-answer-replay",
+        "cache": "none",
+        "target_strong_share": 0.5,
+        "threshold": 0.45482388610840296,
+        "dataset_sha256": "95c9030845ca1a9f64656c0fa41840420d516740c2f6be4e3992f626c9d84cca",
+        "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+        "seed": 601,
+        "extra_repeats": 5,
+        "strong_model": "gpt-4-1106-preview",
+        "weak_model": "mistralai/mixtral-8x7b-chat"
+      },
+      "summary": {
+        "requests": 13750,
+        "cache_hits": 0,
+        "routed_requests": 13750,
+        "strong_calls": 6894,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.5013818181818182,
+        "strong_share_of_all": 0.5013818181818182,
+        "historical_model_cost_usd": 9.6702234
+      }
+    },
+    "semantic_0.90": {
+      "config_id": "b15712024af366f2",
+      "config": {
+        "mode": "recorded-answer-replay",
+        "cache": "semantic",
+        "target_strong_share": 0.5,
+        "threshold": 0.45482388610840296,
+        "dataset_sha256": "95c9030845ca1a9f64656c0fa41840420d516740c2f6be4e3992f626c9d84cca",
+        "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+        "seed": 601,
+        "extra_repeats": 5,
+        "strong_model": "gpt-4-1106-preview",
+        "weak_model": "mistralai/mixtral-8x7b-chat",
+        "semantic_threshold": 0.9,
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+      },
+      "summary": {
+        "requests": 13750,
+        "cache_hits": 7260,
+        "routed_requests": 6490,
+        "strong_calls": 3337,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.5141756548536209,
+        "strong_share_of_all": 0.2426909090909091,
+        "historical_model_cost_usd": 4.5701076
+      }
+    },
+    "semantic_0.90_retuned_A": {
+      "config_id": "5fb9994876c8b246",
+      "config": {
+        "mode": "recorded-answer-replay",
+        "cache": "semantic",
+        "target_strong_share": 0.5,
+        "threshold": 0.45517563740840317,
+        "dataset_sha256": "95c9030845ca1a9f64656c0fa41840420d516740c2f6be4e3992f626c9d84cca",
+        "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+        "seed": 601,
+        "extra_repeats": 5,
+        "strong_model": "gpt-4-1106-preview",
+        "weak_model": "mistralai/mixtral-8x7b-chat",
+        "semantic_threshold": 0.9,
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+      },
+      "summary": {
+        "requests": 13750,
+        "cache_hits": 7260,
+        "routed_requests": 6490,
+        "strong_calls": 3253,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.5012326656394454,
+        "strong_share_of_all": 0.23658181818181817,
+        "historical_model_cost_usd": 4.4516034
+      }
+    },
+    "semantic_0.90_retuned_B": {
+      "config_id": "d8b5a68967f83fde",
+      "config": {
+        "mode": "recorded-answer-replay",
+        "cache": "semantic",
+        "target_strong_share": 0.5,
+        "threshold": 0.4552685835177659,
+        "dataset_sha256": "95c9030845ca1a9f64656c0fa41840420d516740c2f6be4e3992f626c9d84cca",
+        "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+        "seed": 601,
+        "extra_repeats": 5,
+        "strong_model": "gpt-4-1106-preview",
+        "weak_model": "mistralai/mixtral-8x7b-chat",
+        "semantic_threshold": 0.9,
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+      },
+      "summary": {
+        "requests": 13750,
+        "cache_hits": 7260,
+        "routed_requests": 6490,
+        "strong_calls": 3224,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.4967642526964561,
+        "strong_share_of_all": 0.23447272727272728,
+        "historical_model_cost_usd": 4.4067072000000005
+      }
+    }
+  }
+}
