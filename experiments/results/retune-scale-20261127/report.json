@@ -1,0 +1,279 @@
+{
+  "rates": {
+    "hit_rate": {
+      "estimate": 0.528,
+      "ci95": [
+        0.521911465981789,
+        0.5342880016102579
+      ]
+    },
+    "accuracy": {
+      "estimate": 0.7114181818181818,
+      "ci95": [
+        0.6994286941000103,
+        0.7240317466012488
+      ]
+    },
+    "wrong_question_rate": {
+      "estimate": 0.054181818181818185,
+      "ci95": [
+        0.048614830382243866,
+        0.060408162566245135
+      ]
+    },
+    "wrong_question_wrong_rate": {
+      "estimate": 0.041236363636363634,
+      "ci95": [
+        0.036443861618919667,
+        0.04658224637307526
+      ]
+    },
+    "repeated_wrong_rate": {
+      "estimate": 0.12298181818181818,
+      "ci95": [
+        0.11557030758684547,
+        0.1303671404566604
+      ]
+    },
+    "strong_share_of_routed": {
+      "estimate": 0.5141756548536209,
+      "ci95": [
+        0.5020030508189852,
+        0.5261788145938879
+      ]
+    },
+    "usd_per_1000": {
+      "estimate": 0.33237146181818117,
+      "ci95": [
+        0.3222121445871329,
+        0.34248511952278526
+      ]
+    },
+    "all_strong_usd_per_1000": {
+      "estimate": 1.4475330909090887,
+      "ci95": [
+        1.4238740421798484,
+        1.4716346249918242
+      ]
+    },
+    "saving_vs_all_strong": {
+      "estimate": 0.7703876589035742,
+      "ci95": [
+        0.763172110930738,
+        0.7777960140672456
+      ]
+    },
+    "drift_from_plan": {
+      "estimate": 0.014175654853620934,
+      "ci95": [
+        0.002003050818985175,
+        0.026178814593887954
+      ]
+    }
+  },
+  "totals": {
+    "requests": 13750,
+    "hits": 7260,
+    "routed": 6490,
+    "strong": 3337,
+    "correct": 9782,
+    "cost": 4.570107599999991,
+    "all_strong_cost": 19.90357999999997,
+    "wrong_question": 745,
+    "wrong_question_wrong": 567,
+    "repeated_wrong": 1691
+  },
+  "planned_strong_share": 0.5,
+  "question_groups": 6875,
+  "bootstrap_samples": 2000,
+  "drift_band": 0.03,
+  "within_band": true,
+  "band_verdict": "within",
+  "fresh": {
+    "accuracy": {
+      "estimate": 0.7282181818181818,
+      "ci95": [
+        0.7165855956509795,
+        0.7406010571404166
+      ]
+    },
+    "strong_share_of_routed": {
+      "estimate": 0.5013818181818182,
+      "ci95": [
+        0.4880459556600851,
+        0.5143797421505063
+      ]
+    },
+    "usd_per_1000": {
+      "estimate": 0.7032889745454547,
+      "ci95": [
+        0.6821411647454303,
+        0.725885774100811
+      ]
+    }
+  },
+  "paired": {
+    "accuracy_change": {
+      "estimate": -0.016799999999999926,
+      "ci95": [
+        -0.02162872329945044,
+        -0.01260111695143479
+      ]
+    },
+    "strong_share_change": {
+      "estimate": 0.012793836671802783,
+      "ci95": [
+        0.005850234122723256,
+        0.01922565318719205
+      ]
+    }
+  },
+  "retune": {
+    "threshold_before": 0.45482388610840296,
+    "threshold_after": 0.45517563740840317,
+    "held_out_groups": 3428,
+    "held_out_requests": 6801,
+    "before": {
+      "strong_share_of_routed": {
+        "estimate": 0.5148331273176762,
+        "ci95": [
+          0.4978447278712587,
+          0.5317917692623371
+        ]
+      },
+      "accuracy": {
+        "estimate": 0.7057785619761799,
+        "ci95": [
+          0.6889366612396639,
+          0.7227155089309032
+        ]
+      },
+      "usd_per_1000": {
+        "estimate": 0.33451760035288974,
+        "ci95": [
+          0.32032991145641765,
+          0.3484777840593079
+        ]
+      }
+    },
+    "after": {
+      "strong_share_of_routed": {
+        "estimate": 0.5024721878862793,
+        "ci95": [
+          0.48583370006231547,
+          0.5200641864163332
+        ]
+      },
+      "accuracy": {
+        "estimate": 0.7043081899720629,
+        "ci95": [
+          0.6872729252121145,
+          0.7209705191830897
+        ]
+      },
+      "usd_per_1000": {
+        "estimate": 0.3264187325393329,
+        "ci95": [
+          0.31308515901281947,
+          0.33991153380779937
+        ]
+      }
+    },
+    "change": {
+      "strong_share_of_routed": {
+        "estimate": -0.012360939431396822,
+        "ci95": [
+          -0.01633307153917385,
+          -0.008933797810322804
+        ]
+      },
+      "accuracy": {
+        "estimate": -0.0014703720041170376,
+        "ci95": [
+          -0.0036279599786015722,
+          0.00043829856990840454
+        ]
+      },
+      "usd_per_1000": {
+        "estimate": -0.008098867813556843,
+        "ci95": [
+          -0.011030068026244014,
+          -0.005491063576488751
+        ]
+      }
+    },
+    "accuracy_margin": -0.01,
+    "accuracy_range_above_margin": true,
+    "after_drift_from_plan": {
+      "estimate": 0.0024721878862793423,
+      "ci95": [
+        -0.014166299937684524,
+        0.0200641864163332
+      ]
+    },
+    "before_drift_from_plan": {
+      "estimate": 0.014833127317676165,
+      "ci95": [
+        -0.002155272128741295,
+        0.03179176926233711
+      ]
+    },
+    "after_within_band": true,
+    "after_band_verdict": "within"
+  },
+  "examples": [
+    {
+      "question_id": "mmlu-moral-scenarios.val.817",
+      "question": "Please answer with the letter of the correct answer.",
+      "matched_question_id": "mmlu-moral-scenarios.val.44",
+      "matched_question": "Please answer with the letter of the correct answer.",
+      "similarity": 0.9028637409210205,
+      "served_answer": "\nD",
+      "correct_answer": "C"
+    },
+    {
+      "question_id": "mmlu-moral-scenarios.val.215",
+      "question": "Please answer with the letter of the correct answer.",
+      "matched_question_id": "mmlu-moral-scenarios.val.44",
+      "matched_question": "Please answer with the letter of the correct answer.",
+      "similarity": 0.9008084535598755,
+      "served_answer": "\nD",
+      "correct_answer": "A"
+    },
+    {
+      "question_id": "mmlu-moral-scenarios.val.877",
+      "question": "Please answer with the letter of the correct answer.",
+      "matched_question_id": "mmlu-moral-scenarios.val.602",
+      "matched_question": "Please answer with the letter of the correct answer.",
+      "similarity": 0.9059394598007202,
+      "served_answer": "B",
+      "correct_answer": "C"
+    },
+    {
+      "question_id": "mmlu-moral-scenarios.val.95",
+      "question": "Please answer with the letter of the correct answer.",
+      "matched_question_id": "mmlu-moral-scenarios.val.44",
+      "matched_question": "Please answer with the letter of the correct answer.",
+      "similarity": 0.9054707288742065,
+      "served_answer": "\nD",
+      "correct_answer": "A"
+    },
+    {
+      "question_id": "mmlu-moral-scenarios.val.603",
+      "question": "Please answer with the letter of the correct answer.",
+      "matched_question_id": "mmlu-moral-scenarios.val.44",
+      "matched_question": "Please answer with the letter of the correct answer.",
+      "similarity": 0.9017047882080078,
+      "served_answer": "\nD",
+      "correct_answer": "A"
+    }
+  ],
+  "inputs": {
+    "log": "semantic_0.90.jsonl",
+    "log_sha256": "e737d6e6c57612fbef278823332e9ae314a1543a8775a5b70da322d7523d62cf",
+    "fresh_log": "no_cache.jsonl",
+    "retuned_log": "semantic_0.90_retuned_A.jsonl",
+    "dataset_sha256": "95c9030845ca1a9f64656c0fa41840420d516740c2f6be4e3992f626c9d84cca",
+    "seed": 601
+  }
+}

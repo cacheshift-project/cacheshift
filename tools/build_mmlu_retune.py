@@ -37,8 +37,11 @@ def parse_prompt(prompt):
 
 
 def balanced_split(rows, per_subject=64):
-    """Select whole families using subject and stem only, not model outcomes."""
-    if per_subject < 4 or per_subject % 2:
+    """Select whole families using subject and stem only, not model outcomes.
+
+    per_subject=None keeps every eligible family: in each subject, families ordered by
+    SHA256(601:stem), the first half (rounded down) tuning and the rest test."""
+    if per_subject is not None and (per_subject < 4 or per_subject % 2):
         raise ValueError("Use an even sample of at least four per subject")
     by_subject = defaultdict(dict)
     seen = set()
@@ -50,13 +53,14 @@ def balanced_split(rows, per_subject=64):
         by_subject[row["subject"]][row["group_id"]] = row
     selected, counts = [], {}
     for subject, families in sorted(by_subject.items()):
-        if len(families) < per_subject:
+        take = len(families) if per_subject is None else per_subject
+        if len(families) < take or take < 2:
             raise ValueError(f"Insufficient families in {subject}: {len(families)}")
-        groups = sorted(families, key=lambda group: hashlib.sha256(("601:" + group).encode()).hexdigest())[:per_subject]
+        groups = sorted(families, key=lambda group: hashlib.sha256(("601:" + group).encode()).hexdigest())[:take]
         # Selection and split are both fixed independently of scores/answers.
         for i, group in enumerate(groups):
-            selected.append({**families[group], "split": "tuning" if i < per_subject // 2 else "test"})
-        counts[subject] = {"eligible_families": len(families), "tuning": per_subject // 2, "test": per_subject // 2}
+            selected.append({**families[group], "split": "tuning" if i < take // 2 else "test"})
+        counts[subject] = {"eligible_families": len(families), "tuning": take // 2, "test": take - take // 2}
     if not selected:
         raise ValueError("No aligned MMLU families")
     return sorted(selected, key=lambda row: row["question_id"]), counts
@@ -68,6 +72,8 @@ def main():
     parser.add_argument("--keys", type=Path, default=Path("data/raw/mmlu-test.parquet"))
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--download-keys", action="store_true")
+    parser.add_argument("--all-families", action="store_true",
+                        help="Keep every eligible family (half tuning, half test per subject) instead of 64 per subject")
     args = parser.parse_args()
     if args.output.exists():
         raise ValueError("Output must be new")
@@ -128,7 +134,7 @@ def main():
                             "source": "mmlu", "answers": answers})
         except (ValueError, SyntaxError, TypeError) as exc:
             skipped.append({"question_id": qid, "reason": str(exc)})
-    rows, counts = balanced_split(aligned)
+    rows, counts = balanced_split(aligned, per_subject=None if args.all_families else 64)
     args.output.mkdir(parents=True)
     dataset = args.output / "questions.jsonl"
     dataset.write_bytes("".join(json.dumps(row) + "\n" for row in rows).encode())
@@ -136,7 +142,7 @@ def main():
     manifest = {"routerbench_sha256": ROUTERBENCH_SHA, "keys_sha256": MMLU_SHA,
                 "keys_revision": MMLU_REVISION, "keys_url": MMLU_URL,
                 "dataset_sha256": digest(dataset), "per_subject": counts, "rows": len(rows),
-                "skipped": skipped, "selection": "64 canonical stem families per subject ordered by SHA256(601:stem), first 32 tuning, remaining 32 test; no outcome or score based selection",
+                "skipped": skipped, "selection": ("every eligible canonical stem family per subject ordered by SHA256(601:stem), first half (rounded down) tuning, remaining test; no outcome or score based selection" if args.all_families else "64 canonical stem families per subject ordered by SHA256(601:stem), first 32 tuning, remaining 32 test; no outcome or score based selection"),
                 "limitations": "New relative to local ARC evaluations, but possible benchmark overlap in released router training. Subject-balanced synthetic traffic, exact repeats and historical recorded responses only."}
     (args.output / "manifest.json").write_bytes((json.dumps(manifest, indent=2) + "\n").encode())
     print(json.dumps({"rows": len(rows), "subjects": len(counts), "aligned": len(aligned), "skipped": len(skipped), "dataset_sha256": manifest["dataset_sha256"]}))

@@ -1,0 +1,349 @@
+{
+  "protocol": "docs/sprints/Sprint_4/Uneven_Repeats_Protocol.md",
+  "dataset_sha256": "95c9030845ca1a9f64656c0fa41840420d516740c2f6be4e3992f626c9d84cca",
+  "weight": 3,
+  "threshold": 0.9,
+  "policies": {
+    "easy-repeat": {
+      "cutoff": 0.45510352970163903,
+      "tuning_stream_share": 0.49992699664184553,
+      "requests": 13750,
+      "repeats_by_level": {
+        "easy": 3652,
+        "hard": 1083,
+        "other": 2140
+      },
+      "cache_effect_on_share": {
+        "estimate": 0.0033988722067528343,
+        "ci95": [
+          -0.004637296797201975,
+          0.011377452253868952
+        ]
+      },
+      "verdict": "within",
+      "share_no_cache": {
+        "estimate": 0.5002181818181818,
+        "ci95": [
+          0.4858134358338731,
+          0.5142332384466355
+        ]
+      },
+      "share_cache": {
+        "estimate": 0.5036170540249346,
+        "ci95": [
+          0.4916036296191924,
+          0.5159306747767175
+        ]
+      },
+      "drift_cache": {
+        "estimate": 0.0036170540249346184,
+        "ci95": [
+          -0.008396370380807597,
+          0.015930674776717495
+        ]
+      },
+      "drift_no_cache": {
+        "estimate": 0.00021818181818178406,
+        "ci95": [
+          -0.014186564166126903,
+          0.014233238446635488
+        ]
+      },
+      "accuracy_change_vs_fresh": {
+        "estimate": -0.018327272727272637,
+        "ci95": [
+          -0.02309874409063669,
+          -0.013810537461432642
+        ]
+      },
+      "usd_per_1000_cache": {
+        "estimate": 0.32595694545454496,
+        "ci95": [
+          0.31566872336233864,
+          0.3361671685754961
+        ]
+      },
+      "usd_per_1000_no_cache": {
+        "estimate": 0.7009970763636352,
+        "ci95": [
+          0.6781145834099885,
+          0.724059373789688
+        ]
+      },
+      "hit_rate": {
+        "estimate": 0.5274909090909091,
+        "ci95": [
+          0.5203022607715729,
+          0.5344967116077656
+        ]
+      },
+      "wrong_caused_by_cache": 600,
+      "summary_cache": {
+        "requests": 13750,
+        "cache_hits": 7253,
+        "routed_requests": 6497,
+        "strong_calls": 3272,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.5036170540249346,
+        "strong_share_of_all": 0.23796363636363638,
+        "historical_model_cost_usd": 4.481908
+      },
+      "summary_no_cache": {
+        "requests": 13750,
+        "cache_hits": 0,
+        "routed_requests": 13750,
+        "strong_calls": 6878,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.5002181818181818,
+        "strong_share_of_all": 0.5002181818181818,
+        "historical_model_cost_usd": 9.6387098
+      },
+      "config_cache": {
+        "mode": "recorded-answer-replay",
+        "cache": "semantic",
+        "target_strong_share": 0.5,
+        "threshold": 0.45510352970163903,
+        "dataset_sha256": "95c9030845ca1a9f64656c0fa41840420d516740c2f6be4e3992f626c9d84cca",
+        "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+        "seed": 601,
+        "extra_repeats": 5,
+        "strong_model": "gpt-4-1106-preview",
+        "weak_model": "mistralai/mixtral-8x7b-chat",
+        "semantic_threshold": 0.9,
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+      }
+    },
+    "hard-repeat": {
+      "cutoff": 0.45474172603429935,
+      "tuning_stream_share": 0.5000730033581545,
+      "requests": 13750,
+      "repeats_by_level": {
+        "easy": 1252,
+        "hard": 3345,
+        "other": 2278
+      },
+      "cache_effect_on_share": {
+        "estimate": 0.015186013986014046,
+        "ci95": [
+          0.00829800195136326,
+          0.022256449082468734
+        ]
+      },
+      "verdict": "within",
+      "share_no_cache": {
+        "estimate": 0.501890909090909,
+        "ci95": [
+          0.4881658385546673,
+          0.5148098374650236
+        ]
+      },
+      "share_cache": {
+        "estimate": 0.5170769230769231,
+        "ci95": [
+          0.5049882206865713,
+          0.5288815976459376
+        ]
+      },
+      "drift_cache": {
+        "estimate": 0.0170769230769231,
+        "ci95": [
+          0.004988220686571354,
+          0.028881597645937587
+        ]
+      },
+      "drift_no_cache": {
+        "estimate": 0.0018909090909090542,
+        "ci95": [
+          -0.011834161445332725,
+          0.014809837465023623
+        ]
+      },
+      "accuracy_change_vs_fresh": {
+        "estimate": -0.012218181818181795,
+        "ci95": [
+          -0.015521391016746638,
+          -0.009028655062715385
+        ]
+      },
+      "usd_per_1000_cache": {
+        "estimate": 0.33537803636363567,
+        "ci95": [
+          0.3255327199322886,
+          0.3454970153305643
+        ]
+      },
+      "usd_per_1000_no_cache": {
+        "estimate": 0.7526009745454548,
+        "ci95": [
+          0.7276334198372544,
+          0.7783993146406915
+        ]
+      },
+      "hit_rate": {
+        "estimate": 0.5272727272727272,
+        "ci95": [
+          0.5200504273089054,
+          0.5340874755026538
+        ]
+      },
+      "wrong_caused_by_cache": 476,
+      "summary_cache": {
+        "requests": 13750,
+        "cache_hits": 7250,
+        "routed_requests": 6500,
+        "strong_calls": 3361,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.5170769230769231,
+        "strong_share_of_all": 0.24443636363636365,
+        "historical_model_cost_usd": 4.611448
+      },
+      "summary_no_cache": {
+        "requests": 13750,
+        "cache_hits": 0,
+        "routed_requests": 13750,
+        "strong_calls": 6901,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.501890909090909,
+        "strong_share_of_all": 0.501890909090909,
+        "historical_model_cost_usd": 10.3482634
+      },
+      "config_cache": {
+        "mode": "recorded-answer-replay",
+        "cache": "semantic",
+        "target_strong_share": 0.5,
+        "threshold": 0.45474172603429935,
+        "dataset_sha256": "95c9030845ca1a9f64656c0fa41840420d516740c2f6be4e3992f626c9d84cca",
+        "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+        "seed": 601,
+        "extra_repeats": 5,
+        "strong_model": "gpt-4-1106-preview",
+        "weak_model": "mistralai/mixtral-8x7b-chat",
+        "semantic_threshold": 0.9,
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+      }
+    },
+    "uniform": {
+      "cutoff": 0.4549702221895799,
+      "tuning_stream_share": 0.49992699664184553,
+      "requests": 13750,
+      "repeats_by_level": {
+        "easy": 1851,
+        "hard": 1667,
+        "other": 3357
+      },
+      "cache_effect_on_share": {
+        "estimate": 0.013253620955315903,
+        "ci95": [
+          0.006415066086230717,
+          0.01973362152753759
+        ]
+      },
+      "verdict": "within",
+      "share_no_cache": {
+        "estimate": 0.49614545454545456,
+        "ci95": [
+          0.4827832409525305,
+          0.5094627983789192
+        ]
+      },
+      "share_cache": {
+        "estimate": 0.5093990755007705,
+        "ci95": [
+          0.4972931046946778,
+          0.5216257421093906
+        ]
+      },
+      "drift_cache": {
+        "estimate": 0.00939907550077046,
+        "ci95": [
+          -0.0027068953053222236,
+          0.021625742109390594
+        ]
+      },
+      "drift_no_cache": {
+        "estimate": -0.003854545454545444,
+        "ci95": [
+          -0.0172167590474695,
+          0.009462798378919168
+        ]
+      },
+      "accuracy_change_vs_fresh": {
+        "estimate": -0.016727272727272813,
+        "ci95": [
+          -0.02155181830509157,
+          -0.012528651455863411
+        ]
+      },
+      "usd_per_1000_cache": {
+        "estimate": 0.3293836072727266,
+        "ci95": [
+          0.31940975898479296,
+          0.3394913856249871
+        ]
+      },
+      "usd_per_1000_no_cache": {
+        "estimate": 0.6962451927272725,
+        "ci95": [
+          0.6756003157250643,
+          0.7182939731250638
+        ]
+      },
+      "hit_rate": {
+        "estimate": 0.528,
+        "ci95": [
+          0.521911465981789,
+          0.5342880016102579
+        ]
+      },
+      "wrong_caused_by_cache": 566,
+      "summary_cache": {
+        "requests": 13750,
+        "cache_hits": 7260,
+        "routed_requests": 6490,
+        "strong_calls": 3306,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.5093990755007705,
+        "strong_share_of_all": 0.24043636363636364,
+        "historical_model_cost_usd": 4.5290246
+      },
+      "summary_no_cache": {
+        "requests": 13750,
+        "cache_hits": 0,
+        "routed_requests": 13750,
+        "strong_calls": 6822,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.49614545454545456,
+        "strong_share_of_all": 0.49614545454545456,
+        "historical_model_cost_usd": 9.573371400000001
+      },
+      "config_cache": {
+        "mode": "recorded-answer-replay",
+        "cache": "semantic",
+        "target_strong_share": 0.5,
+        "threshold": 0.4549702221895799,
+        "dataset_sha256": "95c9030845ca1a9f64656c0fa41840420d516740c2f6be4e3992f626c9d84cca",
+        "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+        "seed": 601,
+        "extra_repeats": 5,
+        "strong_model": "gpt-4-1106-preview",
+        "weak_model": "mistralai/mixtral-8x7b-chat",
+        "semantic_threshold": 0.9,
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+      }
+    }
+  },
+  "router_score_by_level": {
+    "easy": {
+      "questions": 1842,
+      "mean_router_score": 0.4579089878044004
+    },
+    "hard": {
+      "questions": 1645,
+      "mean_router_score": 0.45578562757922303
+    },
+    "other": {
+      "questions": 3388,
+      "mean_router_score": 0.4552096114015976
+    }
+  }
+}

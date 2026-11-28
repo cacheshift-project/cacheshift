@@ -1,0 +1,2008 @@
+{
+  "rewordings": 120,
+  "hand_checked": 0,
+  "hand_check_pass_rate": null,
+  "note": "Counts only after the #7 hand check (>= 95% keep their meaning).",
+  "views": {
+    "full prompt (as the gateway stores it)": {
+      "items": [
+        {
+          "question_id": "mmlu-high-school-biology.val.240",
+          "level": "easy",
+          "own_similarity": 0.8933151960372925,
+          "best_similarity": 0.8933151960372925,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-biology.val.240"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.166",
+          "level": "easy",
+          "own_similarity": 0.9368299245834351,
+          "best_similarity": 0.9368299245834351,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.166"
+        },
+        {
+          "question_id": "mmlu-high-school-macroeconomics.val.95",
+          "level": "easy",
+          "own_similarity": 0.977467954158783,
+          "best_similarity": 0.977467954158783,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-macroeconomics.val.95"
+        },
+        {
+          "question_id": "mmlu-high-school-macroeconomics.val.368",
+          "level": "easy",
+          "own_similarity": 0.9970501065254211,
+          "best_similarity": 0.9970501065254211,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-macroeconomics.val.368"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.96",
+          "level": "easy",
+          "own_similarity": 0.9278700947761536,
+          "best_similarity": 0.9278700947761536,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.96"
+        },
+        {
+          "question_id": "mmlu-elementary-mathematics.val.198",
+          "level": "easy",
+          "own_similarity": 0.9567069411277771,
+          "best_similarity": 0.9567069411277771,
+          "best_is_own": true,
+          "best_question_id": "mmlu-elementary-mathematics.val.198"
+        },
+        {
+          "question_id": "mmlu-elementary-mathematics.val.358",
+          "level": "easy",
+          "own_similarity": 0.9835442304611206,
+          "best_similarity": 0.9835442304611206,
+          "best_is_own": true,
+          "best_question_id": "mmlu-elementary-mathematics.val.358"
+        },
+        {
+          "question_id": "mmlu-high-school-macroeconomics.val.135",
+          "level": "easy",
+          "own_similarity": 0.9872652292251587,
+          "best_similarity": 0.9872652292251587,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-macroeconomics.val.135"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.77",
+          "level": "easy",
+          "own_similarity": 0.9688029885292053,
+          "best_similarity": 0.9688029885292053,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.77"
+        },
+        {
+          "question_id": "mmlu-high-school-geography.val.66",
+          "level": "easy",
+          "own_similarity": 0.9773349761962891,
+          "best_similarity": 0.9773349761962891,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-geography.val.66"
+        },
+        {
+          "question_id": "mmlu-high-school-macroeconomics.val.215",
+          "level": "easy",
+          "own_similarity": 0.9370569586753845,
+          "best_similarity": 0.9370569586753845,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-macroeconomics.val.215"
+        },
+        {
+          "question_id": "mmlu-elementary-mathematics.val.11",
+          "level": "easy",
+          "own_similarity": 0.9810886979103088,
+          "best_similarity": 0.9810886979103088,
+          "best_is_own": true,
+          "best_question_id": "mmlu-elementary-mathematics.val.11"
+        },
+        {
+          "question_id": "mmlu-high-school-psychology.val.330",
+          "level": "easy",
+          "own_similarity": 0.9740761518478394,
+          "best_similarity": 0.9740761518478394,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-psychology.val.330"
+        },
+        {
+          "question_id": "mmlu-elementary-mathematics.val.212",
+          "level": "easy",
+          "own_similarity": 0.9832926392555237,
+          "best_similarity": 0.9832926392555237,
+          "best_is_own": true,
+          "best_question_id": "mmlu-elementary-mathematics.val.212"
+        },
+        {
+          "question_id": "mmlu-high-school-psychology.val.208",
+          "level": "easy",
+          "own_similarity": 0.9011033177375793,
+          "best_similarity": 0.9011033177375793,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-psychology.val.208"
+        },
+        {
+          "question_id": "mmlu-high-school-psychology.val.481",
+          "level": "easy",
+          "own_similarity": 0.9740334749221802,
+          "best_similarity": 0.9740334749221802,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-psychology.val.481"
+        },
+        {
+          "question_id": "mmlu-high-school-geography.val.21",
+          "level": "easy",
+          "own_similarity": 0.9801369905471802,
+          "best_similarity": 0.9801369905471802,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-geography.val.21"
+        },
+        {
+          "question_id": "mmlu-high-school-macroeconomics.val.114",
+          "level": "easy",
+          "own_similarity": 0.9395853877067566,
+          "best_similarity": 0.9395853877067566,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-macroeconomics.val.114"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.106",
+          "level": "easy",
+          "own_similarity": 0.985099196434021,
+          "best_similarity": 0.985099196434021,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.106"
+        },
+        {
+          "question_id": "mmlu-high-school-mathematics.val.98",
+          "level": "easy",
+          "own_similarity": 0.9671021103858948,
+          "best_similarity": 0.9671021103858948,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-mathematics.val.98"
+        },
+        {
+          "question_id": "mmlu-high-school-mathematics.val.161",
+          "level": "easy",
+          "own_similarity": 0.9556642770767212,
+          "best_similarity": 0.9556642770767212,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-mathematics.val.161"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.105",
+          "level": "easy",
+          "own_similarity": 0.904803991317749,
+          "best_similarity": 0.904803991317749,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.105"
+        },
+        {
+          "question_id": "mmlu-high-school-macroeconomics.val.291",
+          "level": "easy",
+          "own_similarity": 0.975388765335083,
+          "best_similarity": 0.975388765335083,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-macroeconomics.val.291"
+        },
+        {
+          "question_id": "mmlu-high-school-geography.val.178",
+          "level": "easy",
+          "own_similarity": 0.9800580739974976,
+          "best_similarity": 0.9800580739974976,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-geography.val.178"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.108",
+          "level": "easy",
+          "own_similarity": 0.991095244884491,
+          "best_similarity": 0.991095244884491,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.108"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.120",
+          "level": "easy",
+          "own_similarity": 0.9296242594718933,
+          "best_similarity": 0.9296242594718933,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.120"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.185",
+          "level": "easy",
+          "own_similarity": 0.8993314504623413,
+          "best_similarity": 0.8993314504623413,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.185"
+        },
+        {
+          "question_id": "mmlu-high-school-biology.val.309",
+          "level": "easy",
+          "own_similarity": 0.9555791020393372,
+          "best_similarity": 0.9555791020393372,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-biology.val.309"
+        },
+        {
+          "question_id": "mmlu-high-school-chemistry.val.139",
+          "level": "easy",
+          "own_similarity": 0.993992269039154,
+          "best_similarity": 0.993992269039154,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-chemistry.val.139"
+        },
+        {
+          "question_id": "mmlu-high-school-macroeconomics.val.152",
+          "level": "easy",
+          "own_similarity": 0.9856477379798889,
+          "best_similarity": 0.9856477379798889,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-macroeconomics.val.152"
+        },
+        {
+          "question_id": "mmlu-high-school-geography.val.11",
+          "level": "easy",
+          "own_similarity": 0.9744242429733276,
+          "best_similarity": 0.9744242429733276,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-geography.val.11"
+        },
+        {
+          "question_id": "mmlu-high-school-psychology.val.209",
+          "level": "easy",
+          "own_similarity": 0.9343970417976379,
+          "best_similarity": 0.9343970417976379,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-psychology.val.209"
+        },
+        {
+          "question_id": "mmlu-high-school-macroeconomics.val.55",
+          "level": "easy",
+          "own_similarity": 0.9372212290763855,
+          "best_similarity": 0.9372212290763855,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-macroeconomics.val.55"
+        },
+        {
+          "question_id": "mmlu-high-school-chemistry.val.25",
+          "level": "easy",
+          "own_similarity": 0.9394843578338623,
+          "best_similarity": 0.9394843578338623,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-chemistry.val.25"
+        },
+        {
+          "question_id": "mmlu-high-school-government-and-politics.val.103",
+          "level": "easy",
+          "own_similarity": 0.9974517226219177,
+          "best_similarity": 0.9974517226219177,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-government-and-politics.val.103"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.171",
+          "level": "easy",
+          "own_similarity": 0.9942116737365723,
+          "best_similarity": 0.9942116737365723,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.171"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.3",
+          "level": "easy",
+          "own_similarity": 0.9712321162223816,
+          "best_similarity": 0.9712321162223816,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.3"
+        },
+        {
+          "question_id": "mmlu-high-school-mathematics.val.31",
+          "level": "easy",
+          "own_similarity": 0.9209079146385193,
+          "best_similarity": 0.9209079146385193,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-mathematics.val.31"
+        },
+        {
+          "question_id": "mmlu-high-school-biology.val.76",
+          "level": "easy",
+          "own_similarity": 0.9446813464164734,
+          "best_similarity": 0.9446813464164734,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-biology.val.76"
+        },
+        {
+          "question_id": "mmlu-high-school-psychology.val.18",
+          "level": "easy",
+          "own_similarity": 0.9208648204803467,
+          "best_similarity": 0.9208648204803467,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-psychology.val.18"
+        },
+        {
+          "question_id": "mmlu-college-medicine.val.153",
+          "level": "hard",
+          "own_similarity": 0.9058275818824768,
+          "best_similarity": 0.9058275818824768,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-medicine.val.153"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.467",
+          "level": "hard",
+          "own_similarity": 0.9163951277732849,
+          "best_similarity": 0.9163951277732849,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.467"
+        },
+        {
+          "question_id": "mmlu-professional-law.val.764",
+          "level": "hard",
+          "own_similarity": 0.9833536744117737,
+          "best_similarity": 0.9833536744117737,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-law.val.764"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.33",
+          "level": "hard",
+          "own_similarity": 0.9505743980407715,
+          "best_similarity": 0.9505743980407715,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.33"
+        },
+        {
+          "question_id": "mmlu-college-biology.val.48",
+          "level": "hard",
+          "own_similarity": 0.8954650163650513,
+          "best_similarity": 0.8954650163650513,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-biology.val.48"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.410",
+          "level": "hard",
+          "own_similarity": 0.9656257629394531,
+          "best_similarity": 0.9656257629394531,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.410"
+        },
+        {
+          "question_id": "mmlu-professional-law.val.1090",
+          "level": "hard",
+          "own_similarity": 0.9648661613464355,
+          "best_similarity": 0.9648661613464355,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-law.val.1090"
+        },
+        {
+          "question_id": "mmlu-college-medicine.val.32",
+          "level": "hard",
+          "own_similarity": 0.9383675456047058,
+          "best_similarity": 0.9383675456047058,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-medicine.val.32"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.239",
+          "level": "hard",
+          "own_similarity": 0.9691330790519714,
+          "best_similarity": 0.9691330790519714,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.239"
+        },
+        {
+          "question_id": "mmlu-college-biology.val.102",
+          "level": "hard",
+          "own_similarity": 0.9242718815803528,
+          "best_similarity": 0.9242718815803528,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-biology.val.102"
+        },
+        {
+          "question_id": "mmlu-college-biology.val.4",
+          "level": "hard",
+          "own_similarity": 0.947026252746582,
+          "best_similarity": 0.947026252746582,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-biology.val.4"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.347",
+          "level": "hard",
+          "own_similarity": 0.9720948338508606,
+          "best_similarity": 0.9720948338508606,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.347"
+        },
+        {
+          "question_id": "mmlu-college-biology.val.77",
+          "level": "hard",
+          "own_similarity": 0.9803174138069153,
+          "best_similarity": 0.9803174138069153,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-biology.val.77"
+        },
+        {
+          "question_id": "mmlu-professional-law.val.113",
+          "level": "hard",
+          "own_similarity": 0.9771988391876221,
+          "best_similarity": 0.9771988391876221,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-law.val.113"
+        },
+        {
+          "question_id": "mmlu-professional-accounting.val.267",
+          "level": "hard",
+          "own_similarity": 0.9926243424415588,
+          "best_similarity": 0.9926243424415588,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-accounting.val.267"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.147",
+          "level": "hard",
+          "own_similarity": 0.9253445863723755,
+          "best_similarity": 0.9253445863723755,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.147"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.60",
+          "level": "hard",
+          "own_similarity": 0.942217230796814,
+          "best_similarity": 0.942217230796814,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.60"
+        },
+        {
+          "question_id": "mmlu-college-mathematics.val.40",
+          "level": "hard",
+          "own_similarity": 0.9875093698501587,
+          "best_similarity": 0.9875093698501587,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-mathematics.val.40"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.511",
+          "level": "hard",
+          "own_similarity": 0.9118975400924683,
+          "best_similarity": 0.9118975400924683,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.511"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.27",
+          "level": "hard",
+          "own_similarity": 0.9675772190093994,
+          "best_similarity": 0.9675772190093994,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.27"
+        },
+        {
+          "question_id": "mmlu-college-physics.val.101",
+          "level": "hard",
+          "own_similarity": 0.9464007019996643,
+          "best_similarity": 0.9464007019996643,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-physics.val.101"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.130",
+          "level": "hard",
+          "own_similarity": 0.9922560453414917,
+          "best_similarity": 0.9922560453414917,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.130"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.173",
+          "level": "hard",
+          "own_similarity": 0.9212973713874817,
+          "best_similarity": 0.9212973713874817,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.173"
+        },
+        {
+          "question_id": "mmlu-college-biology.val.8",
+          "level": "hard",
+          "own_similarity": 0.9933348894119263,
+          "best_similarity": 0.9933348894119263,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-biology.val.8"
+        },
+        {
+          "question_id": "mmlu-college-chemistry.val.25",
+          "level": "hard",
+          "own_similarity": 0.9861952662467957,
+          "best_similarity": 0.9861952662467957,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-chemistry.val.25"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.37",
+          "level": "hard",
+          "own_similarity": 0.980289876461029,
+          "best_similarity": 0.980289876461029,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.37"
+        },
+        {
+          "question_id": "mmlu-college-medicine.val.34",
+          "level": "hard",
+          "own_similarity": 0.8578020930290222,
+          "best_similarity": 0.8578020930290222,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-medicine.val.34"
+        },
+        {
+          "question_id": "mmlu-college-chemistry.val.38",
+          "level": "hard",
+          "own_similarity": 0.9469358325004578,
+          "best_similarity": 0.9469358325004578,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-chemistry.val.38"
+        },
+        {
+          "question_id": "mmlu-college-physics.val.32",
+          "level": "hard",
+          "own_similarity": 0.9701416492462158,
+          "best_similarity": 0.9701416492462158,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-physics.val.32"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.327",
+          "level": "hard",
+          "own_similarity": 0.9924154281616211,
+          "best_similarity": 0.9924154281616211,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.327"
+        },
+        {
+          "question_id": "mmlu-professional-accounting.val.161",
+          "level": "hard",
+          "own_similarity": 0.9096155762672424,
+          "best_similarity": 0.9096155762672424,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-accounting.val.161"
+        },
+        {
+          "question_id": "mmlu-professional-law.val.954",
+          "level": "hard",
+          "own_similarity": 0.9484102725982666,
+          "best_similarity": 0.9484102725982666,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-law.val.954"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.554",
+          "level": "hard",
+          "own_similarity": 0.971555769443512,
+          "best_similarity": 0.971555769443512,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.554"
+        },
+        {
+          "question_id": "mmlu-college-mathematics.val.88",
+          "level": "hard",
+          "own_similarity": 0.9183948040008545,
+          "best_similarity": 0.9183948040008545,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-mathematics.val.88"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.276",
+          "level": "hard",
+          "own_similarity": 0.9885086417198181,
+          "best_similarity": 0.9885086417198181,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.276"
+        },
+        {
+          "question_id": "mmlu-college-biology.val.21",
+          "level": "hard",
+          "own_similarity": 0.8974794745445251,
+          "best_similarity": 0.8974794745445251,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-biology.val.21"
+        },
+        {
+          "question_id": "mmlu-college-biology.val.51",
+          "level": "hard",
+          "own_similarity": 0.9204315543174744,
+          "best_similarity": 0.9204315543174744,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-biology.val.51"
+        },
+        {
+          "question_id": "mmlu-professional-accounting.val.48",
+          "level": "hard",
+          "own_similarity": 0.9738885760307312,
+          "best_similarity": 0.9738885760307312,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-accounting.val.48"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.509",
+          "level": "hard",
+          "own_similarity": 0.9701983332633972,
+          "best_similarity": 0.9701983332633972,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.509"
+        },
+        {
+          "question_id": "mmlu-professional-accounting.val.176",
+          "level": "hard",
+          "own_similarity": 0.9805727005004883,
+          "best_similarity": 0.9805727005004883,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-accounting.val.176"
+        },
+        {
+          "question_id": "mmlu-clinical-knowledge.val.45",
+          "level": "other",
+          "own_similarity": 0.9299616813659668,
+          "best_similarity": 0.9299616813659668,
+          "best_is_own": true,
+          "best_question_id": "mmlu-clinical-knowledge.val.45"
+        },
+        {
+          "question_id": "mmlu-prehistory.val.249",
+          "level": "other",
+          "own_similarity": 0.9801681637763977,
+          "best_similarity": 0.9801681637763977,
+          "best_is_own": true,
+          "best_question_id": "mmlu-prehistory.val.249"
+        },
+        {
+          "question_id": "mmlu-conceptual-physics.val.156",
+          "level": "other",
+          "own_similarity": 0.9756053686141968,
+          "best_similarity": 0.9756053686141968,
+          "best_is_own": true,
+          "best_question_id": "mmlu-conceptual-physics.val.156"
+        },
+        {
+          "question_id": "mmlu-business-ethics.val.64",
+          "level": "other",
+          "own_similarity": 0.9188175797462463,
+          "best_similarity": 0.9188175797462463,
+          "best_is_own": true,
+          "best_question_id": "mmlu-business-ethics.val.64"
+        },
+        {
+          "question_id": "mmlu-moral-disputes.val.103",
+          "level": "other",
+          "own_similarity": 0.9487463235855103,
+          "best_similarity": 0.9487463235855103,
+          "best_is_own": true,
+          "best_question_id": "mmlu-moral-disputes.val.103"
+        },
+        {
+          "question_id": "mmlu-conceptual-physics.val.220",
+          "level": "other",
+          "own_similarity": 0.9646240472793579,
+          "best_similarity": 0.9646240472793579,
+          "best_is_own": true,
+          "best_question_id": "mmlu-conceptual-physics.val.220"
+        },
+        {
+          "question_id": "mmlu-miscellaneous.val.231",
+          "level": "other",
+          "own_similarity": 0.9689808487892151,
+          "best_similarity": 0.9689808487892151,
+          "best_is_own": true,
+          "best_question_id": "mmlu-miscellaneous.val.231"
+        },
+        {
+          "question_id": "mmlu-clinical-knowledge.val.247",
+          "level": "other",
+          "own_similarity": 0.8047044277191162,
+          "best_similarity": 0.8047044277191162,
+          "best_is_own": true,
+          "best_question_id": "mmlu-clinical-knowledge.val.247"
+        },
+        {
+          "question_id": "mmlu-logical-fallacies.val.155",
+          "level": "other",
+          "own_similarity": 0.9826362729072571,
+          "best_similarity": 0.9826362729072571,
+          "best_is_own": true,
+          "best_question_id": "mmlu-logical-fallacies.val.155"
+        },
+        {
+          "question_id": "mmlu-miscellaneous.val.581",
+          "level": "other",
+          "own_similarity": 0.9520143866539001,
+          "best_similarity": 0.9520143866539001,
+          "best_is_own": true,
+          "best_question_id": "mmlu-miscellaneous.val.581"
+        },
+        {
+          "question_id": "mmlu-miscellaneous.val.39",
+          "level": "other",
+          "own_similarity": 0.9679008722305298,
+          "best_similarity": 0.9679008722305298,
+          "best_is_own": true,
+          "best_question_id": "mmlu-miscellaneous.val.39"
+        },
+        {
+          "question_id": "mmlu-miscellaneous.val.207",
+          "level": "other",
+          "own_similarity": 0.9153978824615479,
+          "best_similarity": 0.9153978824615479,
+          "best_is_own": true,
+          "best_question_id": "mmlu-miscellaneous.val.207"
+        },
+        {
+          "question_id": "mmlu-moral-disputes.val.51",
+          "level": "other",
+          "own_similarity": 0.8369808197021484,
+          "best_similarity": 0.8369808197021484,
+          "best_is_own": true,
+          "best_question_id": "mmlu-moral-disputes.val.51"
+        },
+        {
+          "question_id": "mmlu-world-religions.val.104",
+          "level": "other",
+          "own_similarity": 0.9755206108093262,
+          "best_similarity": 0.9755206108093262,
+          "best_is_own": true,
+          "best_question_id": "mmlu-world-religions.val.104"
+        },
+        {
+          "question_id": "mmlu-human-aging.val.116",
+          "level": "other",
+          "own_similarity": 0.9702348113059998,
+          "best_similarity": 0.9702348113059998,
+          "best_is_own": true,
+          "best_question_id": "mmlu-human-aging.val.116"
+        },
+        {
+          "question_id": "mmlu-medical-genetics.val.30",
+          "level": "other",
+          "own_similarity": 0.9791533350944519,
+          "best_similarity": 0.9791533350944519,
+          "best_is_own": true,
+          "best_question_id": "mmlu-medical-genetics.val.30"
+        },
+        {
+          "question_id": "mmlu-miscellaneous.val.721",
+          "level": "other",
+          "own_similarity": 0.9237250089645386,
+          "best_similarity": 0.9237250089645386,
+          "best_is_own": true,
+          "best_question_id": "mmlu-miscellaneous.val.721"
+        },
+        {
+          "question_id": "mmlu-sociology.val.163",
+          "level": "other",
+          "own_similarity": 0.9965878129005432,
+          "best_similarity": 0.9965878129005432,
+          "best_is_own": true,
+          "best_question_id": "mmlu-sociology.val.163"
+        },
+        {
+          "question_id": "mmlu-prehistory.val.80",
+          "level": "other",
+          "own_similarity": 0.937375009059906,
+          "best_similarity": 0.937375009059906,
+          "best_is_own": true,
+          "best_question_id": "mmlu-prehistory.val.80"
+        },
+        {
+          "question_id": "mmlu-sociology.val.4",
+          "level": "other",
+          "own_similarity": 0.9887311458587646,
+          "best_similarity": 0.9887311458587646,
+          "best_is_own": true,
+          "best_question_id": "mmlu-sociology.val.4"
+        },
+        {
+          "question_id": "mmlu-security-studies.val.56",
+          "level": "other",
+          "own_similarity": 0.9919496774673462,
+          "best_similarity": 0.9919496774673462,
+          "best_is_own": true,
+          "best_question_id": "mmlu-security-studies.val.56"
+        },
+        {
+          "question_id": "mmlu-abstract-algebra.val.93",
+          "level": "other",
+          "own_similarity": 0.964657187461853,
+          "best_similarity": 0.964657187461853,
+          "best_is_own": true,
+          "best_question_id": "mmlu-abstract-algebra.val.93"
+        },
+        {
+          "question_id": "mmlu-human-aging.val.54",
+          "level": "other",
+          "own_similarity": 0.9816823601722717,
+          "best_similarity": 0.9816823601722717,
+          "best_is_own": true,
+          "best_question_id": "mmlu-human-aging.val.54"
+        },
+        {
+          "question_id": "mmlu-logical-fallacies.val.90",
+          "level": "other",
+          "own_similarity": 0.9529909491539001,
+          "best_similarity": 0.9529909491539001,
+          "best_is_own": true,
+          "best_question_id": "mmlu-logical-fallacies.val.90"
+        },
+        {
+          "question_id": "mmlu-marketing.val.118",
+          "level": "other",
+          "own_similarity": 0.9776212573051453,
+          "best_similarity": 0.9776212573051453,
+          "best_is_own": true,
+          "best_question_id": "mmlu-marketing.val.118"
+        },
+        {
+          "question_id": "mmlu-virology.val.140",
+          "level": "other",
+          "own_similarity": 0.9598062038421631,
+          "best_similarity": 0.9598062038421631,
+          "best_is_own": true,
+          "best_question_id": "mmlu-virology.val.140"
+        },
+        {
+          "question_id": "mmlu-logical-fallacies.val.98",
+          "level": "other",
+          "own_similarity": 0.8783368468284607,
+          "best_similarity": 0.8783368468284607,
+          "best_is_own": true,
+          "best_question_id": "mmlu-logical-fallacies.val.98"
+        },
+        {
+          "question_id": "mmlu-virology.val.95",
+          "level": "other",
+          "own_similarity": 0.9156098961830139,
+          "best_similarity": 0.9156098961830139,
+          "best_is_own": true,
+          "best_question_id": "mmlu-virology.val.95"
+        },
+        {
+          "question_id": "mmlu-management.val.45",
+          "level": "other",
+          "own_similarity": 0.9614038467407227,
+          "best_similarity": 0.9614038467407227,
+          "best_is_own": true,
+          "best_question_id": "mmlu-management.val.45"
+        },
+        {
+          "question_id": "mmlu-sociology.val.159",
+          "level": "other",
+          "own_similarity": 0.9673173427581787,
+          "best_similarity": 0.9673173427581787,
+          "best_is_own": true,
+          "best_question_id": "mmlu-sociology.val.159"
+        },
+        {
+          "question_id": "mmlu-conceptual-physics.val.14",
+          "level": "other",
+          "own_similarity": 0.9795325994491577,
+          "best_similarity": 0.9795325994491577,
+          "best_is_own": true,
+          "best_question_id": "mmlu-conceptual-physics.val.14"
+        },
+        {
+          "question_id": "mmlu-logical-fallacies.val.34",
+          "level": "other",
+          "own_similarity": 0.9986070990562439,
+          "best_similarity": 0.9986070990562439,
+          "best_is_own": true,
+          "best_question_id": "mmlu-logical-fallacies.val.34"
+        },
+        {
+          "question_id": "mmlu-miscellaneous.val.403",
+          "level": "other",
+          "own_similarity": 0.9880058765411377,
+          "best_similarity": 0.9880058765411377,
+          "best_is_own": true,
+          "best_question_id": "mmlu-miscellaneous.val.403"
+        },
+        {
+          "question_id": "mmlu-jurisprudence.val.73",
+          "level": "other",
+          "own_similarity": 0.9210095405578613,
+          "best_similarity": 0.9210095405578613,
+          "best_is_own": true,
+          "best_question_id": "mmlu-jurisprudence.val.73"
+        },
+        {
+          "question_id": "mmlu-virology.val.13",
+          "level": "other",
+          "own_similarity": 0.9563001990318298,
+          "best_similarity": 0.9563001990318298,
+          "best_is_own": true,
+          "best_question_id": "mmlu-virology.val.13"
+        },
+        {
+          "question_id": "mmlu-logical-fallacies.val.55",
+          "level": "other",
+          "own_similarity": 0.9437205195426941,
+          "best_similarity": 0.9437205195426941,
+          "best_is_own": true,
+          "best_question_id": "mmlu-logical-fallacies.val.55"
+        },
+        {
+          "question_id": "mmlu-conceptual-physics.val.232",
+          "level": "other",
+          "own_similarity": 0.9490185976028442,
+          "best_similarity": 0.9490185976028442,
+          "best_is_own": true,
+          "best_question_id": "mmlu-conceptual-physics.val.232"
+        },
+        {
+          "question_id": "mmlu-moral-disputes.val.41",
+          "level": "other",
+          "own_similarity": 0.9551847577095032,
+          "best_similarity": 0.9551847577095032,
+          "best_is_own": true,
+          "best_question_id": "mmlu-moral-disputes.val.41"
+        },
+        {
+          "question_id": "mmlu-conceptual-physics.val.114",
+          "level": "other",
+          "own_similarity": 0.9436264634132385,
+          "best_similarity": 0.9436264634132385,
+          "best_is_own": true,
+          "best_question_id": "mmlu-conceptual-physics.val.114"
+        },
+        {
+          "question_id": "mmlu-virology.val.33",
+          "level": "other",
+          "own_similarity": 0.8889634013175964,
+          "best_similarity": 0.8889634013175964,
+          "best_is_own": true,
+          "best_question_id": "mmlu-virology.val.33"
+        }
+      ],
+      "by_setting": {
+        "0.95": {
+          "caught_own_original": 72,
+          "matched_other_question": 0,
+          "other_question_possibly_wrong": 0,
+          "missed": 48,
+          "n": 120
+        },
+        "0.90": {
+          "caught_own_original": 111,
+          "matched_other_question": 0,
+          "other_question_possibly_wrong": 0,
+          "missed": 9,
+          "n": 120
+        },
+        "0.85": {
+          "caught_own_original": 118,
+          "matched_other_question": 0,
+          "other_question_possibly_wrong": 0,
+          "missed": 2,
+          "n": 120
+        },
+        "0.80": {
+          "caught_own_original": 120,
+          "matched_other_question": 0,
+          "other_question_possibly_wrong": 0,
+          "missed": 0,
+          "n": 120
+        }
+      },
+      "own_similarity": {
+        "median": 0.9647616744041443,
+        "p10": 0.9092367768287659,
+        "p90": 0.9889675557613373,
+        "min": 0.8047044277191162
+      }
+    },
+    "question only": {
+      "items": [
+        {
+          "question_id": "mmlu-high-school-biology.val.240",
+          "level": "easy",
+          "own_similarity": 0.9289016723632812,
+          "best_similarity": 0.9289016723632812,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-biology.val.240"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.166",
+          "level": "easy",
+          "own_similarity": 0.736777663230896,
+          "best_similarity": 0.736777663230896,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.166"
+        },
+        {
+          "question_id": "mmlu-high-school-macroeconomics.val.95",
+          "level": "easy",
+          "own_similarity": 0.7792006731033325,
+          "best_similarity": 0.7792006731033325,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-macroeconomics.val.95"
+        },
+        {
+          "question_id": "mmlu-high-school-macroeconomics.val.368",
+          "level": "easy",
+          "own_similarity": 0.961525022983551,
+          "best_similarity": 0.961525022983551,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-macroeconomics.val.368"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.96",
+          "level": "easy",
+          "own_similarity": 0.9329590797424316,
+          "best_similarity": 0.9329590797424316,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.96"
+        },
+        {
+          "question_id": "mmlu-elementary-mathematics.val.198",
+          "level": "easy",
+          "own_similarity": 0.9347147941589355,
+          "best_similarity": 0.9347147941589355,
+          "best_is_own": true,
+          "best_question_id": "mmlu-elementary-mathematics.val.198"
+        },
+        {
+          "question_id": "mmlu-elementary-mathematics.val.358",
+          "level": "easy",
+          "own_similarity": 0.9714391827583313,
+          "best_similarity": 0.9714391827583313,
+          "best_is_own": true,
+          "best_question_id": "mmlu-elementary-mathematics.val.358"
+        },
+        {
+          "question_id": "mmlu-high-school-macroeconomics.val.135",
+          "level": "easy",
+          "own_similarity": 0.9618420600891113,
+          "best_similarity": 0.9618420600891113,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-macroeconomics.val.135"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.77",
+          "level": "easy",
+          "own_similarity": 0.9043359756469727,
+          "best_similarity": 0.9043359756469727,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.77"
+        },
+        {
+          "question_id": "mmlu-high-school-geography.val.66",
+          "level": "easy",
+          "own_similarity": 0.9525462985038757,
+          "best_similarity": 0.9525462985038757,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-geography.val.66"
+        },
+        {
+          "question_id": "mmlu-high-school-macroeconomics.val.215",
+          "level": "easy",
+          "own_similarity": 0.88133305311203,
+          "best_similarity": 0.88133305311203,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-macroeconomics.val.215"
+        },
+        {
+          "question_id": "mmlu-elementary-mathematics.val.11",
+          "level": "easy",
+          "own_similarity": 0.9606838822364807,
+          "best_similarity": 0.9606838822364807,
+          "best_is_own": true,
+          "best_question_id": "mmlu-elementary-mathematics.val.11"
+        },
+        {
+          "question_id": "mmlu-high-school-psychology.val.330",
+          "level": "easy",
+          "own_similarity": 0.9411496520042419,
+          "best_similarity": 0.9411496520042419,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-psychology.val.330"
+        },
+        {
+          "question_id": "mmlu-elementary-mathematics.val.212",
+          "level": "easy",
+          "own_similarity": 0.9518186450004578,
+          "best_similarity": 0.9518186450004578,
+          "best_is_own": true,
+          "best_question_id": "mmlu-elementary-mathematics.val.212"
+        },
+        {
+          "question_id": "mmlu-high-school-psychology.val.208",
+          "level": "easy",
+          "own_similarity": 0.8605077266693115,
+          "best_similarity": 0.8605077266693115,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-psychology.val.208"
+        },
+        {
+          "question_id": "mmlu-high-school-psychology.val.481",
+          "level": "easy",
+          "own_similarity": 0.9731427431106567,
+          "best_similarity": 0.9731427431106567,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-psychology.val.481"
+        },
+        {
+          "question_id": "mmlu-high-school-geography.val.21",
+          "level": "easy",
+          "own_similarity": 0.946687638759613,
+          "best_similarity": 0.946687638759613,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-geography.val.21"
+        },
+        {
+          "question_id": "mmlu-high-school-macroeconomics.val.114",
+          "level": "easy",
+          "own_similarity": 0.929768979549408,
+          "best_similarity": 0.929768979549408,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-macroeconomics.val.114"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.106",
+          "level": "easy",
+          "own_similarity": 0.9841693043708801,
+          "best_similarity": 0.9841693043708801,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.106"
+        },
+        {
+          "question_id": "mmlu-high-school-mathematics.val.98",
+          "level": "easy",
+          "own_similarity": 0.9665173888206482,
+          "best_similarity": 0.9665173888206482,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-mathematics.val.98"
+        },
+        {
+          "question_id": "mmlu-high-school-mathematics.val.161",
+          "level": "easy",
+          "own_similarity": 0.9433883428573608,
+          "best_similarity": 0.9433883428573608,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-mathematics.val.161"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.105",
+          "level": "easy",
+          "own_similarity": 0.8206333518028259,
+          "best_similarity": 0.8206333518028259,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.105"
+        },
+        {
+          "question_id": "mmlu-high-school-macroeconomics.val.291",
+          "level": "easy",
+          "own_similarity": 0.9482411742210388,
+          "best_similarity": 0.9482411742210388,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-macroeconomics.val.291"
+        },
+        {
+          "question_id": "mmlu-high-school-geography.val.178",
+          "level": "easy",
+          "own_similarity": 0.9572837352752686,
+          "best_similarity": 0.9572837352752686,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-geography.val.178"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.108",
+          "level": "easy",
+          "own_similarity": 0.9719213843345642,
+          "best_similarity": 0.9719213843345642,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.108"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.120",
+          "level": "easy",
+          "own_similarity": 0.7902051210403442,
+          "best_similarity": 0.7902051210403442,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.120"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.185",
+          "level": "easy",
+          "own_similarity": 0.8633686304092407,
+          "best_similarity": 0.8633686304092407,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.185"
+        },
+        {
+          "question_id": "mmlu-high-school-biology.val.309",
+          "level": "easy",
+          "own_similarity": 0.9141566157341003,
+          "best_similarity": 0.9141566157341003,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-biology.val.309"
+        },
+        {
+          "question_id": "mmlu-high-school-chemistry.val.139",
+          "level": "easy",
+          "own_similarity": 0.9584569334983826,
+          "best_similarity": 0.9584569334983826,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-chemistry.val.139"
+        },
+        {
+          "question_id": "mmlu-high-school-macroeconomics.val.152",
+          "level": "easy",
+          "own_similarity": 0.9579848647117615,
+          "best_similarity": 0.9579848647117615,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-macroeconomics.val.152"
+        },
+        {
+          "question_id": "mmlu-high-school-geography.val.11",
+          "level": "easy",
+          "own_similarity": 0.9604995250701904,
+          "best_similarity": 0.9604995250701904,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-geography.val.11"
+        },
+        {
+          "question_id": "mmlu-high-school-psychology.val.209",
+          "level": "easy",
+          "own_similarity": 0.9141851663589478,
+          "best_similarity": 0.9141851663589478,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-psychology.val.209"
+        },
+        {
+          "question_id": "mmlu-high-school-macroeconomics.val.55",
+          "level": "easy",
+          "own_similarity": 0.9516776204109192,
+          "best_similarity": 0.9516776204109192,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-macroeconomics.val.55"
+        },
+        {
+          "question_id": "mmlu-high-school-chemistry.val.25",
+          "level": "easy",
+          "own_similarity": 0.9015281200408936,
+          "best_similarity": 0.9015281200408936,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-chemistry.val.25"
+        },
+        {
+          "question_id": "mmlu-high-school-government-and-politics.val.103",
+          "level": "easy",
+          "own_similarity": 0.9773305654525757,
+          "best_similarity": 0.9773305654525757,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-government-and-politics.val.103"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.171",
+          "level": "easy",
+          "own_similarity": 0.9916675686836243,
+          "best_similarity": 0.9916675686836243,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.171"
+        },
+        {
+          "question_id": "mmlu-high-school-microeconomics.val.3",
+          "level": "easy",
+          "own_similarity": 0.9656071066856384,
+          "best_similarity": 0.9656071066856384,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-microeconomics.val.3"
+        },
+        {
+          "question_id": "mmlu-high-school-mathematics.val.31",
+          "level": "easy",
+          "own_similarity": 0.9294365048408508,
+          "best_similarity": 0.9294365048408508,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-mathematics.val.31"
+        },
+        {
+          "question_id": "mmlu-high-school-biology.val.76",
+          "level": "easy",
+          "own_similarity": 0.8860039114952087,
+          "best_similarity": 0.8860039114952087,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-biology.val.76"
+        },
+        {
+          "question_id": "mmlu-high-school-psychology.val.18",
+          "level": "easy",
+          "own_similarity": 0.8576478362083435,
+          "best_similarity": 0.8576478362083435,
+          "best_is_own": true,
+          "best_question_id": "mmlu-high-school-psychology.val.18"
+        },
+        {
+          "question_id": "mmlu-college-medicine.val.153",
+          "level": "hard",
+          "own_similarity": 0.8552492260932922,
+          "best_similarity": 0.8552492260932922,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-medicine.val.153"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.467",
+          "level": "hard",
+          "own_similarity": 0.8640689849853516,
+          "best_similarity": 0.8640689849853516,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.467"
+        },
+        {
+          "question_id": "mmlu-professional-law.val.764",
+          "level": "hard",
+          "own_similarity": 0.9581683874130249,
+          "best_similarity": 0.9581683874130249,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-law.val.764"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.33",
+          "level": "hard",
+          "own_similarity": 0.9607165455818176,
+          "best_similarity": 0.9607165455818176,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.33"
+        },
+        {
+          "question_id": "mmlu-college-biology.val.48",
+          "level": "hard",
+          "own_similarity": 0.8010181188583374,
+          "best_similarity": 0.8010181188583374,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-biology.val.48"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.410",
+          "level": "hard",
+          "own_similarity": 0.9653576016426086,
+          "best_similarity": 0.9653576016426086,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.410"
+        },
+        {
+          "question_id": "mmlu-professional-law.val.1090",
+          "level": "hard",
+          "own_similarity": 0.8960365056991577,
+          "best_similarity": 0.8960365056991577,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-law.val.1090"
+        },
+        {
+          "question_id": "mmlu-college-medicine.val.32",
+          "level": "hard",
+          "own_similarity": 0.8617393970489502,
+          "best_similarity": 0.8617393970489502,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-medicine.val.32"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.239",
+          "level": "hard",
+          "own_similarity": 0.9329558610916138,
+          "best_similarity": 0.9329558610916138,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.239"
+        },
+        {
+          "question_id": "mmlu-college-biology.val.102",
+          "level": "hard",
+          "own_similarity": 0.9508695006370544,
+          "best_similarity": 0.9508695006370544,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-biology.val.102"
+        },
+        {
+          "question_id": "mmlu-college-biology.val.4",
+          "level": "hard",
+          "own_similarity": 0.9445918798446655,
+          "best_similarity": 0.9445918798446655,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-biology.val.4"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.347",
+          "level": "hard",
+          "own_similarity": 0.9431508183479309,
+          "best_similarity": 0.9431508183479309,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.347"
+        },
+        {
+          "question_id": "mmlu-college-biology.val.77",
+          "level": "hard",
+          "own_similarity": 0.8667436242103577,
+          "best_similarity": 0.8667436242103577,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-biology.val.77"
+        },
+        {
+          "question_id": "mmlu-professional-law.val.113",
+          "level": "hard",
+          "own_similarity": 0.9194252490997314,
+          "best_similarity": 0.9194252490997314,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-law.val.113"
+        },
+        {
+          "question_id": "mmlu-professional-accounting.val.267",
+          "level": "hard",
+          "own_similarity": 0.9596255421638489,
+          "best_similarity": 0.9596255421638489,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-accounting.val.267"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.147",
+          "level": "hard",
+          "own_similarity": 0.8771711587905884,
+          "best_similarity": 0.8771711587905884,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.147"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.60",
+          "level": "hard",
+          "own_similarity": 0.88949054479599,
+          "best_similarity": 0.88949054479599,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.60"
+        },
+        {
+          "question_id": "mmlu-college-mathematics.val.40",
+          "level": "hard",
+          "own_similarity": 0.9834697246551514,
+          "best_similarity": 0.9834697246551514,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-mathematics.val.40"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.511",
+          "level": "hard",
+          "own_similarity": 0.8074947595596313,
+          "best_similarity": 0.8074947595596313,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.511"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.27",
+          "level": "hard",
+          "own_similarity": 0.9010075330734253,
+          "best_similarity": 0.9010075330734253,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.27"
+        },
+        {
+          "question_id": "mmlu-college-physics.val.101",
+          "level": "hard",
+          "own_similarity": 0.9338259696960449,
+          "best_similarity": 0.9338259696960449,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-physics.val.101"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.130",
+          "level": "hard",
+          "own_similarity": 0.9807447195053101,
+          "best_similarity": 0.9807447195053101,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.130"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.173",
+          "level": "hard",
+          "own_similarity": 0.8649541139602661,
+          "best_similarity": 0.8649541139602661,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.173"
+        },
+        {
+          "question_id": "mmlu-college-biology.val.8",
+          "level": "hard",
+          "own_similarity": 0.9763076901435852,
+          "best_similarity": 0.9763076901435852,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-biology.val.8"
+        },
+        {
+          "question_id": "mmlu-college-chemistry.val.25",
+          "level": "hard",
+          "own_similarity": 0.9865931272506714,
+          "best_similarity": 0.9865931272506714,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-chemistry.val.25"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.37",
+          "level": "hard",
+          "own_similarity": 0.9202008247375488,
+          "best_similarity": 0.9202008247375488,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.37"
+        },
+        {
+          "question_id": "mmlu-college-medicine.val.34",
+          "level": "hard",
+          "own_similarity": 0.7089453339576721,
+          "best_similarity": 0.7089453339576721,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-medicine.val.34"
+        },
+        {
+          "question_id": "mmlu-college-chemistry.val.38",
+          "level": "hard",
+          "own_similarity": 0.9463517069816589,
+          "best_similarity": 0.9463517069816589,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-chemistry.val.38"
+        },
+        {
+          "question_id": "mmlu-college-physics.val.32",
+          "level": "hard",
+          "own_similarity": 0.9769887328147888,
+          "best_similarity": 0.9769887328147888,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-physics.val.32"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.327",
+          "level": "hard",
+          "own_similarity": 0.9792715907096863,
+          "best_similarity": 0.9792715907096863,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.327"
+        },
+        {
+          "question_id": "mmlu-professional-accounting.val.161",
+          "level": "hard",
+          "own_similarity": 0.8788227438926697,
+          "best_similarity": 0.8788227438926697,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-accounting.val.161"
+        },
+        {
+          "question_id": "mmlu-professional-law.val.954",
+          "level": "hard",
+          "own_similarity": 0.9569289684295654,
+          "best_similarity": 0.9569289684295654,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-law.val.954"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.554",
+          "level": "hard",
+          "own_similarity": 0.9175612330436707,
+          "best_similarity": 0.9175612330436707,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.554"
+        },
+        {
+          "question_id": "mmlu-college-mathematics.val.88",
+          "level": "hard",
+          "own_similarity": 0.9172488451004028,
+          "best_similarity": 0.9172488451004028,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-mathematics.val.88"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.276",
+          "level": "hard",
+          "own_similarity": 0.9553310871124268,
+          "best_similarity": 0.9553310871124268,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.276"
+        },
+        {
+          "question_id": "mmlu-college-biology.val.21",
+          "level": "hard",
+          "own_similarity": 0.8485937714576721,
+          "best_similarity": 0.8485937714576721,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-biology.val.21"
+        },
+        {
+          "question_id": "mmlu-college-biology.val.51",
+          "level": "hard",
+          "own_similarity": 0.8354622721672058,
+          "best_similarity": 0.8354622721672058,
+          "best_is_own": true,
+          "best_question_id": "mmlu-college-biology.val.51"
+        },
+        {
+          "question_id": "mmlu-professional-accounting.val.48",
+          "level": "hard",
+          "own_similarity": 0.9643692374229431,
+          "best_similarity": 0.9643692374229431,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-accounting.val.48"
+        },
+        {
+          "question_id": "mmlu-professional-psychology.val.509",
+          "level": "hard",
+          "own_similarity": 0.9627255201339722,
+          "best_similarity": 0.9627255201339722,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-psychology.val.509"
+        },
+        {
+          "question_id": "mmlu-professional-accounting.val.176",
+          "level": "hard",
+          "own_similarity": 0.9473084211349487,
+          "best_similarity": 0.9473084211349487,
+          "best_is_own": true,
+          "best_question_id": "mmlu-professional-accounting.val.176"
+        },
+        {
+          "question_id": "mmlu-clinical-knowledge.val.45",
+          "level": "other",
+          "own_similarity": 0.848566472530365,
+          "best_similarity": 0.848566472530365,
+          "best_is_own": true,
+          "best_question_id": "mmlu-clinical-knowledge.val.45"
+        },
+        {
+          "question_id": "mmlu-prehistory.val.249",
+          "level": "other",
+          "own_similarity": 0.9775959253311157,
+          "best_similarity": 0.9775959253311157,
+          "best_is_own": true,
+          "best_question_id": "mmlu-prehistory.val.249"
+        },
+        {
+          "question_id": "mmlu-conceptual-physics.val.156",
+          "level": "other",
+          "own_similarity": 0.8821415305137634,
+          "best_similarity": 0.8821415305137634,
+          "best_is_own": true,
+          "best_question_id": "mmlu-conceptual-physics.val.156"
+        },
+        {
+          "question_id": "mmlu-business-ethics.val.64",
+          "level": "other",
+          "own_similarity": 0.9064021110534668,
+          "best_similarity": 0.9064021110534668,
+          "best_is_own": true,
+          "best_question_id": "mmlu-business-ethics.val.64"
+        },
+        {
+          "question_id": "mmlu-moral-disputes.val.103",
+          "level": "other",
+          "own_similarity": 0.9322910308837891,
+          "best_similarity": 0.9322910308837891,
+          "best_is_own": true,
+          "best_question_id": "mmlu-moral-disputes.val.103"
+        },
+        {
+          "question_id": "mmlu-conceptual-physics.val.220",
+          "level": "other",
+          "own_similarity": 0.8934248685836792,
+          "best_similarity": 0.8934248685836792,
+          "best_is_own": true,
+          "best_question_id": "mmlu-conceptual-physics.val.220"
+        },
+        {
+          "question_id": "mmlu-miscellaneous.val.231",
+          "level": "other",
+          "own_similarity": 0.9760967493057251,
+          "best_similarity": 0.9760967493057251,
+          "best_is_own": true,
+          "best_question_id": "mmlu-miscellaneous.val.231"
+        },
+        {
+          "question_id": "mmlu-clinical-knowledge.val.247",
+          "level": "other",
+          "own_similarity": 0.6758800745010376,
+          "best_similarity": 0.9044039845466614,
+          "best_is_own": false,
+          "best_question_id": "mmlu-clinical-knowledge.val.194"
+        },
+        {
+          "question_id": "mmlu-logical-fallacies.val.155",
+          "level": "other",
+          "own_similarity": 0.9793184995651245,
+          "best_similarity": 0.9793184995651245,
+          "best_is_own": true,
+          "best_question_id": "mmlu-logical-fallacies.val.155"
+        },
+        {
+          "question_id": "mmlu-miscellaneous.val.581",
+          "level": "other",
+          "own_similarity": 0.9480279684066772,
+          "best_similarity": 0.9480279684066772,
+          "best_is_own": true,
+          "best_question_id": "mmlu-miscellaneous.val.581"
+        },
+        {
+          "question_id": "mmlu-miscellaneous.val.39",
+          "level": "other",
+          "own_similarity": 0.9234521389007568,
+          "best_similarity": 0.9234521389007568,
+          "best_is_own": true,
+          "best_question_id": "mmlu-miscellaneous.val.39"
+        },
+        {
+          "question_id": "mmlu-miscellaneous.val.207",
+          "level": "other",
+          "own_similarity": 0.8963409662246704,
+          "best_similarity": 0.8963409662246704,
+          "best_is_own": true,
+          "best_question_id": "mmlu-miscellaneous.val.207"
+        },
+        {
+          "question_id": "mmlu-moral-disputes.val.51",
+          "level": "other",
+          "own_similarity": 0.7866368889808655,
+          "best_similarity": 0.7866368889808655,
+          "best_is_own": true,
+          "best_question_id": "mmlu-moral-disputes.val.51"
+        },
+        {
+          "question_id": "mmlu-world-religions.val.104",
+          "level": "other",
+          "own_similarity": 0.961639404296875,
+          "best_similarity": 0.961639404296875,
+          "best_is_own": true,
+          "best_question_id": "mmlu-world-religions.val.104"
+        },
+        {
+          "question_id": "mmlu-human-aging.val.116",
+          "level": "other",
+          "own_similarity": 0.9694526791572571,
+          "best_similarity": 0.9694526791572571,
+          "best_is_own": true,
+          "best_question_id": "mmlu-human-aging.val.116"
+        },
+        {
+          "question_id": "mmlu-medical-genetics.val.30",
+          "level": "other",
+          "own_similarity": 0.9697484374046326,
+          "best_similarity": 0.9697484374046326,
+          "best_is_own": true,
+          "best_question_id": "mmlu-medical-genetics.val.30"
+        },
+        {
+          "question_id": "mmlu-miscellaneous.val.721",
+          "level": "other",
+          "own_similarity": 0.8657480478286743,
+          "best_similarity": 0.8657480478286743,
+          "best_is_own": true,
+          "best_question_id": "mmlu-miscellaneous.val.721"
+        },
+        {
+          "question_id": "mmlu-sociology.val.163",
+          "level": "other",
+          "own_similarity": 0.9951388835906982,
+          "best_similarity": 0.9951388835906982,
+          "best_is_own": true,
+          "best_question_id": "mmlu-sociology.val.163"
+        },
+        {
+          "question_id": "mmlu-prehistory.val.80",
+          "level": "other",
+          "own_similarity": 0.9521061182022095,
+          "best_similarity": 0.9521061182022095,
+          "best_is_own": true,
+          "best_question_id": "mmlu-prehistory.val.80"
+        },
+        {
+          "question_id": "mmlu-sociology.val.4",
+          "level": "other",
+          "own_similarity": 0.949958086013794,
+          "best_similarity": 0.949958086013794,
+          "best_is_own": true,
+          "best_question_id": "mmlu-sociology.val.4"
+        },
+        {
+          "question_id": "mmlu-security-studies.val.56",
+          "level": "other",
+          "own_similarity": 0.9474950432777405,
+          "best_similarity": 0.9474950432777405,
+          "best_is_own": true,
+          "best_question_id": "mmlu-security-studies.val.56"
+        },
+        {
+          "question_id": "mmlu-abstract-algebra.val.93",
+          "level": "other",
+          "own_similarity": 0.9408184885978699,
+          "best_similarity": 0.9408184885978699,
+          "best_is_own": true,
+          "best_question_id": "mmlu-abstract-algebra.val.93"
+        },
+        {
+          "question_id": "mmlu-human-aging.val.54",
+          "level": "other",
+          "own_similarity": 0.9235467910766602,
+          "best_similarity": 0.9235467910766602,
+          "best_is_own": true,
+          "best_question_id": "mmlu-human-aging.val.54"
+        },
+        {
+          "question_id": "mmlu-logical-fallacies.val.90",
+          "level": "other",
+          "own_similarity": 0.8638498783111572,
+          "best_similarity": 0.8638498783111572,
+          "best_is_own": true,
+          "best_question_id": "mmlu-logical-fallacies.val.90"
+        },
+        {
+          "question_id": "mmlu-marketing.val.118",
+          "level": "other",
+          "own_similarity": 0.895340085029602,
+          "best_similarity": 0.895340085029602,
+          "best_is_own": true,
+          "best_question_id": "mmlu-marketing.val.118"
+        },
+        {
+          "question_id": "mmlu-virology.val.140",
+          "level": "other",
+          "own_similarity": 0.9211949110031128,
+          "best_similarity": 0.9211949110031128,
+          "best_is_own": true,
+          "best_question_id": "mmlu-virology.val.140"
+        },
+        {
+          "question_id": "mmlu-logical-fallacies.val.98",
+          "level": "other",
+          "own_similarity": 0.8017129898071289,
+          "best_similarity": 0.8017129898071289,
+          "best_is_own": true,
+          "best_question_id": "mmlu-logical-fallacies.val.98"
+        },
+        {
+          "question_id": "mmlu-virology.val.95",
+          "level": "other",
+          "own_similarity": 0.8692333698272705,
+          "best_similarity": 0.8692333698272705,
+          "best_is_own": true,
+          "best_question_id": "mmlu-virology.val.95"
+        },
+        {
+          "question_id": "mmlu-management.val.45",
+          "level": "other",
+          "own_similarity": 0.957166850566864,
+          "best_similarity": 0.957166850566864,
+          "best_is_own": true,
+          "best_question_id": "mmlu-management.val.45"
+        },
+        {
+          "question_id": "mmlu-sociology.val.159",
+          "level": "other",
+          "own_similarity": 0.9527159333229065,
+          "best_similarity": 0.9527159333229065,
+          "best_is_own": true,
+          "best_question_id": "mmlu-sociology.val.159"
+        },
+        {
+          "question_id": "mmlu-conceptual-physics.val.14",
+          "level": "other",
+          "own_similarity": 0.9515938758850098,
+          "best_similarity": 0.9515938758850098,
+          "best_is_own": true,
+          "best_question_id": "mmlu-conceptual-physics.val.14"
+        },
+        {
+          "question_id": "mmlu-logical-fallacies.val.34",
+          "level": "other",
+          "own_similarity": 0.9925830960273743,
+          "best_similarity": 0.9925830960273743,
+          "best_is_own": true,
+          "best_question_id": "mmlu-logical-fallacies.val.34"
+        },
+        {
+          "question_id": "mmlu-miscellaneous.val.403",
+          "level": "other",
+          "own_similarity": 0.9566346406936646,
+          "best_similarity": 0.9566346406936646,
+          "best_is_own": true,
+          "best_question_id": "mmlu-miscellaneous.val.403"
+        },
+        {
+          "question_id": "mmlu-jurisprudence.val.73",
+          "level": "other",
+          "own_similarity": 0.9280496835708618,
+          "best_similarity": 0.9280496835708618,
+          "best_is_own": true,
+          "best_question_id": "mmlu-jurisprudence.val.73"
+        },
+        {
+          "question_id": "mmlu-virology.val.13",
+          "level": "other",
+          "own_similarity": 0.9163429141044617,
+          "best_similarity": 0.9163429141044617,
+          "best_is_own": true,
+          "best_question_id": "mmlu-virology.val.13"
+        },
+        {
+          "question_id": "mmlu-logical-fallacies.val.55",
+          "level": "other",
+          "own_similarity": 0.8834136128425598,
+          "best_similarity": 0.8834136128425598,
+          "best_is_own": true,
+          "best_question_id": "mmlu-logical-fallacies.val.55"
+        },
+        {
+          "question_id": "mmlu-conceptual-physics.val.232",
+          "level": "other",
+          "own_similarity": 0.7966209053993225,
+          "best_similarity": 0.7966209053993225,
+          "best_is_own": true,
+          "best_question_id": "mmlu-conceptual-physics.val.232"
+        },
+        {
+          "question_id": "mmlu-moral-disputes.val.41",
+          "level": "other",
+          "own_similarity": 0.9530670642852783,
+          "best_similarity": 0.9530670642852783,
+          "best_is_own": true,
+          "best_question_id": "mmlu-moral-disputes.val.41"
+        },
+        {
+          "question_id": "mmlu-conceptual-physics.val.114",
+          "level": "other",
+          "own_similarity": 0.8559141159057617,
+          "best_similarity": 0.8559141159057617,
+          "best_is_own": true,
+          "best_question_id": "mmlu-conceptual-physics.val.114"
+        },
+        {
+          "question_id": "mmlu-virology.val.33",
+          "level": "other",
+          "own_similarity": 0.865813136100769,
+          "best_similarity": 0.865813136100769,
+          "best_is_own": true,
+          "best_question_id": "mmlu-virology.val.33"
+        }
+      ],
+      "by_setting": {
+        "0.95": {
+          "caught_own_original": 47,
+          "matched_other_question": 0,
+          "other_question_possibly_wrong": 0,
+          "missed": 73,
+          "n": 120
+        },
+        "0.90": {
+          "caught_own_original": 82,
+          "matched_other_question": 1,
+          "other_question_possibly_wrong": 0,
+          "missed": 37,
+          "n": 120
+        },
+        "0.85": {
+          "caught_own_original": 106,
+          "matched_other_question": 1,
+          "other_question_possibly_wrong": 0,
+          "missed": 13,
+          "n": 120
+        },
+        "0.80": {
+          "caught_own_original": 113,
+          "matched_other_question": 1,
+          "other_question_possibly_wrong": 0,
+          "missed": 6,
+          "n": 120
+        }
+      },
+      "own_similarity": {
+        "median": 0.9342703819274902,
+        "p10": 0.8472560524940491,
+        "p90": 0.9763757944107055,
+        "min": 0.6758800745010376
+      }
+    }
+  }
+}

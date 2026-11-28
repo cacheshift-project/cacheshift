@@ -20,8 +20,15 @@ def strong_score(logits):
 class LocalBERTRouter:
     """No model API calls; downloads public weights on first use unless offline."""
 
-    def __init__(self, cache_dir, offline=False, threads=4):
+    def __init__(self, cache_dir, offline=False, threads=None):
+        """threads=None uses up to 4 CPU threads, but never more than the machine has cores: on a
+        2-core machine, 4 threads made long prompts about 40x slower (same scores)."""
+        import os
+
         import torch
+
+        if threads is None:
+            threads = max(1, min(4, os.cpu_count() or 1))
         from huggingface_hub import snapshot_download
         from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
