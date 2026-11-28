@@ -133,3 +133,9 @@ def test_share_verdict_says_when_there_are_too_few_questions():
                                     (20000, 12000, "outside")]:
         session.totals = dict(base, requests=routed, routed=routed, strong=strong)
         assert session.summary()["share_verdict"] == verdict
+
+
+def test_split_question_handles_the_mmlu_prompt_format():
+    prompt = ("Please answer with the letter of the correct answer.\n\nWhat is 2+2?\nA) 3\nB) 4\n"
+              "Print only a single choice from \"A\" or \"B\" without explanation. Answer:")
+    assert dashboard.split_question(prompt) == ("What is 2+2?", ["A) 3", "B) 4"])

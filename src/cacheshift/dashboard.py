@@ -54,7 +54,7 @@ class MemoRouter:
 def split_question(text):
     """(question, options) for display: drops the answer-format instruction the models were given."""
     lines = [line.strip() for line in text.strip().splitlines() if line.strip()]
-    lines = [line for line in lines if not line.startswith("Print only") and line != "Answer:"]
+    lines = [line for line in lines if not line.startswith(("Print only", "Please answer with the letter")) and line != "Answer:"]
     options = [line for line in lines if len(line) > 2 and line[0] in "ABCDE" and line[1] == ")"]
     stem = " ".join(line for line in lines if line not in options)
     return stem, options
