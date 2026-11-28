@@ -4,16 +4,29 @@
 
 Many apps cut their AI bill with two tricks: a **semantic cache**, which reuses a stored answer when a new question means the same thing, and a **router**, which sends easy questions to a cheap model and hard ones to an expensive one. Used together, they interfere with each other:
 
-- **The router drifts off its budget.** A router is tuned so that a planned share of questions (say 50%) goes to the expensive model. Once a cache answers the repeat questions first, the router sees a different mix, and the real share can drift far from the plan.
+- **The router drifts off its budget.** A router is tuned so that a planned share of questions (say 50%) goes to the expensive model. Once a cache answers the repeat questions first, the router sees a different mix, and the real share can drift from the plan (on our traffic it drifted only 1–2 points: see Status).
 - **The cache repeats mistakes.** If the cheap model answered a question wrong, the cache hands that wrong answer to everyone who asks it again in different words.
 
 CacheShift is a gateway (cache → router → models) that measures both problems, reports cost and answer quality side by side with margins of error, and re-tunes the router with one command.
 
 > Boston University · EC601 Product Design in ECE · Fall 2026 · Spencer Aldrich and Anthony Capraru
 
-## Status
+## Status (27 Nov 2026, before the 4 Dec poster session)
 
-Proposal submitted 22 Sep 2026 and approved 23 Sep ([`docs/proposal/`](docs/proposal/)). Sprint 1 (planning) started 28 Sep.
+The gateway runs end to end: semantic cache → router → recorded answers, a request log, and a one-page report. There's also a live dashboard and a tool that recommends a safe cache setting. The answers to the proposal's questions:
+
+1. **Drift: small on our traffic.** On 777k real LMSYS prompts the cache moved the expensive-model share +2.2 points [+0.3, +4.1] (Sprint 2). On 13,750 MMLU requests it moved it +1.3 [+0.6, +1.9]. Making easy or hard topics repeat 3× as often kept it within ±3 (Sprint 4). So the headline "caching breaks routing budgets" was dropped, and CacheShift became a measurement tool.
+2. **Wrong cached answers depend on the questions.** At 0.90 the cache caused no wrong answers on ARC. On MMLU it caused 4.1% (567 of 13,750), mostly in questions sharing a long template or passage. The **difference check** (compare only the words that differ) cut that by 88% to 0.49%.
+3. **Re-tuning works with enough traffic.** It returns the share to 50.2% [48.6, 52.0] on questions it wasn't fitted to, costing 0.15 points of accuracy. It holds in 16 of 20 random splits. On 970 requests it couldn't be told apart from noise.
+4. **Energy:** measured once on an SCC L40S GPU (Sprint 2): 4-bit Llama-3.1-8B used 3.59 J/token vs 6.28 for bf16.
+
+Details: [Sprint 4 results](docs/sprints/Sprint_4/Sprint4_Experiment_Results.md), [Sprint 3](docs/sprints/Sprint_3/README.md), [Sprint 2](docs/sprints/Sprint_2/README.md). The proposal was approved on 23 Sep 2026 ([`docs/proposal/`](docs/proposal/)).
+
+**Commands:**
+- Report: `python -m cacheshift.report`
+- Safe setting finder: `python -m cacheshift.setting_finder`
+- Re-tuning: `python -m cacheshift.retune_log`
+- Live demo: see below.
 
 ## Repository layout
 
