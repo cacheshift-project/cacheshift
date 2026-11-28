@@ -16,7 +16,9 @@ model are downloaded (pass --download the first time).
 
 import argparse
 from datetime import datetime
+import hashlib
 import itertools
+import json
 import math
 from pathlib import Path
 import threading
@@ -38,16 +40,37 @@ SEED = 601
 MAX_STEP = 50
 
 
-class MemoRouter:
-    """The real router, scoring each question text once (single-question scoring, as the gateway does)."""
+SCORES = ROOT / "data/cache/router_scores.jsonl"
 
-    def __init__(self, router):
+
+class MemoRouter:
+    """The real router, scoring each question text once (single-question scoring, as the gateway does).
+
+    With a path, scores are kept on disk too (one JSON line per text: its SHA-256, the router
+    revision and the score), so the next start, or another experiment, skips the scoring."""
+
+    def __init__(self, router, path=None):
         self.router, self.scores, self.lock = router, {}, threading.Lock()
+        self.path, self.saved = (Path(path) if path else None), {}
+        if self.path and self.path.exists():
+            for line in self.path.read_text(encoding="utf-8").splitlines():
+                row = json.loads(line)
+                if row.get("revision") == REVISION:
+                    self.saved[row["sha256"]] = row["router_score"]
 
     def score(self, text):
         with self.lock:
             if text not in self.scores:
-                self.scores[text] = validated_score(self.router, text)
+                key = hashlib.sha256(text.encode("utf-8")).hexdigest()
+                if key in self.saved:
+                    self.scores[text] = self.saved[key]
+                else:
+                    self.scores[text] = validated_score(self.router, text)
+                    if self.path:
+                        self.path.parent.mkdir(parents=True, exist_ok=True)
+                        with self.path.open("a", encoding="utf-8") as out:
+                            out.write(json.dumps({"sha256": key, "revision": REVISION,
+                                                  "router_score": self.scores[text]}) + "\n")
             return {"router_score": self.scores[text]}
 
 
@@ -220,13 +243,11 @@ def create_app(records, router, calibration, digest, embed, run_dir):
 
 
 def prepare(dataset, offline, with_cache=True):
-    import hashlib
-
     from cacheshift.router import LocalBERTRouter
     from cacheshift.semantic_cache import EMBEDDING_MODEL, SentenceEmbedder
 
     records = load_dataset(dataset)
-    router = MemoRouter(LocalBERTRouter(ROOT / "data/cache/routellm", offline=offline))
+    router = MemoRouter(LocalBERTRouter(ROOT / "data/cache/routellm", offline=offline), SCORES)
     print("Setting the router's cutoff on the tuning questions...", flush=True)
     calibration = calibrate(records, router, target=0.5)
     test = [row["text"] for row in records.values() if row["split"] == "test"]

@@ -139,3 +139,17 @@ def test_split_question_handles_the_mmlu_prompt_format():
     prompt = ("Please answer with the letter of the correct answer.\n\nWhat is 2+2?\nA) 3\nB) 4\n"
               "Print only a single choice from \"A\" or \"B\" without explanation. Answer:")
     assert dashboard.split_question(prompt) == ("What is 2+2?", ["A) 3", "B) 4"])
+
+
+def test_router_scores_are_kept_on_disk_and_reused(tmp_path):
+    class Counting:
+        calls = 0
+
+        def score(self, text):
+            Counting.calls += 1
+            return {"router_score": 0.25}
+
+    path = tmp_path / "scores.jsonl"
+    assert dashboard.MemoRouter(Counting(), path).score("q")["router_score"] == 0.25
+    assert dashboard.MemoRouter(Counting(), path).score("q")["router_score"] == 0.25
+    assert Counting.calls == 1

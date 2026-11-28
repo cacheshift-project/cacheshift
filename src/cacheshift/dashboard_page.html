@@ -273,7 +273,7 @@
 
   const money = (v) => v == null ? "–" : "$" + v.toFixed(2);
   const callCost = (v) => v >= 0.01 ? "$" + v.toFixed(2) : "$" + Number(v.toPrecision(2)).toFixed(Math.max(2, 1 - Math.floor(Math.log10(v))));
-  const letter = (a) => String(a).trim().replace(/[).:]+$/, "");
+  const letter = (a) => { const m = String(a).match(/\b([A-E])\b/); return m ? m[1] : String(a).trim().slice(0, 12); };
   const pct = (v, d = 1) => v == null ? "–" : (100 * v).toFixed(d) + "%";
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const routeName = { cache: "Cache", weak: "Cheap model", strong: "Expensive model" };
@@ -359,7 +359,7 @@
 
   function showCallout(e) {
     const c = $("callout");
-    c.innerHTML = `<strong>Gave this question another question's answer</strong> (${e.similarity.toFixed(2)} alike${e.correct ? ", and it happened to be right" : ", and it was wrong"}). Matched: “${esc(e.matched_text)}”`;
+    c.innerHTML = `<strong>Question ${e.n} got another question's answer</strong> (${e.similarity.toFixed(2)} alike${e.correct ? ", and it happened to be right" : ", and it was wrong"}). Matched: “${esc(e.matched_text)}”`;
     c.hidden = false;
   }
 
