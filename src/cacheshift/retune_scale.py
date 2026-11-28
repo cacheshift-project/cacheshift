@@ -62,9 +62,9 @@ class MemoRouter:
         return self.scores[text]
 
 
-def through_gateway(name, records, router, calibration, digest, stream, run_dir, **options):
+def through_gateway(name, records, router, calibration, digest, stream, run_dir, seed=SEED, **options):
     engine = ReplayGateway(records, router, calibration, run_dir / f"{name}.jsonl", dataset_sha256=digest,
-                           router_revision=REVISION, seed=SEED, **options)
+                           router_revision=REVISION, seed=seed, **options)
     start, events = time.time(), []
     for number, question_id in enumerate(stream, 1):
         events.append(engine.answer(question_id))
@@ -88,6 +88,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--run-dir", type=Path, required=True)
     parser.add_argument("--dataset", type=Path, default=DATASET)
+    parser.add_argument("--seed", type=int, default=SEED, help="Stream seed (601 in the protocol; others are robustness checks)")
     args = parser.parse_args(argv)
     from cacheshift.router import LocalBERTRouter
     from cacheshift.semantic_cache import EMBEDDING_MODEL, SentenceEmbedder
@@ -104,10 +105,10 @@ def main(argv=None):
     print(f"Cutoff {calibration['threshold']:.4f} (tuning share {calibration['tuning_strong_share']:.4f})", flush=True)
     embed = SentenceEmbedder(EMBEDDING_MODEL, cache_dir=str(ROOT / "data/cache/embeddings"))
     embed.warm(row["text"] for row in test.values())
-    stream = request_stream(test, SEED)
+    stream = request_stream(test, args.seed)
     print(f"Stream: {len(stream):,} requests ({len(test):,} test questions plus repeats)", flush=True)
 
-    common = dict(records=records, router=router, digest=digest, stream=stream, run_dir=args.run_dir)
+    common = dict(records=records, router=router, digest=digest, stream=stream, run_dir=args.run_dir, seed=args.seed)
     cache = dict(semantic_threshold=THRESHOLD, embed=embed)
     runs = {}
     engine, no_cache = through_gateway("no_cache", calibration=calibration, cache_enabled=False, **common)
@@ -146,7 +147,7 @@ def main(argv=None):
     pooled = crossfit(cached, after_a, after_b, records, fit_a, TARGET)
     x = built["retune"]
     results = {
-        "protocol": "docs/sprints/Sprint_4/Retune_Scale_Protocol.md", "dataset_sha256": digest,
+        "protocol": "docs/sprints/Sprint_4/Retune_Scale_Protocol.md", "dataset_sha256": digest, "seed": args.seed,
         "requests": len(stream), "test_questions": len(test), "question_groups": built["question_groups"],
         "cutoff": calibration["threshold"], "cutoff_retuned_A": fit_a["threshold"], "cutoff_retuned_B": fit_b["threshold"],
         "primary": {"held_out": "half B", "verdict": x["after_band_verdict"],

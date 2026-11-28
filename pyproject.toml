@@ -20,5 +20,8 @@ cache = ["sentence-transformers>=3,<6"]
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+cacheshift = ["*.html"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]

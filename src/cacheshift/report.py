@@ -347,6 +347,10 @@ h1{font-size:24px;margin:0 0 2px}.grid{display:grid;grid-template-columns:1fr 1f
 .bad{background:var(--bad-bg);color:var(--bad)}.muted{background:var(--line);color:var(--ink)}
 .lead .big.alarm{color:var(--bad)}.lead .rows{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}.ex{border-left:3px solid var(--bad);padding:6px 0 6px 12px;margin:10px 0}
 .ex .a{color:var(--muted);font-size:14px}footer{margin-top:18px;font-size:12.5px;color:var(--muted)}
+table.settings{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
+table.settings th{text-align:left;color:var(--muted);font-weight:600;font-size:12.5px;padding:6px 8px 6px 0;border-bottom:1px solid var(--line)}
+table.settings td{padding:7px 8px 7px 0;border-bottom:1px solid var(--line);white-space:nowrap}
+table.settings tr.pick td{background:var(--good-bg);font-weight:600}table.settings td.fail{color:var(--bad)}
 @media (max-width:640px){.grid{grid-template-columns:1fr}.big{font-size:28px}}
 @media print{body{background:#fff}.card{break-inside:avoid}}
 """
@@ -436,7 +440,32 @@ def render_html(report, title, source):
                     f'compared here on the other {x["held_out_groups"]:,} groups ({x["held_out_requests"]:,} requests), '
                     f'old cutoff vs new, same cache. Apply the new cutoff if the accuracy change is acceptable to you.</p>'
                     f'</section>')
+    settings = ""
+    if "settings" in report:
+        sw = report["settings"]
+        limit = sw["limit"]
+        body = ""
+        for item in sw["rows"]:
+            high = item["wrong_caused_rate"]["ci95"][1]
+            over = high is not None and high > limit + 1e-12
+            body += (f'<tr class="{"pick" if item["label"] == sw["recommended"] else ""}"><td>{e(item["label"])}</td>'
+                     f'<td>{pct(item["hit_rate"]["estimate"])}</td>'
+                     f'<td class="{"fail" if over else ""}">{item["wrong_caused"]:,} '
+                     f'<span class="range">({rng(item["wrong_caused_rate"], lambda v: pct(v, 2))})</span></td>'
+                     f'<td>{money(item["usd_per_1000"]["estimate"])}</td>'
+                     f'<td>{pts(item["accuracy_change_vs_fresh"]["estimate"])}</td></tr>')
+        pick = (f'<span class="pill good">Recommended: {e(sw["recommended"])}</span>' if sw["recommended"] else
+                '<span class="pill bad">No setting kept wrong answers under the limit: keep the cache off</span>')
+        settings = (f'<section class="card full"><h2>Which cache setting is safe for your questions?</h2>{pick} '
+                    f'<span class="range">Your {sw["requests"]:,} requests replayed at each setting; no cache costs '
+                    f'{money(sw["no_cache"]["usd_per_1000"]["estimate"])} per 1,000.</span>'
+                    f'<table class="settings"><thead><tr><th>Setting</th><th>From the cache</th>'
+                    f'<th>Wrong answers caused by the cache</th><th>Cost per 1,000</th><th>Accuracy vs no cache</th>'
+                    f'</tr></thead><tbody>{body}</tbody></table></section>')
     rules = []
+    if "settings" in report:
+        rules.append(f"The recommended setting answers the most from the cache while the top of its range of wrong "
+                     f"answers caused by the cache is at most {pct(report['settings']['limit'], 1)} of requests.")
     if "retune" in report:
         rules.append(f"The re-tuning accuracy label is amber when the low end of its range is below "
                      f"{pts(RETUNE_MARGIN)} point (the margin agreed in #37).")
@@ -467,6 +496,7 @@ def render_html(report, title, source):
 {quality_pill}
 {fresh}
 </section>
+{settings}
 {plan}
 {retune}
 </div>
@@ -498,6 +528,7 @@ def main(argv=None):
     parser.add_argument("--retuned-log", type=Path,
                         help="Optional (#49): the same stream through the cache with the re-tuned cutoff")
     parser.add_argument("--retune", type=Path, help="The re-tune file from cacheshift.retune_log (with --retuned-log)")
+    parser.add_argument("--settings", type=Path, help="Optional: the setting finder's output (cacheshift.setting_finder)")
     parser.add_argument("--out", type=Path, required=True, help="HTML report to write; a .json file is written next to it")
     parser.add_argument("--title", default="Your AI assistant: CacheShift report")
     args = parser.parse_args(argv)
@@ -516,6 +547,8 @@ def main(argv=None):
             from cacheshift import retune_log
             retuned, retune = read_log(args.retuned_log), retune_log.load(args.retune)
         report = build(events, records, planned, fresh, retuned_events=retuned, retune=retune)
+        if args.settings:
+            report["settings"] = json.loads(args.settings.read_text(encoding="utf-8"))
     except (OSError, ValueError, KeyError) as exc:
         parser.exit(1, f"Could not build the report: {exc}\n")
     report["inputs"] = {"log": args.log.name, "log_sha256": hashlib.sha256(args.log.read_bytes()).hexdigest(),

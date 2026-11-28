@@ -1,0 +1,69 @@
+{
+  "routerbench_sha256": "ba4f77f19517610a707c374e99322d7750c30fc4ae7ff5527888595a1e65d36d",
+  "keys_repo": "Rowan/hellaswag",
+  "keys_revision": "218ec52e09a7e7462a5400043bb9a69a41d06b76",
+  "keys_sha256": "899813071e1e95efafec90f856e1987d2150fa4d020fc005df6962c259f660cd",
+  "dataset_sha256": "f516927bd12dfb3da4dcb6bbd9cd27425595eac75d0d15f3fc928add77c665a6",
+  "rows": 10029,
+  "tuning": 4981,
+  "test": 5048,
+  "groups": {
+    "tuning": 4197,
+    "test": 4197
+  },
+  "skipped": [
+    {
+      "question_id": "hellaswag.val.4293",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "hellaswag.val.5467",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "hellaswag.val.6040",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "hellaswag.val.7148",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "hellaswag.val.7219",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "hellaswag.val.7516",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "hellaswag.val.8617",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "hellaswag.val.8786",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "hellaswag.val.8934",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "hellaswag.val.9144",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "hellaswag.val.9339",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "hellaswag.val.9522",
+      "reason": "Invalid recorded response/cost"
+    },
+    {
+      "question_id": "hellaswag.val.9523",
+      "reason": "Invalid recorded response/cost"
+    }
+  ],
+  "selection": "every aligned RouterBench HellaSwag row; groups = source_id ordered by SHA256(601:source_id), first half tuning, rest test; no outcome or score based selection"
+}

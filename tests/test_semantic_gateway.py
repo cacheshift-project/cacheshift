@@ -127,3 +127,30 @@ def test_compare_reports_a_different_match():
     [mismatch] = semantic_gateway_check.compare(gateway, story2)
     assert mismatch["gateway"] == [True, "sat"] and mismatch["story2"] == [True, "sun"]
     assert semantic_gateway_check.compare(gateway, gateway) == []
+
+
+def test_difference_trims_the_shared_start_and_end():
+    from cacheshift.semantic_cache import difference
+
+    lead = "For which scenario does the main character do something wrong? Scenario 1 |"
+    a = f"{lead} I took a cookie. Options: A) Wrong B) Not wrong"
+    b = f"{lead} I paid my taxes. Options: A) Wrong B) Not wrong"
+    assert difference(a, b) == ("took a cookie.", "paid my taxes.")   # "I" is shared too
+    assert difference("same words here", "same words here") == ("", "")
+    assert difference("ask this", "ask this please") == ("", "please")
+
+
+def test_difference_check_turns_a_template_match_into_a_miss():
+    from cacheshift.semantic_cache import SemanticCache
+
+    vectors = {"template A": [1.0, 0.0, 0.0], "template B": [0.96, 0.28, 0.0],
+               "A": [0.0, 1.0, 0.0], "B": [0.0, 0.0, 1.0]}
+    embed = lambda text: np.asarray(vectors[text], dtype=np.float32) / np.linalg.norm(vectors[text])
+    plain, checked = SemanticCache(embed, 0.90), SemanticCache(embed, 0.90, verify=0.80)
+    for cache in (plain, checked):
+        cache.insert("template A", {"question_id": "a"})
+    assert plain.lookup("template B")[0] == {"question_id": "a"}        # 0.96 alike: reused
+    assert checked.lookup("template B")[0] is None and checked.rejected == 1   # "A" vs "B": not alike
+    assert checked.lookup("template A")[0] == {"question_id": "a"}      # exact repeat still a hit
+    with pytest.raises(ValueError):
+        SemanticCache(embed, None, verify=0.8)

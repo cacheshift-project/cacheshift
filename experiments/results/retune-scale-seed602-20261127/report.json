@@ -1,0 +1,279 @@
+{
+  "rates": {
+    "hit_rate": {
+      "estimate": 0.5281454545454546,
+      "ci95": [
+        0.5218885902808253,
+        0.5341562568003841
+      ]
+    },
+    "accuracy": {
+      "estimate": 0.7090181818181818,
+      "ci95": [
+        0.6971119609203656,
+        0.7213740321829316
+      ]
+    },
+    "wrong_question_rate": {
+      "estimate": 0.05287272727272727,
+      "ci95": [
+        0.04745488743501851,
+        0.058939246088237376
+      ]
+    },
+    "wrong_question_wrong_rate": {
+      "estimate": 0.04109090909090909,
+      "ci95": [
+        0.0361891518790198,
+        0.04634467988098674
+      ]
+    },
+    "repeated_wrong_rate": {
+      "estimate": 0.12523636363636365,
+      "ci95": [
+        0.11787638241458398,
+        0.13249967498360354
+      ]
+    },
+    "strong_share_of_routed": {
+      "estimate": 0.5143341553637485,
+      "ci95": [
+        0.5022303404476057,
+        0.5264294073705061
+      ]
+    },
+    "usd_per_1000": {
+      "estimate": 0.33232206545454485,
+      "ci95": [
+        0.32252184611415924,
+        0.3427748072189818
+      ]
+    },
+    "all_strong_usd_per_1000": {
+      "estimate": 1.442955636363637,
+      "ci95": [
+        1.4196809764799447,
+        1.4680859539913227
+      ]
+    },
+    "saving_vs_all_strong": {
+      "estimate": 0.7696934977903944,
+      "ci95": [
+        0.7621726957985145,
+        0.7768323674901428
+      ]
+    },
+    "drift_from_plan": {
+      "estimate": 0.01433415536374849,
+      "ci95": [
+        0.002230340447605772,
+        0.02642940737050616
+      ]
+    }
+  },
+  "totals": {
+    "requests": 13750,
+    "hits": 7262,
+    "routed": 6488,
+    "strong": 3337,
+    "correct": 9749,
+    "cost": 4.569428399999992,
+    "all_strong_cost": 19.84064000000001,
+    "wrong_question": 727,
+    "wrong_question_wrong": 565,
+    "repeated_wrong": 1722
+  },
+  "planned_strong_share": 0.5,
+  "question_groups": 6875,
+  "bootstrap_samples": 2000,
+  "drift_band": 0.03,
+  "within_band": true,
+  "band_verdict": "within",
+  "fresh": {
+    "accuracy": {
+      "estimate": 0.7259636363636364,
+      "ci95": [
+        0.7145804609373693,
+        0.73765342549331
+      ]
+    },
+    "strong_share_of_routed": {
+      "estimate": 0.5014545454545455,
+      "ci95": [
+        0.48841798669288694,
+        0.5152522779298436
+      ]
+    },
+    "usd_per_1000": {
+      "estimate": 0.7017052800000003,
+      "ci95": [
+        0.6810352378049289,
+        0.7245486828732296
+      ]
+    }
+  },
+  "paired": {
+    "accuracy_change": {
+      "estimate": -0.016945454545454597,
+      "ci95": [
+        -0.02120346796406105,
+        -0.012761099965047436
+      ]
+    },
+    "strong_share_change": {
+      "estimate": 0.012879609909203005,
+      "ci95": [
+        0.006094707293994833,
+        0.01967502809289659
+      ]
+    }
+  },
+  "retune": {
+    "threshold_before": 0.45482388610840296,
+    "threshold_after": 0.45518805965510617,
+    "held_out_groups": 3428,
+    "held_out_requests": 6909,
+    "before": {
+      "strong_share_of_routed": {
+        "estimate": 0.5151234567901235,
+        "ci95": [
+          0.4987600551659208,
+          0.5319072592716098
+        ]
+      },
+      "accuracy": {
+        "estimate": 0.705601389491967,
+        "ci95": [
+          0.6891279181331772,
+          0.7234780060824458
+        ]
+      },
+      "usd_per_1000": {
+        "estimate": 0.32968090895932883,
+        "ci95": [
+          0.31599108930172276,
+          0.34304281316128404
+        ]
+      }
+    },
+    "after": {
+      "strong_share_of_routed": {
+        "estimate": 0.5024691358024691,
+        "ci95": [
+          0.4862153110350252,
+          0.5199028049105057
+        ]
+      },
+      "accuracy": {
+        "estimate": 0.7045882182660298,
+        "ci95": [
+          0.6876539619570504,
+          0.7220457729941538
+        ]
+      },
+      "usd_per_1000": {
+        "estimate": 0.3215942683456365,
+        "ci95": [
+          0.30842665538735076,
+          0.33480565340153806
+        ]
+      }
+    },
+    "change": {
+      "strong_share_of_routed": {
+        "estimate": -0.0126543209876544,
+        "ci95": [
+          -0.016671812287743063,
+          -0.009216519095551315
+        ]
+      },
+      "accuracy": {
+        "estimate": -0.0010131712259372483,
+        "ci95": [
+          -0.003774214924284358,
+          0.0018904417767999556
+        ]
+      },
+      "usd_per_1000": {
+        "estimate": -0.008086640613692353,
+        "ci95": [
+          -0.010904460866398036,
+          -0.005472656195723928
+        ]
+      }
+    },
+    "accuracy_margin": -0.01,
+    "accuracy_range_above_margin": true,
+    "after_drift_from_plan": {
+      "estimate": 0.0024691358024691024,
+      "ci95": [
+        -0.013784688964974789,
+        0.01990280491050566
+      ]
+    },
+    "before_drift_from_plan": {
+      "estimate": 0.015123456790123502,
+      "ci95": [
+        -0.0012399448340791861,
+        0.03190725927160976
+      ]
+    },
+    "after_within_band": true,
+    "after_band_verdict": "within"
+  },
+  "examples": [
+    {
+      "question_id": "mmlu-moral-scenarios.val.258",
+      "question": "Please answer with the letter of the correct answer.",
+      "matched_question_id": "mmlu-moral-scenarios.val.806",
+      "matched_question": "Please answer with the letter of the correct answer.",
+      "similarity": 0.9147902131080627,
+      "served_answer": "A)",
+      "correct_answer": "D"
+    },
+    {
+      "question_id": "mmlu-high-school-government-and-politics.val.58",
+      "question": "Please answer with the letter of the correct answer.",
+      "matched_question_id": "mmlu-high-school-government-and-politics.val.101",
+      "matched_question": "Please answer with the letter of the correct answer.",
+      "similarity": 0.910548210144043,
+      "served_answer": "D)",
+      "correct_answer": "B"
+    },
+    {
+      "question_id": "mmlu-high-school-world-history.val.219",
+      "question": "Please answer with the letter of the correct answer.",
+      "matched_question_id": "mmlu-high-school-world-history.val.223",
+      "matched_question": "Please answer with the letter of the correct answer.",
+      "similarity": 1.0000001192092896,
+      "served_answer": "A)",
+      "correct_answer": "D"
+    },
+    {
+      "question_id": "mmlu-moral-scenarios.val.336",
+      "question": "Please answer with the letter of the correct answer.",
+      "matched_question_id": "mmlu-moral-scenarios.val.231",
+      "matched_question": "Please answer with the letter of the correct answer.",
+      "similarity": 0.9310718178749084,
+      "served_answer": "A)",
+      "correct_answer": "D"
+    },
+    {
+      "question_id": "mmlu-moral-scenarios.val.620",
+      "question": "Please answer with the letter of the correct answer.",
+      "matched_question_id": "mmlu-moral-scenarios.val.231",
+      "matched_question": "Please answer with the letter of the correct answer.",
+      "similarity": 0.9270418286323547,
+      "served_answer": "A)",
+      "correct_answer": "D"
+    }
+  ],
+  "inputs": {
+    "log": "semantic_0.90.jsonl",
+    "log_sha256": "11d1dcf358bb6624b4a3343bef5eb2a7ca1be74b8c6c26468b09b35896ea1c8b",
+    "fresh_log": "no_cache.jsonl",
+    "retuned_log": "semantic_0.90_retuned_A.jsonl",
+    "dataset_sha256": "95c9030845ca1a9f64656c0fa41840420d516740c2f6be4e3992f626c9d84cca",
+    "seed": 601
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "calibration": {
+    "target_strong_share": 0.5,
+    "threshold": 0.45482388610840296,
+    "tuning_strong_share": 0.49992699664184553
+  },
+  "runs": {
+    "no_cache": {
+      "config_id": "fa601a01dd03e670",
+      "config": {
+        "mode": "recorded-answer-replay",
+        "cache": "none",
+        "target_strong_share": 0.5,
+        "threshold": 0.45482388610840296,
+        "dataset_sha256": "95c9030845ca1a9f64656c0fa41840420d516740c2f6be4e3992f626c9d84cca",
+        "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+        "seed": 602,
+        "extra_repeats": 5,
+        "strong_model": "gpt-4-1106-preview",
+        "weak_model": "mistralai/mixtral-8x7b-chat"
+      },
+      "summary": {
+        "requests": 13750,
+        "cache_hits": 0,
+        "routed_requests": 13750,
+        "strong_calls": 6895,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.5014545454545455,
+        "strong_share_of_all": 0.5014545454545455,
+        "historical_model_cost_usd": 9.6484476
+      }
+    },
+    "semantic_0.90": {
+      "config_id": "75b22f044038a86b",
+      "config": {
+        "mode": "recorded-answer-replay",
+        "cache": "semantic",
+        "target_strong_share": 0.5,
+        "threshold": 0.45482388610840296,
+        "dataset_sha256": "95c9030845ca1a9f64656c0fa41840420d516740c2f6be4e3992f626c9d84cca",
+        "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+        "seed": 602,
+        "extra_repeats": 5,
+        "strong_model": "gpt-4-1106-preview",
+        "weak_model": "mistralai/mixtral-8x7b-chat",
+        "semantic_threshold": 0.9,
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+      },
+      "summary": {
+        "requests": 13750,
+        "cache_hits": 7262,
+        "routed_requests": 6488,
+        "strong_calls": 3337,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.5143341553637485,
+        "strong_share_of_all": 0.2426909090909091,
+        "historical_model_cost_usd": 4.5694284000000005
+      }
+    },
+    "semantic_0.90_retuned_A": {
+      "config_id": "8d2100f9e0200f0e",
+      "config": {
+        "mode": "recorded-answer-replay",
+        "cache": "semantic",
+        "target_strong_share": 0.5,
+        "threshold": 0.45518805965510617,
+        "dataset_sha256": "95c9030845ca1a9f64656c0fa41840420d516740c2f6be4e3992f626c9d84cca",
+        "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+        "seed": 602,
+        "extra_repeats": 5,
+        "strong_model": "gpt-4-1106-preview",
+        "weak_model": "mistralai/mixtral-8x7b-chat",
+        "semantic_threshold": 0.9,
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+      },
+      "summary": {
+        "requests": 13750,
+        "cache_hits": 7262,
+        "routed_requests": 6488,
+        "strong_calls": 3252,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.501233045622688,
+        "strong_share_of_all": 0.23650909090909092,
+        "historical_model_cost_usd": 4.4530404
+      }
+    },
+    "semantic_0.90_retuned_B": {
+      "config_id": "b56ccaef51d48e87",
+      "config": {
+        "mode": "recorded-answer-replay",
+        "cache": "semantic",
+        "target_strong_share": 0.5,
+        "threshold": 0.45527278655460474,
+        "dataset_sha256": "95c9030845ca1a9f64656c0fa41840420d516740c2f6be4e3992f626c9d84cca",
+        "router_revision": "874d4aa9758c88ff6a71c6c469fba88e42248304",
+        "seed": 602,
+        "extra_repeats": 5,
+        "strong_model": "gpt-4-1106-preview",
+        "weak_model": "mistralai/mixtral-8x7b-chat",
+        "semantic_threshold": 0.9,
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+      },
+      "summary": {
+        "requests": 13750,
+        "cache_hits": 7262,
+        "routed_requests": 6488,
+        "strong_calls": 3224,
+        "planned_strong_share": 0.5,
+        "strong_share_of_routed": 0.4969173859432799,
+        "strong_share_of_all": 0.23447272727272728,
+        "historical_model_cost_usd": 4.4053266
+      }
+    }
+  }
+}

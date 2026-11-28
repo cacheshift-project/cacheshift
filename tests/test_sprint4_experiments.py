@@ -115,3 +115,94 @@ def test_score_cache_on_disk_is_reused_and_never_changes_a_score(tmp_path):
     second = MemoRouter(Counting(), path)
     b = [second.score(t)["router_score"] for t in ("one", "three")]
     assert Counting.calls == 2 and b == a[:2]
+
+
+def test_setting_finder_recommends_the_most_saving_setting_under_the_limit():
+    import numpy as np
+    from cacheshift import report, setting_finder
+    from cacheshift.replay_gateway import STRONG, WEAK, calibrate
+
+    texts = {"sat": "When do you close on Saturday?", "sun": "When do you close on Sunday?",
+             "hard": "A hard question?", "x": "easy tuning", "y": "hard tuning"}
+    records = {}
+    for qid, text in texts.items():
+        records[qid] = {"question_id": qid, "group_id": qid, "text": text, "is_original": True,
+                        "split": "tuning" if qid in "xy" else "test", "gold_answer": "A" if qid != "sun" else "B",
+                        "answers": {STRONG: {"answer": "A" if qid != "sun" else "B", "cost_usd": 0.1},
+                                    WEAK: {"answer": "A", "cost_usd": 0.01}}}
+
+    class Router:
+        def score(self, text):
+            return {"router_score": 0.9 if "hard" in text else 0.1}
+
+    def embed(text):
+        v = np.zeros(8, dtype=np.float32)
+        known = [k for k, t in texts.items() if t == text]
+        if not known:                 # a trimmed difference, e.g. "Sunday?": its own direction
+            v[5 + len(text) % 3] = 1
+            return v
+        v[{"sat": 1, "sun": 2, "hard": 3}[known[0]]] = 1
+        if text == texts["sun"]:      # Sunday is 0.92 alike to Saturday
+            v = 0.92 * embed(texts["sat"]) + np.sqrt(1 - 0.92**2) * v
+        return v.astype(np.float32)
+    embed.model_name = "fake"
+
+    router = Router()
+    stream = ["sat", "sun", "hard", "sat", "sun", "hard"]
+    out = setting_finder.sweep(stream, records, router, calibrate(records, router), embed, limit=0.0,
+                               settings=(0.95, 0.90), samples=50)
+    by = {row["label"]: row for row in out["rows"]}
+    assert by["0.90"]["wrong_caused"] >= 1                     # Sunday gets Saturday's answer
+    assert by["0.95"]["wrong_caused"] == 0
+    assert out["recommended"] in ("0.95", "0.95 + difference check")
+    built = report.build([{"question_id": "sat", "cache_hit": False, "route": "weak", "answer": "A", "cost_usd": 0.01,
+                           "router_score": 0.1, "matched_question_id": None, "similarity": None, "config_id": "c"}],
+                         records, 0.5, samples=10)
+    built["settings"] = out
+    page = report.render_html(built, "t", "run.jsonl")
+    assert "Which cache setting is safe for your questions?" in page and "Recommended:" in page
+
+
+def test_rebuilt_run_serves_hits_the_answer_their_match_got_under_the_new_cutoff():
+    from cacheshift.replay_gateway import STRONG, WEAK
+    from cacheshift.retune_splits import with_cutoff
+
+    records = {q: {"answers": {STRONG: {"answer": f"{q}-strong", "cost_usd": 1.0},
+                               WEAK: {"answer": f"{q}-weak", "cost_usd": 0.1}}} for q in ("a", "b")}
+    events = [{"question_id": "a", "cache_hit": False, "router_score": 0.6, "route": "strong",
+               "answer": "a-strong", "cost_usd": 1.0, "matched_question_id": None},
+              {"question_id": "b", "cache_hit": True, "router_score": None, "route": "cache",
+               "answer": "a-strong", "cost_usd": 0.0, "matched_question_id": "a"}]
+    rebuilt = with_cutoff(events, records, 0.7)            # a now goes to the weak model
+    assert rebuilt[0]["route"] == "weak" and rebuilt[0]["cost_usd"] == 0.1
+    assert rebuilt[1]["answer"] == "a-weak" and rebuilt[1]["cost_usd"] == 0.0
+
+
+def test_hellaswag_builder_parses_and_splits_by_source_video():
+    import importlib.util
+    from pathlib import Path
+
+    spec = importlib.util.spec_from_file_location("hs_builder", Path(__file__).parents[1] / "tools/build_hellaswag_retune.py")
+    builder = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(builder)
+    prompt = ("A man is sitting on a roof. he\nA) starts pulling up roofing.\nB) holds a cube.\nC) rips tiles.\n"
+              "D) wraps skis.\nPrint only a single choice  from \"A\" or \"B\" or \"C\" or \"D\" without explanation.\nAnswer:")
+    context, choices = builder.parse_prompt(prompt)
+    assert context == "A man is sitting on a roof. he" and choices["A"] == "starts pulling up roofing."
+    rows = [{"question_id": f"q{i}", "group_id": f"video{i // 3}"} for i in range(30)]
+    out, tuning, test = builder.split(rows)
+    assert tuning == 5 and test == 5
+    by_group = {}
+    for row in out:
+        by_group.setdefault(row["group_id"], set()).add(row["split"])
+    assert all(len(splits) == 1 for splits in by_group.values())        # a video never spans both halves
+    assert builder.split(list(reversed(rows)))[0] != [] and \
+        {r["question_id"]: r["split"] for r in builder.split(list(reversed(rows)))[0]} == {r["question_id"]: r["split"] for r in out}
+
+
+def test_preflight_names_the_fix_for_a_missing_question_set(tmp_path):
+    from cacheshift import preflight
+
+    results = preflight.check(tmp_path / "hellaswag_all_20261127" / "questions.jsonl", port=1)
+    missing = [r for r in results if r[1].startswith("Question set")]
+    assert missing and missing[0][0] is False and "build_hellaswag_retune.py" in missing[0][2]
