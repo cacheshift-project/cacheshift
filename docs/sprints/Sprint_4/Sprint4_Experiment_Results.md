@@ -79,6 +79,20 @@ This follows a protocol committed before it ran ([Difference_Check_Protocol.md](
 - **Rewordings** (pending the hand check): at 0.90 the check lowers catches from 111 to 97 of 120, with no wrong-question matches. At 0.80 it lowers them from 120 to 102, with 3 wrong-question matches. The check gives up some real rewordings to stop template matches.
 - **For a builder:** if your questions share long context, turn the check on. If they're short and varied, it changes little.
 
+## 6. Robustness of re-tuning (added after the first results, not in the protocol)
+
+- **A second stream seed (602) gives the same verdict and almost the same numbers:** 50.2% [48.6, 52.0], and 49.8% for the cross-fit. That's expected. With the cache on, the router sees each question about once, so the order and number of repeats hardly matter.
+- **What does vary is which questions fall in the fit half.** The check below was redone over 20 random half-splits (SHA-256 of "salt:group"). Each split's re-tuned run was rebuilt from the logged router scores (`cacheshift.retune_splits`). The rebuild matches the three real re-tuned runs exactly: 0 differences in 41,250 requests.
+
+| Of 20 random splits | Count |
+|---|---|
+| Within ±3 (estimate and whole range) | **16** |
+| Estimate within ±3, range touching the edge | 3 |
+| Estimate just outside (53.2% [51.5, 55.0]) | 1 |
+
+- Every re-tuned estimate falls between 49.0% and 53.2%, and every accuracy change between −0.4 and +0.1 points.
+- **Plainly:** at about 3,200 routed requests per half, re-tuning brings the share back near plan in most splits but not all. The report's "too few questions to be sure" label is the right thing to show when it doesn't.
+
 ## Limits
 - MMLU and ARC multiple choice only, recorded answers and one seed.
 - The skews are chosen stand-ins for user behaviour, not measured behaviour.

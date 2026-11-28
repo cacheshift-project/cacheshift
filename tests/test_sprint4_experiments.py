@@ -161,3 +161,18 @@ def test_setting_finder_recommends_the_most_saving_setting_under_the_limit():
     built["settings"] = out
     page = report.render_html(built, "t", "run.jsonl")
     assert "Which cache setting is safe for your questions?" in page and "Recommended:" in page
+
+
+def test_rebuilt_run_serves_hits_the_answer_their_match_got_under_the_new_cutoff():
+    from cacheshift.replay_gateway import STRONG, WEAK
+    from cacheshift.retune_splits import with_cutoff
+
+    records = {q: {"answers": {STRONG: {"answer": f"{q}-strong", "cost_usd": 1.0},
+                               WEAK: {"answer": f"{q}-weak", "cost_usd": 0.1}}} for q in ("a", "b")}
+    events = [{"question_id": "a", "cache_hit": False, "router_score": 0.6, "route": "strong",
+               "answer": "a-strong", "cost_usd": 1.0, "matched_question_id": None},
+              {"question_id": "b", "cache_hit": True, "router_score": None, "route": "cache",
+               "answer": "a-strong", "cost_usd": 0.0, "matched_question_id": "a"}]
+    rebuilt = with_cutoff(events, records, 0.7)            # a now goes to the weak model
+    assert rebuilt[0]["route"] == "weak" and rebuilt[0]["cost_usd"] == 0.1
+    assert rebuilt[1]["answer"] == "a-weak" and rebuilt[1]["cost_usd"] == 0.0
