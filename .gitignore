@@ -37,3 +37,9 @@ node_modules/
 data/mmlu_all_20261127/questions.jsonl
 # Live demo dashboard request logs
 experiments/results/dashboard-runs/
+
+# Full HellaSwag set (13 MB): rebuild with tools/build_hellaswag_retune.py
+data/hellaswag_all_20261127/questions.jsonl
+
+# Router scores shipped with the repo (1.3 MB) so a laptop can skip the first-start scoring
+!data/router_scores_20261127.jsonl.gz

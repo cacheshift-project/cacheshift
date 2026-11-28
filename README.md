@@ -16,7 +16,7 @@ CacheShift is a gateway (cache → router → models) that measures both problem
 The gateway runs end to end: semantic cache → router → recorded answers, a request log, and a one-page report. There's also a live dashboard and a tool that recommends a safe cache setting. The answers to the proposal's questions:
 
 1. **Drift: small on our traffic.** On 777k real LMSYS prompts the cache moved the expensive-model share +2.2 points [+0.3, +4.1] (Sprint 2). On 13,750 MMLU requests it moved it +1.3 [+0.6, +1.9]. Making easy or hard topics repeat 3× as often kept it within ±3 (Sprint 4). So the headline "caching breaks routing budgets" was dropped, and CacheShift became a measurement tool.
-2. **Wrong cached answers depend on the questions.** At 0.90 the cache caused no wrong answers on ARC. On MMLU it caused 4.1% (567 of 13,750), mostly in questions sharing a long template or passage. The **difference check** (compare only the words that differ) cut that by 88% to 0.49%.
+2. **Wrong cached answers depend on the questions.** At 0.90 the cache caused no wrong answers on ARC. On MMLU it caused 4.1% (567 of 13,750), mostly in questions sharing a long template or passage. The **difference check** (compare only the words that differ) cut that by 88% to 0.49%. On HellaSwag, tested unchanged, it cut wrong answers by only about a third, so the **safe setting finder** decides per dataset: 0.95 on ARC and HellaSwag, 0.95 + check on MMLU.
 3. **Re-tuning works with enough traffic.** It returns the share to 50.2% [48.6, 52.0] on questions it wasn't fitted to, costing 0.15 points of accuracy. It holds in 16 of 20 random splits. On 970 requests it couldn't be told apart from noise.
 4. **Energy:** measured once on an SCC L40S GPU (Sprint 2): 4-bit Llama-3.1-8B used 3.59 J/token vs 6.28 for bf16.
 
@@ -67,6 +67,8 @@ pip install -r requirements-router.txt -e ".[cache]"
 python -m cacheshift.dashboard --download   # first time only: downloads the router and the similarity model
 python -m cacheshift.dashboard              # after that, works offline
 ```
+
+Before demo day, run `python -m cacheshift.preflight` (add `--dataset data/mmlu_all_20261127/questions.jsonl` for the MMLU set): in a few seconds it says whether everything is ready offline and how to fix what isn't. Router scores for every ARC, MMLU and HellaSwag question ship in `data/router_scores_20261127.jsonl.gz`, so the first start skips scoring them.
 
 Open http://127.0.0.1:8050. Pick a match setting (No cache, 0.95, 0.90 or 0.80), then **Start**, or **Next question** to go one at a time (Space and → also work). Loading takes about a minute on a laptop. Each run's request log is saved in `experiments/results/dashboard-runs/`, and **Open the one-page report** makes the report (#48) from it.
 

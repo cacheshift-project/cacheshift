@@ -1,6 +1,6 @@
 # Sprint 4 experiments: results (27 Nov 2026)
 
-There are three tests and one fix, each answering a "next step" from the Sprint 3 slides. The first two followed protocols committed before they ran: [Retune_Scale_Protocol.md](Retune_Scale_Protocol.md) at 18:03 and [Uneven_Repeats_Protocol.md](Uneven_Repeats_Protocol.md) at 18:11. Every outcome is reported, whatever it showed.
+There are three tests, one fix and its test on a new dataset, each answering a "next step" from the Sprint 3 slides. The first two followed protocols committed before they ran: [Retune_Scale_Protocol.md](Retune_Scale_Protocol.md) at 18:03 and [Uneven_Repeats_Protocol.md](Uneven_Repeats_Protocol.md) at 18:11. Every outcome is reported, whatever it showed.
 
 **Common setup**
 - Data: every RouterBench MMLU question with an official key, 6,875 test and 6,849 tuning questions in 57 subjects.
@@ -109,6 +109,35 @@ On MMLU, no setting is safe without the check; with it, 0.95 stays under the lim
 - Every re-tuned estimate falls between 49.0% and 53.2%, and every accuracy change between −0.4 and +0.1 points.
 - **Plainly:** at about 3,200 routed requests per half, re-tuning brings the share back near plan in most splits but not all. The report's "too few questions to be sure" label is the right thing to show when it doesn't.
 
+## 7. Does the fix generalize? HellaSwag: **not by our rule**, and the setting finder covers the gap
+
+This follows a protocol committed before it ran ([HellaSwag_Generalization_Protocol.md](HellaSwag_Generalization_Protocol.md), 21:12). The check runs unchanged on every keyed RouterBench HellaSwag question: 10,029 questions, with the official keys pinned. Our keys agree with RouterBench's own scores on all 10,029 GPT-4 answers. The stream is 10,096 requests and the cutoff is 0.4690.
+
+| HellaSwag | Wrong answers caused | Accuracy vs fresh | From cache | Cost per 1,000 |
+|---|---|---|---|---|
+| Cache 0.90 | 329, 3.26% [2.78, 3.81] | −2.2 [−2.7, −1.7] | 52.3% | $0.54 |
+| Cache 0.90 + check 0.80 | 215, 2.13% [1.70, 2.55] | −1.5 [−1.9, −1.1] | 51.6% | $0.54 |
+
+- **Verdict: does not generalize.** The protocol's bar was the top of the range below 1%, and the result is 2.55%. The check removes about a third of the wrong answers, against 88% on MMLU.
+- **Why:** 185 of the 278 remaining wrong-question matches are different questions about the **same video**, such as two steps of the same ice-fishing trip. Their differing parts really are alike. The check fixes shared templates, not genuine look-alikes.
+
+**The safe setting finder on the HellaSwag traffic** (limit 0.5%):
+
+| Setting | From cache | Wrong answers caused | Cost per 1,000 |
+|---|---|---|---|
+| **0.95** (recommended) | 50.2% | **23 [0.10%, 0.38%]** | $0.55 |
+| 0.95 + check | 50.2% | 21 [0.08%, 0.36%] | $0.55 |
+| 0.90 | 52.3% | 329 [2.78%, 3.81%] | $0.54 |
+| 0.90 + check | 51.6% | 215 [1.70%, 2.55%] | $0.54 |
+| 0.85 | 55.8% | 819 [7.21%, 8.97%] | $0.51 |
+| 0.85 + check | 53.0% | 406 [3.40%, 4.62%] | $0.53 |
+| 0.80 | 60.3% | 1,486 [13.59%, 15.82%] | $0.47 |
+| 0.80 + check | 53.8% | 518 [4.45%, 5.83%] | $0.52 |
+
+**What the three datasets say together:**
+- The safe setting differs by dataset: 0.95 on ARC, 0.95 + check on MMLU, 0.95 on HellaSwag. So measure on your own traffic, which is what the setting finder does.
+- On all three, almost all of the savings come from exact repeats: at 0.95 the cache still answers about half the requests. Looser matching adds a few points of savings (at most 10 on HellaSwag) and many times more wrong answers.
+
 ## Limits
 - MMLU and ARC multiple choice only, recorded answers and one seed.
 - The skews are chosen stand-ins for user behaviour, not measured behaviour.
@@ -120,5 +149,6 @@ On MMLU, no setting is safe without the check; with it, 0.95 stays under the lim
 - `python -m cacheshift.uneven_repeats --run-dir …` (minutes once router scores are cached in `data/cache/router_scores.jsonl`)
 - `python -m cacheshift.reworded_check --out …`
 - `python -m cacheshift.difference_check --run-dir … --mmlu-fresh <section 1 run>/no_cache.jsonl.gz`
+- `python tools/build_hellaswag_retune.py --routerbench data/raw/routerbench_0shot.pkl --download-keys --output data/hellaswag_all_20261127`, then `python -m cacheshift.generalization_check --run-dir …`
 
 **Side fix found while running:** the router defaulted to 4 CPU threads. On a 2-core machine that made long prompts about 40× slower (15.3 s vs 0.35 s per question, same scores). It now uses at most as many threads as the machine has cores. This also speeds up the dashboard's start on a small laptop.

@@ -16,6 +16,7 @@ model are downloaded (pass --download the first time).
 
 import argparse
 from datetime import datetime
+import gzip
 import hashlib
 import itertools
 import json
@@ -42,6 +43,8 @@ MAX_STEP = 50
 
 
 SCORES = ROOT / "data/cache/router_scores.jsonl"
+# Scores shipped with the repo (computed on a Linux CPU; read-only), so a laptop can skip scoring.
+BUNDLED_SCORES = ROOT / "data/router_scores_20261127.jsonl.gz"
 
 
 class MemoRouter:
@@ -53,11 +56,15 @@ class MemoRouter:
     def __init__(self, router, path=None):
         self.router, self.scores, self.lock = router, {}, threading.Lock()
         self.path, self.saved = (Path(path) if path else None), {}
-        if self.path and self.path.exists():
-            for line in self.path.read_text(encoding="utf-8").splitlines():
-                row = json.loads(line)
-                if row.get("revision") == REVISION:
-                    self.saved[row["sha256"]] = row["router_score"]
+        sources = [BUNDLED_SCORES] if path and BUNDLED_SCORES.exists() else []
+        sources += [self.path] if self.path and self.path.exists() else []
+        for source in sources:
+            opener = gzip.open if str(source).endswith(".gz") else open
+            with opener(source, "rt", encoding="utf-8") as stream:
+                for line in stream:
+                    row = json.loads(line)
+                    if row.get("revision") == REVISION:
+                        self.saved[row["sha256"]] = row["router_score"]
 
     def score(self, text):
         with self.lock:

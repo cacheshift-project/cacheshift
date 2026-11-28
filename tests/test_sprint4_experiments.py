@@ -176,3 +176,33 @@ def test_rebuilt_run_serves_hits_the_answer_their_match_got_under_the_new_cutoff
     rebuilt = with_cutoff(events, records, 0.7)            # a now goes to the weak model
     assert rebuilt[0]["route"] == "weak" and rebuilt[0]["cost_usd"] == 0.1
     assert rebuilt[1]["answer"] == "a-weak" and rebuilt[1]["cost_usd"] == 0.0
+
+
+def test_hellaswag_builder_parses_and_splits_by_source_video():
+    import importlib.util
+    from pathlib import Path
+
+    spec = importlib.util.spec_from_file_location("hs_builder", Path(__file__).parents[1] / "tools/build_hellaswag_retune.py")
+    builder = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(builder)
+    prompt = ("A man is sitting on a roof. he\nA) starts pulling up roofing.\nB) holds a cube.\nC) rips tiles.\n"
+              "D) wraps skis.\nPrint only a single choice  from \"A\" or \"B\" or \"C\" or \"D\" without explanation.\nAnswer:")
+    context, choices = builder.parse_prompt(prompt)
+    assert context == "A man is sitting on a roof. he" and choices["A"] == "starts pulling up roofing."
+    rows = [{"question_id": f"q{i}", "group_id": f"video{i // 3}"} for i in range(30)]
+    out, tuning, test = builder.split(rows)
+    assert tuning == 5 and test == 5
+    by_group = {}
+    for row in out:
+        by_group.setdefault(row["group_id"], set()).add(row["split"])
+    assert all(len(splits) == 1 for splits in by_group.values())        # a video never spans both halves
+    assert builder.split(list(reversed(rows)))[0] != [] and \
+        {r["question_id"]: r["split"] for r in builder.split(list(reversed(rows)))[0]} == {r["question_id"]: r["split"] for r in out}
+
+
+def test_preflight_names_the_fix_for_a_missing_question_set(tmp_path):
+    from cacheshift import preflight
+
+    results = preflight.check(tmp_path / "hellaswag_all_20261127" / "questions.jsonl", port=1)
+    missing = [r for r in results if r[1].startswith("Question set")]
+    assert missing and missing[0][0] is False and "build_hellaswag_retune.py" in missing[0][2]
