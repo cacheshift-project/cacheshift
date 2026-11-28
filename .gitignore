@@ -35,3 +35,5 @@ node_modules/
 
 # Full MMLU set (17 MB): rebuild with tools/build_mmlu_retune.py --all-families
 data/mmlu_all_20261127/questions.jsonl
+# Live demo dashboard request logs
+experiments/results/dashboard-runs/

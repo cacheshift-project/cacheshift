@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CacheShift, live gateway</title>
+<link rel="icon" href="data:,">
+<style>
+  :root {
+    --paper: #F4F6F8;
+    --panel: #FFFFFF;
+    --ink: #1C2833;
+    --ink-2: #4A5866;
+    --ink-3: #7A8794;
+    --rule: #D5DCE3;
+    --track: #C3CCD5;
+    --cache: #1F8A70;
+    --cheap: #3D6FB6;
+    --dear: #C98A16;
+    --dear-text: #8E5F06;
+    --wrong: #B8322F;
+    --wrong-tint: #FBEDEC;
+    --focus: #2B59C3;
+    font-family: "Avenir Next", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-size: 17px;
+    color: var(--ink);
+    background: var(--paper);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; line-height: 1.4; }
+  .num { font-variant-numeric: tabular-nums; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+  /* ---------- top bar ---------- */
+  header {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px;
+    padding: 18px 32px; border-bottom: 1px solid var(--rule); background: var(--panel);
+  }
+  .brand { margin-right: auto; }
+  .brand h1 { margin: 0; font-size: 1.6rem; font-weight: 700; letter-spacing: -0.01em; }
+  .brand p { margin: 2px 0 0; color: var(--ink-2); font-size: 0.95rem; }
+  .control { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+  .control > span { font-size: 0.8rem; color: var(--ink-2); }
+  .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+  .seg button { border: 0; background: transparent; padding: 7px 13px; font-size: 0.95rem; }
+  .seg button + button { border-left: 1px solid var(--rule); }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+  .actions { display: flex; gap: 8px; }
+  .btn { border: 1px solid var(--ink); background: var(--panel); border-radius: 8px; padding: 8px 16px; font-weight: 600; }
+  .btn.primary { background: var(--ink); color: #fff; min-width: 96px; }
+  .btn:disabled { opacity: 0.45; cursor: default; }
+
+  /* ---------- the switchyard (hero) ---------- */
+  .yard {
+    display: grid; grid-template-columns: minmax(260px, 30%) 1fr; gap: 28px; align-items: center;
+    padding: 26px 32px 18px;
+  }
+  .incoming { min-height: 190px; display: flex; flex-direction: column; justify-content: center; }
+  .incoming .count { color: var(--ink-2); font-size: 0.9rem; margin-bottom: 6px; }
+  .incoming .q { font-size: 1.35rem; line-height: 1.3; margin: 0; max-height: 7.8em; overflow: hidden; }
+  .incoming .q.empty { color: var(--ink-3); }
+  .incoming ol { list-style: none; margin: 8px 0 0; padding: 0; color: var(--ink-2); font-size: 0.95rem; columns: 2; column-gap: 18px; }
+  .incoming li { break-inside: avoid; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .incoming .what { margin-top: 10px; font-weight: 600; min-height: 1.4em; }
+  .callout {
+    margin-top: 10px; padding: 10px 12px; border-left: 4px solid var(--wrong); background: var(--wrong-tint);
+    border-radius: 0 6px 6px 0; font-size: 0.95rem;
+  }
+  .callout[hidden] { display: none; }
+  .callout strong { color: var(--wrong); }
+  svg.tracks { width: 100%; height: auto; max-height: 300px; overflow: visible; }
+  .tracks .rail { fill: none; stroke: var(--track); stroke-width: 6; stroke-linecap: round; }
+  .tracks .siding { fill: none; stroke-width: 6; stroke-linecap: round; }
+  .tracks .junction { fill: var(--panel); stroke: var(--ink); stroke-width: 2.5; }
+  .tracks .jlabel { font-size: 15px; fill: var(--ink); font-weight: 600; text-anchor: middle; }
+  .tracks .name { font-size: 15px; fill: var(--ink-2); }
+  .tracks .big { font-size: 30px; font-weight: 700; fill: var(--ink); font-variant-numeric: tabular-nums; }
+  .tracks .sub { font-size: 13px; fill: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .tracks .bump { animation: bump 0.45s ease-out; }
+  @keyframes bump { 0% { fill: var(--focus); } 100% { fill: var(--ink); } }
+
+  .progress { padding: 0 32px 18px; display: flex; align-items: center; gap: 14px; color: var(--ink-2); font-size: 0.9rem; }
+  .bar { flex: 1; height: 6px; background: var(--rule); border-radius: 3px; overflow: hidden; }
+  .bar > div { height: 100%; width: 0; background: var(--ink); transition: width 0.2s linear; }
+
+  /* ---------- lower half ---------- */
+  main { display: grid; grid-template-columns: 1.45fr 1fr; gap: 0; border-top: 1px solid var(--rule); background: var(--panel); }
+  section { padding: 22px 32px 28px; }
+  section + section { border-left: 1px solid var(--rule); }
+  h2 { font-size: 1.15rem; margin: 0 0 12px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  th { text-align: left; font-weight: 600; color: var(--ink-2); font-size: 0.82rem; padding: 0 10px 6px 0; border-bottom: 1px solid var(--rule); }
+  td { padding: 8px 10px 8px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  td.n { color: var(--ink-3); width: 3.2em; }
+  td.text { max-width: 0; width: 55%; }
+  td.text .t { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  td.text .m { display: block; color: var(--wrong); font-size: 0.85rem; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  tr.flag td { background: var(--wrong-tint); }
+  tr.flag td:first-child { box-shadow: inset 4px 0 0 var(--wrong); padding-left: 8px; }
+  .where { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
+  .dot { width: 11px; height: 11px; border-radius: 50%; flex: none; }
+  .dot.cache { background: var(--cache); } .dot.weak { background: var(--cheap); } .dot.strong { background: var(--dear); }
+  .ok { color: var(--cache); font-weight: 600; }
+  td.ans { white-space: nowrap; }
+  .right { color: var(--ink-2); font-size: 0.85rem; }
+  .bad { color: var(--wrong); font-weight: 600; }
+  .empty-row td { color: var(--ink-3); border-bottom: 0; padding-top: 14px; }
+
+  .meter { padding: 0 0 18px; margin-bottom: 18px; border-bottom: 1px solid var(--rule); }
+  .meter:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
+  .meter h3 { margin: 0 0 4px; font-size: 0.95rem; font-weight: 600; color: var(--ink-2); }
+  .meter .value { font-size: 2.1rem; font-weight: 700; line-height: 1.1; }
+  .meter .value.alarm { color: var(--wrong); }
+  .meter .detail { color: var(--ink-2); font-size: 0.92rem; margin-top: 4px; }
+  .cost-bars { display: grid; grid-template-columns: max-content 1fr max-content; gap: 6px 10px; align-items: center; margin-top: 8px; font-size: 0.92rem; }
+  .cost-bars .track { height: 14px; background: var(--paper); border-radius: 0 4px 4px 0; }
+  .cost-bars .fill { height: 100%; border-radius: 0 4px 4px 0; background: var(--ink-2); width: 0; transition: width 0.25s ease-out; }
+  .cost-bars .fill.with { background: var(--cache); }
+  .scale { position: relative; height: 46px; margin: 10px 4px 0; }
+  .scale .axis { position: absolute; left: 0; right: 0; top: 16px; height: 2px; background: var(--rule); }
+  .scale .band { position: absolute; top: 8px; height: 18px; background: #DDE6EE; border-radius: 3px; }
+  .scale .plan { position: absolute; top: 4px; width: 2px; height: 26px; background: var(--ink); }
+  .scale .whisker { position: absolute; top: 16px; height: 2px; background: var(--dear-text); }
+  .scale .mark { position: absolute; top: 9px; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%; background: var(--dear); border: 2px solid var(--panel); box-shadow: 0 0 0 1px var(--dear-text); }
+  .scale .tick { position: absolute; top: 30px; font-size: 0.78rem; color: var(--ink-3); transform: translateX(-50%); }
+  .verdict { display: inline-block; margin-top: 6px; padding: 3px 9px; border-radius: 5px; font-size: 0.9rem; font-weight: 600; }
+  .verdict.within { background: #E1F2EC; color: #13614E; }
+  .verdict.outside { background: #F8EBD3; color: var(--dear-text); }
+  .verdict.too-few, .verdict.waiting { background: var(--paper); color: var(--ink-2); }
+
+  footer { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; padding: 16px 32px 28px; color: var(--ink-2); font-size: 0.85rem; }
+  footer .btn { margin-left: auto; }
+  .error { color: var(--wrong); font-weight: 600; }
+
+  @media (max-width: 980px) {
+    .yard, main { grid-template-columns: 1fr; }
+    section + section { border-left: 0; border-top: 1px solid var(--rule); }
+    header, .yard, section, footer, .progress { padding-left: 18px; padding-right: 18px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tracks .bump { animation: none; }
+    .bar > div, .cost-bars .fill { transition: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <h1>CacheShift</h1>
+    <p>A cache and a router between a chatbot and two AI models</p>
+  </div>
+  <div class="control">
+    <span id="setting-label">How alike a question must be to reuse a saved answer</span>
+    <div class="seg" role="group" aria-labelledby="setting-label" id="settings">
+      <button data-setting="off">No cache</button>
+      <button data-setting="0.95">0.95</button>
+      <button data-setting="0.90">0.90</button>
+      <button data-setting="0.80">0.80</button>
+    </div>
+  </div>
+  <div class="control">
+    <span id="speed-label">Speed</span>
+    <div class="seg" role="group" aria-labelledby="speed-label" id="speeds">
+      <button data-speed="slow">Slow</button>
+      <button data-speed="normal">Normal</button>
+      <button data-speed="fast">Fast</button>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="btn primary" id="play" title="Space">Start</button>
+    <button class="btn" id="step" title="Right arrow">Next question</button>
+    <button class="btn" id="restart">Restart</button>
+  </div>
+</header>
+
+<div class="yard">
+  <div class="incoming" aria-live="polite">
+    <div class="count num" id="count">Press Start to send the first question</div>
+    <p class="q empty" id="question">Questions arrive here one at a time, the way a chatbot's customers ask them.</p>
+    <ol id="options"></ol>
+    <div class="what" id="what"></div>
+    <div class="callout" id="callout" hidden></div>
+  </div>
+  <svg class="tracks" viewBox="0 0 660 230" role="img" aria-labelledby="yard-title">
+    <title id="yard-title">Each question goes to the cache first. A close enough match is answered from the cache for free; otherwise the router sends it to the cheap or the expensive model.</title>
+    <path class="rail" id="p-cache" d="M4,112 L110,112 C170,112 190,38 250,38 L500,38"/>
+    <path class="rail" id="p-weak" d="M4,112 L110,112 C185,112 215,138 278,138 L300,138 C360,138 380,116 440,116 L500,116"/>
+    <path class="rail" id="p-strong" d="M4,112 L110,112 C185,112 215,138 278,138 L300,138 C360,138 380,194 440,194 L500,194"/>
+    <path class="siding" stroke="var(--cache)" d="M300,38 L500,38"/>
+    <path class="siding" stroke="var(--cheap)" d="M440,116 L500,116"/>
+    <path class="siding" stroke="var(--dear)" d="M440,194 L500,194"/>
+    <circle class="junction" cx="110" cy="112" r="20"/>
+    <text class="jlabel" x="110" y="152">Cache</text>
+    <circle class="junction" cx="300" cy="138" r="20"/>
+    <text class="jlabel" x="300" y="178">Router</text>
+    <text class="name" x="516" y="24">Answered from the cache</text>
+    <text class="big" id="n-cache" x="516" y="56">0</text><text class="sub" id="s-cache" x="586" y="56">free</text>
+    <text class="name" x="516" y="102">Cheap model</text>
+    <text class="big" id="n-weak" x="516" y="134">0</text><text class="sub" id="s-weak" x="586" y="134"></text>
+    <text class="name" x="516" y="180">Expensive model</text>
+    <text class="big" id="n-strong" x="516" y="212">0</text><text class="sub" id="s-strong" x="586" y="212"></text>
+    <circle id="token" r="9" cx="4" cy="112" fill="var(--ink)" opacity="0"/>
+  </svg>
+</div>
+
+<div class="progress">
+  <span class="num" id="progress-text">0 of 0 questions sent</span>
+  <div class="bar" aria-hidden="true"><div id="progress-bar"></div></div>
+</div>
+
+<main>
+  <section aria-labelledby="ledger-title">
+    <h2 id="ledger-title">Latest questions</h2>
+    <table>
+      <thead><tr><th>#</th><th>Question</th><th>Answered by</th><th>Answer</th><th>Cost</th></tr></thead>
+      <tbody id="ledger"><tr class="empty-row"><td colspan="5">Nothing sent yet. Press Start, or Next question to go one at a time.</td></tr></tbody>
+    </table>
+  </section>
+  <section aria-labelledby="meters-title">
+    <h2 id="meters-title">So far</h2>
+    <div class="meter">
+      <h3>Wrong answers caused by the cache</h3>
+      <div class="value num" id="m-wrong">0</div>
+      <div class="detail num" id="m-wrong-detail">No cached answers yet.</div>
+    </div>
+    <div class="meter">
+      <h3>Cost per 1,000 questions</h3>
+      <div class="value num" id="m-cost">–</div>
+      <div class="cost-bars num">
+        <span>With the cache</span><div class="track"><div class="fill with" id="b-with"></div></div><span id="t-with">–</span>
+        <span>No cache</span><div class="track"><div class="fill" id="b-without"></div></div><span id="t-without">–</span>
+      </div>
+    </div>
+    <div class="meter">
+      <h3>Answers that were right</h3>
+      <div class="value num" id="m-acc">–</div>
+      <div class="detail num" id="m-acc-detail"></div>
+    </div>
+    <div class="meter">
+      <h3>Share of model calls sent to the expensive model</h3>
+      <div class="value num" id="m-share">–</div>
+      <div class="scale" id="scale" aria-hidden="true">
+        <div class="axis"></div><div class="band" id="band"></div><div class="plan" id="plan"></div>
+        <div class="whisker" id="whisker"></div><div class="mark" id="mark" hidden></div>
+      </div>
+      <span class="verdict waiting" id="verdict">Plan: 50%</span>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>Recorded answers from the RouterBench dataset (no live model calls); router: RouteLLM's BERT router; cache matching: MiniLM sentence similarity. Every question is logged.</span>
+  <span id="logname"></span>
+  <span class="error" id="error" role="alert"></span>
+  <button class="btn" id="open-report" disabled>Open the one-page report</button>
+</footer>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const SPEEDS = { slow: { batch: 1, wait: 1500, animate: 1100 }, normal: { batch: 1, wait: 420, animate: 340 },
+                   fast: { batch: 20, wait: 120, animate: 0 } };
+  const SCALE_MIN = 0.30, SCALE_MAX = 0.70;
+  let session = null, setting = "0.90", speed = "normal", playing = false, busy = false, timer = null, rows = [];
+  // Kiosk mode for the poster table: /?play=normal&loop=1&setting=0.80 plays on its own and starts over.
+  const params = new URLSearchParams(location.search);
+  const kiosk = params.get("loop") === "1";
+  if (params.get("setting") in { off: 1, "0.95": 1, "0.90": 1, "0.80": 1 }) setting = params.get("setting");
+  if (params.get("play") in SPEEDS) speed = params.get("play");
+
+  const money = (v) => v == null ? "–" : "$" + v.toFixed(2);
+  const callCost = (v) => v >= 0.01 ? "$" + v.toFixed(2) : "$" + Number(v.toPrecision(2)).toFixed(Math.max(2, 1 - Math.floor(Math.log10(v))));
+  const letter = (a) => { const m = String(a).match(/\b([A-E])\b/); return m ? m[1] : String(a).trim().slice(0, 12); };
+  const pct = (v, d = 1) => v == null ? "–" : (100 * v).toFixed(d) + "%";
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const routeName = { cache: "Cache", weak: "Cheap model", strong: "Expensive model" };
+
+  async function api(path, body) {
+    const response = await fetch(path, body === undefined ? {} :
+      { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    if (!response.ok) {
+      let detail = response.statusText;
+      try { detail = (await response.json()).detail; } catch (_) {}
+      throw new Error(detail);
+    }
+    return response.json();
+  }
+
+  function press(groupId, attr, value) {
+    for (const b of $(groupId).querySelectorAll("button")) b.setAttribute("aria-pressed", String(b.dataset[attr] === value));
+  }
+
+  async function start() {
+    stop();
+    $("error").textContent = "";
+    try {
+      session = await api("/api/session", { setting });
+    } catch (e) { $("error").textContent = "Could not start a run: " + e.message; return; }
+    rows = [];
+    $("ledger").innerHTML = '<tr class="empty-row"><td colspan="5">Nothing sent yet. Press Start, or Next question to go one at a time.</td></tr>';
+    $("question").textContent = setting === "off"
+      ? "No cache: every question goes to the router, then to a model."
+      : `Cache on: a question reuses a saved answer when it is at least ${setting} alike (1.00 = identical).`;
+    $("question").classList.add("empty");
+    $("options").innerHTML = "";
+    $("what").textContent = ""; $("callout").hidden = true;
+    $("count").textContent = `${session.total} questions ready: each test question once, plus repeats`;
+    $("logname").textContent = "Log: " + session.log;
+    $("open-report").disabled = true;
+    render(session.totals, session.position, session.total);
+  }
+
+  function stop() { playing = false; clearTimeout(timer); $("play").textContent = "Start"; }
+
+  async function step(count, animate) {
+    if (!session || busy) return null;
+    busy = true;
+    try {
+      const out = await api(`/api/session/${session.id}/step`, { count });
+      if (!out.events.length) { stop(); return out; }
+      const last = out.events[out.events.length - 1];
+      for (const e of out.events) addRow(e);
+      showIncoming(last, out.position, out.total);
+      if (animate && !reduceMotion) await travel(last, animate);
+      render(out.totals, out.position, out.total, true);
+      if (out.events.some((e) => e.wrong_question)) showCallout(out.events.filter((e) => e.wrong_question).pop());
+      $("open-report").disabled = false;
+      if (out.done) {
+        stop(); $("play").disabled = true; $("step").disabled = true;
+        $("count").textContent = `All ${out.total} questions sent. Open the one-page report for ranges.`;
+        if (kiosk) timer = setTimeout(() => { $("play").disabled = false; $("step").disabled = false; start().then(autoplay); }, 12000);
+      }
+      return out;
+    } catch (e) { stop(); $("error").textContent = e.message; return null; }
+    finally { busy = false; }
+  }
+
+  function loop() {
+    if (!playing) return;
+    const s = SPEEDS[speed];
+    step(s.batch, s.animate).then((out) => { if (playing && out) timer = setTimeout(loop, Math.max(0, s.wait - s.animate)); });
+  }
+
+  function showIncoming(e, position, total) {
+    $("count").textContent = `Question ${position} of ${total}`;
+    $("question").textContent = e.text;
+    $("question").classList.remove("empty");
+    $("options").innerHTML = (e.options || []).map((o) => `<li>${esc(o)}</li>`).join("");
+    let what = e.cache_hit ? `Answered from the cache (${e.similarity.toFixed(2)} alike), free`
+      : `${routeName[e.route]} (router score ${e.router_score.toFixed(3)}), ${callCost(e.cost)}`;
+    what += e.correct ? ". Right answer." : `. Wrong answer (${letter(e.answer)}; right: ${e.gold}).`;
+    $("what").textContent = what;
+    $("what").className = "what " + (e.correct ? "" : "bad");
+    if (!e.wrong_question) $("callout").hidden = true;
+  }
+
+  function showCallout(e) {
+    const c = $("callout");
+    c.innerHTML = `<strong>Question ${e.n} got another question's answer</strong> (${e.similarity.toFixed(2)} alike${e.correct ? ", and it happened to be right" : ", and it was wrong"}). Matched: “${esc(e.matched_text)}”`;
+    c.hidden = false;
+  }
+
+  function travel(e, duration) {
+    const path = $(e.route === "cache" ? "p-cache" : e.route === "weak" ? "p-weak" : "p-strong");
+    const token = $("token"), length = path.getTotalLength();
+    token.setAttribute("fill", e.wrong_question ? "var(--wrong)" : e.route === "cache" ? "var(--cache)" : e.route === "weak" ? "var(--cheap)" : "var(--dear)");
+    token.setAttribute("opacity", "1");
+    return new Promise((resolve) => {
+      const t0 = performance.now();
+      function frame(now) {
+        const k = Math.min(1, (now - t0) / duration), eased = 1 - Math.pow(1 - k, 2);
+        const p = path.getPointAtLength(eased * length);
+        token.setAttribute("cx", p.x); token.setAttribute("cy", p.y);
+        if (k < 1) requestAnimationFrame(frame); else { token.setAttribute("opacity", "0"); resolve(); }
+      }
+      requestAnimationFrame(frame);
+    });
+  }
+
+  function addRow(e) {
+    rows.unshift(e);
+    rows = rows.slice(0, 12);
+    $("ledger").innerHTML = rows.map((r) => {
+      const where = r.cache_hit ? `Cache, ${r.similarity.toFixed(2)} alike` : routeName[r.route];
+      const answer = r.correct ? `<span class="ok">${esc(letter(r.answer))} ✓</span>` : `<span class="bad">${esc(letter(r.answer))} ✗</span> <span class="right">right: ${esc(r.gold)}</span>`;
+      const matched = r.wrong_question ? `<span class="m">⚠ Answer saved for: ${esc(r.matched_text)}</span>` : "";
+      return `<tr class="${r.wrong_question ? "flag" : ""}"><td class="n num">${r.n}</td>` +
+        `<td class="text"><span class="t" title="${esc(r.text)}">${esc(r.text)}</span>${matched}</td>` +
+        `<td><span class="where"><span class="dot ${r.cache_hit ? "cache" : r.route}"></span>${where}</span></td>` +
+        `<td class="ans">${answer}</td><td class="num">${r.cache_hit ? "free" : callCost(r.cost)}</td></tr>`;
+    }).join("");
+  }
+
+  function bump(id, value) {
+    const el = $(id);
+    if (el.textContent !== String(value)) { el.textContent = value; el.classList.remove("bump"); void el.getBBox; el.classList.add("bump"); }
+  }
+
+  function place(el, v) { el.style.left = `${100 * (Math.min(SCALE_MAX, Math.max(SCALE_MIN, v)) - SCALE_MIN) / (SCALE_MAX - SCALE_MIN)}%`; }
+
+  function render(t, position, total, animateCounts) {
+    $("progress-text").textContent = `${position} of ${total} questions sent`;
+    $("progress-bar").style.width = total ? `${100 * position / total}%` : "0";
+    const set = animateCounts ? bump : (id, v) => { $(id).textContent = v; };
+    set("n-cache", t.hits); set("n-weak", t.weak); set("n-strong", t.strong);
+    $("s-cache").textContent = t.requests ? `free, ${pct(t.hits / t.requests, 0)} of questions` : "free";
+    $("s-weak").textContent = t.routed ? `${pct(t.weak / t.routed, 0)} of model calls` : "";
+    $("s-strong").textContent = t.routed ? `${pct(t.strong / t.routed, 0)} of model calls` : "";
+
+    // Wrong answers from the cache lead the meters.
+    $("m-wrong").textContent = t.wrong_question_wrong;
+    $("m-wrong").classList.toggle("alarm", t.wrong_question_wrong > 0);
+    $("m-wrong-detail").textContent = t.hits
+      ? `Questions given another question's answer: ${t.wrong_question} (${t.wrong_question_wrong} of them wrong). Not counted: ${t.repeated_wrong} repeated an answer the model had already got wrong the first time.`
+      : (session && session.setting === "off" ? "The cache is off, so every answer is fresh." : "No cached answers yet.");
+
+    const top = Math.max(t.no_cache_usd_per_1000 || 0, t.usd_per_1000 || 0, 1e-9);
+    $("m-cost").textContent = money(t.usd_per_1000);
+    $("t-with").textContent = money(t.usd_per_1000); $("t-without").textContent = money(t.no_cache_usd_per_1000);
+    $("b-with").style.width = `${100 * (t.usd_per_1000 || 0) / top}%`;
+    $("b-without").style.width = `${100 * (t.no_cache_usd_per_1000 || 0) / top}%`;
+
+    $("m-acc").textContent = pct(t.accuracy);
+    $("m-acc-detail").textContent = t.requests ? `${t.correct} of ${t.requests} questions` : "";
+
+    $("m-share").textContent = pct(t.share);
+    const plan = session ? session.plan : 0.5, band = session ? session.band : 0.03;
+    const left = (v) => 100 * (v - SCALE_MIN) / (SCALE_MAX - SCALE_MIN);
+    $("band").style.left = `${left(plan - band)}%`; $("band").style.width = `${left(plan + band) - left(plan - band)}%`;
+    place($("plan"), plan);
+    const scale = $("scale");
+    if (!scale.dataset.ticks) {
+      for (const v of [0.3, 0.4, 0.5, 0.6, 0.7]) { const tick = document.createElement("div"); tick.className = "tick num"; tick.textContent = `${Math.round(100 * v)}%`; place(tick, v); scale.appendChild(tick); }
+      scale.dataset.ticks = "1";
+    }
+    const mark = $("mark"), whisker = $("whisker");
+    if (t.share == null) { mark.hidden = true; whisker.style.width = "0"; }
+    else {
+      mark.hidden = false; place(mark, t.share);
+      const lo = Math.max(SCALE_MIN, t.share_low), hi = Math.min(SCALE_MAX, t.share_high);
+      whisker.style.left = `${left(lo)}%`; whisker.style.width = `${left(hi) - left(lo)}%`;
+    }
+    const words = { waiting: `Plan: ${pct(plan, 0)}`, within: `Within ${100 * band} points of the ${pct(plan, 0)} plan`,
+      outside: `More than ${100 * band} points off the ${pct(plan, 0)} plan`,
+      "too-few": `Too few questions to tell yet (rough range ${pct(t.share_low, 0)} to ${pct(t.share_high, 0)})` };
+    $("verdict").className = "verdict " + t.share_verdict;
+    $("verdict").textContent = words[t.share_verdict];
+  }
+
+  $("settings").addEventListener("click", (ev) => {
+    const b = ev.target.closest("button"); if (!b) return;
+    setting = b.dataset.setting; press("settings", "setting", setting);
+    $("play").disabled = false; $("step").disabled = false; start();
+  });
+  $("speeds").addEventListener("click", (ev) => {
+    const b = ev.target.closest("button"); if (!b) return;
+    speed = b.dataset.speed; press("speeds", "speed", speed);
+  });
+  $("play").addEventListener("click", () => {
+    if (playing) { stop(); return; }
+    playing = true; $("play").textContent = "Pause"; loop();
+  });
+  $("step").addEventListener("click", () => { stop(); step(1, reduceMotion ? 0 : 700); });
+  $("restart").addEventListener("click", () => { $("play").disabled = false; $("step").disabled = false; start(); });
+  $("open-report").addEventListener("click", () => { if (session) window.open(`/api/session/${session.id}/report`, "_blank"); });
+  document.addEventListener("keydown", (ev) => {
+    if (ev.target.closest("button") && (ev.key === " " || ev.key === "Enter")) return;
+    if (ev.key === " ") { ev.preventDefault(); $("play").click(); }
+    if (ev.key === "ArrowRight") { ev.preventDefault(); $("step").click(); }
+  });
+
+  function autoplay() { if (!playing) { playing = true; $("play").textContent = "Pause"; loop(); } }
+  press("settings", "setting", setting); press("speeds", "speed", speed);
+  start().then(() => { if (params.has("play")) autoplay(); });
+})();
+</script>
+</body>
+</html>
