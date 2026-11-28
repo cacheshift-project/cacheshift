@@ -153,3 +153,16 @@ def test_router_scores_are_kept_on_disk_and_reused(tmp_path):
     assert dashboard.MemoRouter(Counting(), path).score("q")["router_score"] == 0.25
     assert dashboard.MemoRouter(Counting(), path).score("q")["router_score"] == 0.25
     assert Counting.calls == 1
+
+
+def test_difference_check_option_turns_the_template_style_match_into_a_miss(client):
+    http, data, run_dir = client
+    plain = http.post("/api/session", json={"setting": "0.90"}).json()
+    out = http.post(f"/api/session/{plain['id']}/step", json={"count": 50}).json()
+    assert out["totals"]["wrong_question"] > 0                       # Sunday gets Saturday's answer
+    checked = http.post("/api/session", json={"setting": "0.90", "check": True}).json()
+    assert checked["check"] is True and checked["log"].endswith("-check.jsonl")
+    out = http.post(f"/api/session/{checked['id']}/step", json={"count": 50}).json()
+    assert out["totals"]["wrong_question"] == 0                      # their differing words are not alike
+    off = http.post("/api/session", json={"setting": "off", "check": True}).json()
+    assert off["check"] is False

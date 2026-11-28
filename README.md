@@ -57,7 +57,9 @@ python -m cacheshift.dashboard              # after that, works offline
 
 Open http://127.0.0.1:8050. Pick a match setting (No cache, 0.95, 0.90 or 0.80), then **Start**, or **Next question** to go one at a time (Space and → also work). Loading takes about a minute on a laptop. Each run's request log is saved in `experiments/results/dashboard-runs/`, and **Open the one-page report** makes the report (#48) from it.
 
-**Kiosk mode** for the poster table: open http://127.0.0.1:8050/?play=normal&loop=1 (optionally `&setting=0.80`) and it plays by itself and starts over at the end.
+**Difference check** (Sprint 4): the button next to the match setting turns on the fix for questions that share long text. **Runs compared**, under the meters, keeps one row per run so settings can be shown side by side (for example 0.90, then 0.90 with the check, on the MMLU set).
+
+**Kiosk mode** for the poster table: open http://127.0.0.1:8050/?play=normal&loop=1 (optionally `&setting=0.80` and `&check=1`) and it plays by itself and starts over at the end.
 
 To show the template problem from the Sprint 4 results, start it on MMLU: `python -m cacheshift.dashboard --dataset data/mmlu_all_20261127/questions.jsonl` (build that set first, see `docs/sprints/Sprint_4/Sprint4_Experiment_Results.md`). At 0.90, "moral scenarios" and shared-passage history questions get each other's answers.
 

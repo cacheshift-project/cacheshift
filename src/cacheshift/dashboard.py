@@ -36,6 +36,7 @@ from cacheshift.router import REVISION
 DATASET = ROOT / "data/retune_holdout_20261007/questions.jsonl"
 PAGE = Path(__file__).with_name("dashboard_page.html")
 SETTINGS = {"off": None, "0.95": 0.95, "0.90": 0.90, "0.80": 0.80}
+CHECK = 0.80   # the difference check's setting (Sprint 4 protocol's primary)
 SEED = 601
 MAX_STEP = 50
 
@@ -94,15 +95,18 @@ def wilson(successes, n, z=1.96):
 
 
 class Session:
-    def __init__(self, number, setting, records, test, router, calibration, digest, embed, run_dir, seed):
+    def __init__(self, number, setting, records, test, router, calibration, digest, embed, run_dir, seed, check=False):
         threshold = SETTINGS[setting]
+        check = bool(check) and threshold is not None
         stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        self.log_path = run_dir / f"{stamp}-{number:03d}-{'no-cache' if threshold is None else f'semantic-{setting}'}.jsonl"
-        options = {"cache_enabled": False} if threshold is None else {"semantic_threshold": threshold, "embed": embed}
+        kind = "no-cache" if threshold is None else f"semantic-{setting}" + ("-check" if check else "")
+        self.log_path = run_dir / f"{stamp}-{number:03d}-{kind}.jsonl"
+        options = {"cache_enabled": False} if threshold is None else {
+            "semantic_threshold": threshold, "embed": embed, "semantic_verify": CHECK if check else None}
         self.engine = ReplayGateway(records, router, calibration, self.log_path, dataset_sha256=digest,
                                     router_revision=REVISION, seed=seed, **options)
         self.records, self.router, self.calibration = records, router, calibration
-        self.setting, self.threshold = setting, threshold
+        self.setting, self.threshold, self.check = setting, threshold, check
         self.stream = request_stream(test, seed)
         self.position, self.events = 0, []
         self.lock = threading.Lock()
@@ -111,7 +115,7 @@ class Session:
                            repeated_wrong=0)
 
     def describe(self):
-        return {"setting": self.setting, "threshold": self.threshold, "total": len(self.stream),
+        return {"setting": self.setting, "threshold": self.threshold, "check": self.check, "total": len(self.stream),
                 "position": self.position, "plan": self.calibration["target_strong_share"],
                 "cutoff": self.calibration["threshold"], "band": report.DRIFT_BAND, "log": self.log_path.name,
                 "totals": self.summary()}
@@ -184,13 +188,15 @@ class Session:
                 raise ValueError("Send some questions first")
             built = report.build(list(self.events), self.records, self.calibration["target_strong_share"])
             built["run"] = {"config_id": self.engine.config_id, "config": self.engine.config, "log": self.log_path.name}
-            name = "no cache" if self.threshold is None else f"cache at {self.setting}"
+            name = "no cache" if self.threshold is None else f"cache at {self.setting}" + (
+                " + difference check" if self.check else "")
             return report.render_html(built, f"CacheShift live demo, {name}", self.log_path.name)
 
 
 class NewSession(BaseModel):
     model_config = ConfigDict(extra="forbid")
     setting: str = "0.90"
+    check: bool = False
     seed: int = SEED
 
 
@@ -223,7 +229,7 @@ def create_app(records, router, calibration, digest, embed, run_dir):
         with lock:
             number = next(numbers)
             session = Session(number, request.setting, records, test, router, calibration, digest, embed,
-                              run_dir, request.seed)
+                              run_dir, request.seed, check=request.check)
             sessions.clear()  # one run at a time keeps memory flat at a poster table
             sessions[str(number)] = session
         return {"id": str(number), **session.describe()}
