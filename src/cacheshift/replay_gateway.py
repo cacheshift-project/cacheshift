@@ -104,7 +104,7 @@ def calibrate_midgap(scores, target=0.5):
 class ReplayGateway:
     def __init__(self, records, router, calibration, log_path, cache_enabled=True,
                  dataset_sha256="", router_revision="", seed=601, repeats=5, cache_capacity=None,
-                 semantic_threshold=None, embed=None):
+                 semantic_threshold=None, embed=None, semantic_verify=None):
         """cache_capacity=None keeps the unbounded exact cache; an integer >= 1 makes it a
         least-recently-used (LRU) cache that evicts the oldest-used entry when full.
 
@@ -121,7 +121,10 @@ class ReplayGateway:
                 raise ValueError("The semantic cache has no size limit; use cache_capacity=None")
             if embed is None:
                 raise ValueError("semantic_threshold needs an embed function")
-        self.semantic = SemanticCache(embed, semantic_threshold) if semantic_threshold is not None else None
+        if semantic_verify is not None and semantic_threshold is None:
+            raise ValueError("semantic_verify (the difference check) needs semantic_threshold")
+        self.semantic = (SemanticCache(embed, semantic_threshold, verify=semantic_verify)
+                         if semantic_threshold is not None else None)
         self.records = records
         self.router = router
         self.threshold = calibration["threshold"]
@@ -142,6 +145,9 @@ class ReplayGateway:
         if self.semantic is not None:
             self.config.update(cache="semantic", semantic_threshold=semantic_threshold,
                                embedding_model=getattr(embed, "model_name", "unnamed"))
+            if semantic_verify is not None:
+                # Only added when on, so runs without the check keep their earlier config_id.
+                self.config.update(difference_check=semantic_verify)
         self.config_id = hashlib.sha256(json.dumps(self.config, sort_keys=True).encode()).hexdigest()[:16]
         self.log_path = Path(log_path)
         self.log_path.parent.mkdir(parents=True, exist_ok=True)

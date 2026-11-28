@@ -1,6 +1,6 @@
 # Sprint 4 experiments: results (27 Nov 2026)
 
-There are three tests, each answering a "next step" from the Sprint 3 slides. The first two followed protocols committed before they ran: [Retune_Scale_Protocol.md](Retune_Scale_Protocol.md) at 18:03 and [Uneven_Repeats_Protocol.md](Uneven_Repeats_Protocol.md) at 18:11. Every outcome is reported, whatever it showed.
+There are three tests and one fix, each answering a "next step" from the Sprint 3 slides. The first two followed protocols committed before they ran: [Retune_Scale_Protocol.md](Retune_Scale_Protocol.md) at 18:03 and [Uneven_Repeats_Protocol.md](Uneven_Repeats_Protocol.md) at 18:11. Every outcome is reported, whatever it showed.
 
 **Common setup**
 - Data: every RouterBench MMLU question with an official key, 6,875 test and 6,849 tuning questions in 57 subjects.
@@ -61,6 +61,24 @@ There are 120 MMLU test questions (40 easy, 40 hard, 40 other topics). Each was 
 - **These numbers count only after the #7 hand check:** a person marks each rewording as keeping its meaning (at least 95% must). The sheet is "CacheShift reworded questions: hand check".
 - A rewording the cache misses would need a live model answer, so accuracy on misses is not measured.
 
+## 5. The fix: a difference check **cuts wrong answers from the cache by 88%**
+
+This follows a protocol committed before it ran ([Difference_Check_Protocol.md](Difference_Check_Protocol.md), 20:14). Before reusing a saved answer, the cache trims the words the two prompts share at the start and end. It then reuses the answer only if the parts that differ are at least 0.80 alike. A shared template or passage can no longer carry the match.
+
+| MMLU, same stream as section 1 | Wrong answers caused by the cache | Accuracy vs fresh | Answered from cache | Cost per 1,000 | Expensive-model share |
+|---|---|---|---|---|---|
+| Cache 0.90, no check (section 3) | 567, 4.12% [3.64, 4.66] | −1.7 [−2.2, −1.3] | 52.8% | $0.33 | 51.4% |
+| **Cache 0.90 + check 0.80** (primary) | **67, 0.49% [0.33, 0.66]** | **−0.3 [−0.5, −0.1]** | 50.4% | $0.35 | 49.8% |
+| Cache 0.90 + check 0.90 | 27, 0.20% [0.10, 0.32] | −0.1 [−0.2, +0.0] | 50.2% | $0.35 | 49.7% |
+| Cache 0.90 + check 0.70 | 248, 1.80% [1.50, 2.12] | −0.5 [−0.8, −0.3] | 51.4% | $0.34 | 50.5% |
+| Cache 0.80 + check 0.80 | 169, 1.23% [0.96, 1.50] | −0.7 [−0.9, −0.4] | 50.9% | $0.34 | 49.8% |
+
+- **Primary result: met.** The protocol's bar was an upper range below 1% of requests. The result is 0.66%.
+- **What it costs:** 2.4 points fewer answers from the cache, and about $0.015 more per 1,000 questions. As a side effect, the cache's own push on the expensive-model share disappears (49.8% vs the 50% plan).
+- **ARC (no regression):** at 0.90 nothing changes: 0 wrong answers, 50.1% from the cache. At 0.80 it helps a little: 20 → 15 wrong answers caused, accuracy −2.0 → −1.5.
+- **Rewordings** (pending the hand check): at 0.90 the check lowers catches from 111 to 97 of 120, with no wrong-question matches. At 0.80 it lowers them from 120 to 102, with 3 wrong-question matches. The check gives up some real rewordings to stop template matches.
+- **For a builder:** if your questions share long context, turn the check on. If they're short and varied, it changes little.
+
 ## Limits
 - MMLU and ARC multiple choice only, recorded answers and one seed.
 - The skews are chosen stand-ins for user behaviour, not measured behaviour.
@@ -71,5 +89,6 @@ There are 120 MMLU test questions (40 easy, 40 hard, 40 other topics). Each was 
 - `python -m cacheshift.retune_scale --run-dir …` (about 35 minutes on 2 CPU cores)
 - `python -m cacheshift.uneven_repeats --run-dir …` (minutes once router scores are cached in `data/cache/router_scores.jsonl`)
 - `python -m cacheshift.reworded_check --out …`
+- `python -m cacheshift.difference_check --run-dir … --mmlu-fresh <section 1 run>/no_cache.jsonl.gz`
 
 **Side fix found while running:** the router defaulted to 4 CPU threads. On a 2-core machine that made long prompts about 40× slower (15.3 s vs 0.35 s per question, same scores). It now uses at most as many threads as the machine has cores. This also speeds up the dashboard's start on a small laptop.
