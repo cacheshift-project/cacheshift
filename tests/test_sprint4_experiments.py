@@ -115,3 +115,49 @@ def test_score_cache_on_disk_is_reused_and_never_changes_a_score(tmp_path):
     second = MemoRouter(Counting(), path)
     b = [second.score(t)["router_score"] for t in ("one", "three")]
     assert Counting.calls == 2 and b == a[:2]
+
+
+def test_setting_finder_recommends_the_most_saving_setting_under_the_limit():
+    import numpy as np
+    from cacheshift import report, setting_finder
+    from cacheshift.replay_gateway import STRONG, WEAK, calibrate
+
+    texts = {"sat": "When do you close on Saturday?", "sun": "When do you close on Sunday?",
+             "hard": "A hard question?", "x": "easy tuning", "y": "hard tuning"}
+    records = {}
+    for qid, text in texts.items():
+        records[qid] = {"question_id": qid, "group_id": qid, "text": text, "is_original": True,
+                        "split": "tuning" if qid in "xy" else "test", "gold_answer": "A" if qid != "sun" else "B",
+                        "answers": {STRONG: {"answer": "A" if qid != "sun" else "B", "cost_usd": 0.1},
+                                    WEAK: {"answer": "A", "cost_usd": 0.01}}}
+
+    class Router:
+        def score(self, text):
+            return {"router_score": 0.9 if "hard" in text else 0.1}
+
+    def embed(text):
+        v = np.zeros(8, dtype=np.float32)
+        known = [k for k, t in texts.items() if t == text]
+        if not known:                 # a trimmed difference, e.g. "Sunday?": its own direction
+            v[5 + len(text) % 3] = 1
+            return v
+        v[{"sat": 1, "sun": 2, "hard": 3}[known[0]]] = 1
+        if text == texts["sun"]:      # Sunday is 0.92 alike to Saturday
+            v = 0.92 * embed(texts["sat"]) + np.sqrt(1 - 0.92**2) * v
+        return v.astype(np.float32)
+    embed.model_name = "fake"
+
+    router = Router()
+    stream = ["sat", "sun", "hard", "sat", "sun", "hard"]
+    out = setting_finder.sweep(stream, records, router, calibrate(records, router), embed, limit=0.0,
+                               settings=(0.95, 0.90), samples=50)
+    by = {row["label"]: row for row in out["rows"]}
+    assert by["0.90"]["wrong_caused"] >= 1                     # Sunday gets Saturday's answer
+    assert by["0.95"]["wrong_caused"] == 0
+    assert out["recommended"] in ("0.95", "0.95 + difference check")
+    built = report.build([{"question_id": "sat", "cache_hit": False, "route": "weak", "answer": "A", "cost_usd": 0.01,
+                           "router_score": 0.1, "matched_question_id": None, "similarity": None, "config_id": "c"}],
+                         records, 0.5, samples=10)
+    built["settings"] = out
+    page = report.render_html(built, "t", "run.jsonl")
+    assert "Which cache setting is safe for your questions?" in page and "Recommended:" in page
