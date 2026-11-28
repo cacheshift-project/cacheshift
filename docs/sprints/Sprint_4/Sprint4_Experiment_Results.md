@@ -79,6 +79,22 @@ This follows a protocol committed before it ran ([Difference_Check_Protocol.md](
 - **Rewordings** (pending the hand check): at 0.90 the check lowers catches from 111 to 97 of 120, with no wrong-question matches. At 0.80 it lowers them from 120 to 102, with 3 wrong-question matches. The check gives up some real rewordings to stop template matches.
 - **For a builder:** if your questions share long context, turn the check on. If they're short and varied, it changes little.
 
+
+**The safe setting finder on the same MMLU traffic** (`cacheshift.setting_finder`, limit 0.5%):
+
+| Setting | From cache | Wrong answers caused | Cost per 1,000 |
+|---|---|---|---|
+| 0.95 | 50.8% | 174 [0.99%, 1.57%] | $0.34 |
+| **0.95 + check** (recommended) | 50.2% | **27 [0.10%, 0.31%]** | $0.35 |
+| 0.90 | 52.8% | 567 [3.66%, 4.65%] | $0.33 |
+| 0.90 + check | 50.4% | 67 [0.33%, 0.67%] | $0.35 |
+| 0.85 | 54.5% | 911 [6.00%, 7.32%] | $0.33 |
+| 0.85 + check | 50.6% | 115 [0.63%, 1.05%] | $0.34 |
+| 0.80 | 55.6% | 1,116 [7.41%, 8.93%] | $0.32 |
+| 0.80 + check | 50.9% | 169 [0.97%, 1.51%] | $0.34 |
+
+On MMLU, no setting is safe without the check; with it, 0.95 stays under the limit. On the Sprint 3 ARC traffic the finder recommends 0.95 alone.
+
 ## 6. Robustness of re-tuning (added after the first results, not in the protocol)
 
 - **A second stream seed (602) gives the same verdict and almost the same numbers:** 50.2% [48.6, 52.0], and 49.8% for the cross-fit. That's expected. With the cache on, the router sees each question about once, so the order and number of repeats hardly matter.
