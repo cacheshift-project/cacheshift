@@ -78,7 +78,7 @@ a{color:#1F6E5A}a:hover{color:#13614E}
 
 <div style="background: #E1F2EC; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
 <h3 style="margin: 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 18px; font-weight: 700; color: #13614E">The fix: compare only what differs</h3>
-<p style="margin: 0; text-wrap: pretty">Before reusing an answer, trim the words the two questions share and compare the rest. On MMLU: wrong answers <b>567 → 67 (−88%)</b>, accuracy loss 1.7 → 0.3 points, at the cost of 2.4 points fewer cache answers.</p>
+<p style="margin: 0; text-wrap: pretty">Before reusing an answer, trim the words the two questions share and compare the rest. MMLU: wrong answers <b>567 → 67 (−88%)</b>. Tested unchanged on HellaSwag: only −35%, as different questions about the same video really are alike.</p>
 </div>
 
 <h2 style="margin: 4px 0 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 22px; font-weight: 700">The cache halves the bill</h2>
@@ -114,9 +114,9 @@ a{color:#1F6E5A}a:hover{color:#13614E}
 <p style="margin: 0; text-wrap: pretty">At 13,750 requests it landed near plan in 16 of 20 random splits, for 0.15 points of accuracy.</p>
 
 <h2 style="margin: 4px 0 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 22px; font-weight: 700">Which setting is safe?</h2>
-<p style="margin: 0; text-wrap: pretty">Our finder replays your own traffic at every setting. On MMLU it picks <b>0.95 + the difference check</b>: 2 wrong answers per 1,000, half still from the cache. Without the check even 0.95 caused 13.</p>
+<p style="margin: 0; text-wrap: pretty">Our finder replays your traffic at every setting and picks the most savings under 1 wrong answer in 200: <b>0.95</b> on ARC and HellaSwag, <b>0.95 + the check</b> on MMLU, still answering half from the cache.</p>
 
-<div style="border-top: 3px solid #1C2833; padding-top: 14px; display: flex; flex-direction: column; gap: 6px; margin-top: auto">
+<div style="border-top: 3px solid #1C2833; padding-top: 8px; display: flex; flex-direction: column; gap: 6px; margin-top: auto">
 <h2 style="margin: 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 22px; font-weight: 700">If you run a cache</h2>
 <ul style="margin: 0; padding-left: 16px; display: flex; flex-direction: column; gap: 4px">
 <li>Turn it on: it halves the bill.</li>
